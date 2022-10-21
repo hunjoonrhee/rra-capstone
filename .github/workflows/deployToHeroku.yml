@@ -2,8 +2,7 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      # master
-      # ToDO change to only apply to pushes to master
+      - master
 
 jobs:
   build-frontend:
