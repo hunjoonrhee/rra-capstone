@@ -64,7 +64,7 @@ public class RouteService {
                 .indexOps(Route.class)
                 .ensureIndex(new GeospatialIndex("position").typed(GeoSpatialIndexType.GEO_2DSPHERE));
 
-        return routeRepository.findByPositionNear(searchPoint, new Distance(5, Metrics.KILOMETERS));
+        return routeRepository.findByPositionNear(searchPoint, new Distance(2, Metrics.KILOMETERS));
 
     }
 }
