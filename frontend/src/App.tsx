@@ -1,29 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
-import axios from "axios";
+import {HashRouter, Route, Routes} from "react-router-dom";
+import MainPage from "./pages/MainPage";
+import RoutesPage from "./pages/RoutesPage";
+import useMyRoutes from "./hooks/useMyRoutes";
 
 function App() {
 
-  const [helloMessage, setHelloMessage] = useState("");
+    const {setRequest, routes, getRoutesNearByLocationRequest} = useMyRoutes()
 
-  function fetchHelloMessage(){
-      axios.get("/api/hello")
-          .then((response) => {return response.data})
-          .then((data)=> setHelloMessage(data))
-          .catch((err)=>console.log(err))
-  }
-  useEffect(()=>{
-      fetchHelloMessage()
-  }, [])
-  return (
+    return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {helloMessage}
-        </p>
-      </header>
+        <div>
+        </div>
+        <HashRouter>
+            <Routes>
+                <Route path = {"/"} element = {<MainPage setRequest={setRequest}
+                                                         getRoutesNearByLocationRequest={getRoutesNearByLocationRequest}/>}/>
+                <Route path = {"/routes"} element = {<RoutesPage routes={routes}
+                                                                 setRequest={setRequest}
+                                                                 getRoutesNearByLocationRequest={getRoutesNearByLocationRequest}/>}/>
+            </Routes>
+        </HashRouter>
+
     </div>
   );
 }
