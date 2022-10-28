@@ -8,6 +8,7 @@ type MainPageProps={
 }
 
 export default function MainPage(props:MainPageProps){
+
     const [location, setLocation] = useState("");
     function handleChange(event:ChangeEvent<HTMLInputElement>) {
         const inputFieldValue = event.target.value;
