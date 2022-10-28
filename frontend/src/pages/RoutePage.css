@@ -1,0 +1,32 @@
+.routesPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sec-search-2{
+    width: 390px;
+    height: 88px;
+}
+.sec-routes{
+    width: 390px;
+    height: 756px;
+    background-color: #a878e0;
+    text-align: center;
+}
+
+.form-input-2{
+    margin-top: 8%;
+    width: 210px;
+}
+.form-control-2::placeholder{
+    font-size: 12px;
+}
+
+.btn-outline-secondary-2{
+    color: darkblue;
+    transition-duration: 0.4s;
+}
+.btn-outline-secondary-2:hover{
+    background-color: #a878e0;
+}

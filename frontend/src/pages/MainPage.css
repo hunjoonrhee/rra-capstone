@@ -1,21 +1,58 @@
 .mainpage{
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .sec-title{
     width: 390px;
-    height: 328px;
+    height: 258px;
+    background-image: url("https://www.freevector.com/uploads/vector/preview/25131/Free_Sprint_Vector.png");
+    background-size:cover;
+}
+#title{
+    text-align: center;
+    margin-top: 35%;
+    font-family: Brush Script MT;
+    font-weight: bold;
+    font-size: 35px;
 }
 
 .sec-search{
     width: 390px;
-    height: 516px;
-    background-color: #FF8562;
+    height: 586px;
+    background-image: url("https://i.pinimg.com/originals/bc/2c/97/bc2c97eb4bbe0df9f4d3566deb1b7869.jpg");
+
+    /*https://wallpaperset.com/w/full/4/0/4/336076.jpg*/
+    background-size: cover;
+    /*background-color: #FF8562;*/
 }
 
 .form-searchField{
     align-content: center;
+    margin: 0 auto;
 }
 .form-control{
     width:100%
+}
+.form-input{
+    margin-top: 10%;
+    width: 260px;
+}
+.form-control::placeholder{
+    font-size: 12px;
+}
+
+.btn-outline-secondary{
+    color: darkblue;
+    transition-duration: 0.4s;
+}
+.btn-outline-secondary:hover{
+    background-color: #a878e0;
+}
+.main-img{
+    width: 390px;
+    height: 328px;
+    float: left;
+    object-fit: fill;
 }
