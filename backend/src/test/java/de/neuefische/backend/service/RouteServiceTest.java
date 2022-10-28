@@ -8,20 +8,18 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class RouteServiceTest {
 
-    private RouteRepository routeRepository = mock(RouteRepository.class);
-    private IdService idService = mock(IdService.class);
-    private LocationService locationService = mock(LocationService.class);
-    private GeoJsonPointService geoJsonPointService = mock(GeoJsonPointService.class);
+    private final RouteRepository routeRepository = mock(RouteRepository.class);
+    private final IdService idService = mock(IdService.class);
+    private final LocationService locationService = mock(LocationService.class);
 
-    private RouteService routeService = new RouteService(routeRepository,
-            idService, locationService, geoJsonPointService);
+    private final RouteService routeService = new RouteService(routeRepository,
+            idService, locationService);
 
     @Test
     void addNewRoute_ShouldReturn_AddedRoute(){
@@ -31,7 +29,6 @@ class RouteServiceTest {
         StartPosition startPosition = new StartPosition(2.2, 1.1);
         RouteDTO routeDTO = new RouteDTO("routeName", hashtags, "imageThumbnail", startPosition);
         when(idService.generateId()).thenReturn("1");
-        when(geoJsonPointService.createGeoJsonPoint(anyDouble(), anyDouble())).thenReturn(new GeoJsonPoint(2.2, 1.1));
         when(routeRepository.save(any())).thenReturn(
                 Route.builder()
                         .id("1")
