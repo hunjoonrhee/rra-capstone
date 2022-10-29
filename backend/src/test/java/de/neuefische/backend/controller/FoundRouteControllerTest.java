@@ -36,9 +36,6 @@ class FoundRouteControllerTest {
     @Autowired
     private FoundRouteRepository foundRouteRepository;
     @MockBean
-    private IdService idService;
-
-    @MockBean
     private RouteService routeService;
 
 
@@ -60,15 +57,14 @@ class FoundRouteControllerTest {
                         .build()
         );
 
-        when(idService.generateId()).thenReturn("1");
         when(routeService.findByRoutesNear(any())).thenReturn(
                 fakeFoundRoutes
         );
 
         String expectedJSON = """
                     {
-                         "id": "1",
-                         "foundRoutes": [
+                         "id": "test",
+                         "routes": [
                              {
                                  "id": "1",
                                  "routeName": "test",
@@ -109,7 +105,7 @@ class FoundRouteControllerTest {
         String[] hashtags = new String[1];
         hashtags[0] = "tree";
         StartPosition startPosition = new StartPosition(2.2, 1.1);
-        FoundRoutes foundRoutes = new FoundRoutes("1", List.of(
+        FoundRoutes foundRoutes = new FoundRoutes("testaddress", List.of(
                 Route.builder()
                         .id("1")
                         .routeName("test")
@@ -124,8 +120,8 @@ class FoundRouteControllerTest {
         String expectedJSON = """
                     [
                         {
-                         "id": "1",
-                         "foundRoutes": [
+                         "id": "testaddress",
+                         "routes": [
                              {
                                  "id": "1",
                                  "routeName": "test",
@@ -160,4 +156,54 @@ class FoundRouteControllerTest {
 
     }
 
+    @Test
+    void getFoundRoutesByAddress_ShouldReturn_FoundRoutesByAddress() throws Exception {
+        // GIVEN
+        String[] hashtags = new String[1];
+        hashtags[0] = "tree";
+        StartPosition startPosition = new StartPosition(2.2, 1.1);
+        FoundRoutes foundRoutes = new FoundRoutes("testaddress", List.of(
+                Route.builder()
+                        .id("1")
+                        .routeName("test")
+                        .hashtags(hashtags)
+                        .imageThumbnail("imageThumbnail")
+                        .startPosition(startPosition)
+                        .position(new GeoJsonPoint(2.2, 1.1))
+                        .build()
+        ));
+        foundRouteRepository.save(foundRoutes);
+
+        String expectedJSON = """
+                     [
+                         {
+                             "id": "1",
+                             "routeName": "test",
+                             "hashtags": [
+                                 "tree"
+                             ],
+                             "imageThumbnail": "imageThumbnail",
+                             "startPosition": {
+                                 "lat": 2.2,
+                                 "lon": 1.1
+                             },
+                             "position": {
+                                 "x": 2.2,
+                                 "y": 1.1,
+                                 "type": "Point",
+                                 "coordinates": [
+                                     2.2,
+                                     1.1
+                                 ]
+                             }
+                         }
+                     ]
+                """;
+        // WHEN & THEN
+        mockMvc.perform(
+                        get("/api/found-routes/testaddress"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJSON));
+
+    }
 }

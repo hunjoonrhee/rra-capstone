@@ -17,5 +17,5 @@ import java.util.List;
 public class FoundRoutes {
     @Id
     private String id;
-    private List<Route> foundRoutes;
+    private List<Route> routes;
 }
