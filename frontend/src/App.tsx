@@ -7,7 +7,7 @@ import useMyRoutes from "./hooks/useMyRoutes";
 
 function App() {
 
-    const {setRequest, routes, getRoutesNearByLocationRequest} = useMyRoutes()
+    const {setRequest, saveFoundRoutes} = useMyRoutes()
 
     return (
     <div className="App">
@@ -15,11 +15,8 @@ function App() {
         </div>
         <HashRouter>
             <Routes>
-                <Route path = {"/"} element = {<MainPage setRequest={setRequest}
-                                                         getRoutesNearByLocationRequest={getRoutesNearByLocationRequest}/>}/>
-                <Route path = {"/routes"} element = {<RoutesPage routes={routes}
-                                                                 setRequest={setRequest}
-                                                                 getRoutesNearByLocationRequest={getRoutesNearByLocationRequest}/>}/>
+                <Route path = {"/"} element = {<MainPage saveFoundRoutes={saveFoundRoutes} setRequest={setRequest}/>}/>
+                <Route path = {"/routes/:id"} element = {<RoutesPage saveFoundRoutes={saveFoundRoutes} setRequest={setRequest}/>}/>
             </Routes>
         </HashRouter>
 
