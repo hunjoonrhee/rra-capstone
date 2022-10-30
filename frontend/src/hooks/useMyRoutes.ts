@@ -2,37 +2,43 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 export default function useMyRoutes(){
+
     const [locationRequest, setLocationRequest] = useState("");
 
     function setRequest(locationRequest:string){
-
         setLocationRequest(locationRequest);
-        console.log(locationRequest)
     }
 
-    const [routes, setRoutes] = useState([]);
+    const [foundRoutes, setFoundRoutes] = useState([]);
+
 
     function getRoutesNearByLocationRequest(locationRequest:string){
-        if(locationRequest.length>0){
-            console.log("ddd", locationRequest)
-            axios.get(`/api/route/routes?address=${locationRequest}`)
-                .then((response)=> response.data)
-                .then((routes) => setRoutes(routes))
-                .catch((err)=>console.log((err)))
-        }
+        axios.get("/api/found-routes/"+locationRequest)
+            .then((response)=> response.data)
+            .then((data)=> {setFoundRoutes(data)})
+            .catch((err)=>console.log((err)))
     }
 
-    useEffect(()=>{
-        getRoutesNearByLocationRequest(locationRequest)
-    }, [locationRequest])
+
     useEffect(()=>{
         if(sessionStorage.getItem('my-key')){
             setRequest(sessionStorage.getItem('my-key')!)
         }
     }, [])
     useEffect(()=>{
-        sessionStorage.setItem('my-key', locationRequest);
+        sessionStorage.setItem('my-key', locationRequest)
     }, [locationRequest])
 
-    return {setRequest, routes, getRoutesNearByLocationRequest}
+    function saveFoundRoutes(locationRequest:string){
+        if(locationRequest.length>0){
+            axios.post("/api/found-routes?address="+locationRequest)
+                .then(()=>getRoutesNearByLocationRequest(locationRequest))
+                .catch((err)=>console.log(err))
+        }
+        // TODO: tostify für else
+    }
+
+
+
+    return {setRequest, foundRoutes, saveFoundRoutes}
 }

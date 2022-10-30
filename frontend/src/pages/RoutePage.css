@@ -5,28 +5,103 @@
 }
 
 .sec-search-2{
+    position:absolute;
+    top:20px;
     width: 390px;
     height: 88px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.sec-routes{
+.form-searchField-2{
     width: 390px;
-    height: 756px;
-    background-color: #a878e0;
-    text-align: center;
+    height: 38px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.form-input-2{
+    margin-bottom: 0;
 }
 
-.form-input-2{
-    margin-top: 8%;
+.form-control-2{
+    /*margin-top: 8%;*/
     width: 210px;
+    height: 30px;
+    border-color: darkblue;
+    border-radius:4px;
+    border-width: 1px;
 }
 .form-control-2::placeholder{
     font-size: 12px;
 }
 
 .btn-outline-secondary-2{
+    border-color: darkblue;
     color: darkblue;
     transition-duration: 0.4s;
+    font-size: 12px;
+    height: 30px;
+
 }
 .btn-outline-secondary-2:hover{
     background-color: #a878e0;
+}
+.sec-routes{
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-evenly;
+}
+#txt-routes-found{
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.blabla{
+    position:absolute;
+    top:704px;
+    width:390px;
+    height:180px;
+    background-color: blueviolet;
+    background-image: linear-gradient(to bottom right, #4650ff, #a878e0, blueviolet);
+}
+.hashtag-band{
+    position:absolute;
+    top:108px;
+    width:390px;
+    height:40px;
+    background-color: #4650ff;
+    background-image: linear-gradient(to top right, #a878e0, #4650ff);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.btn-hashtag{
+    display: inline-block;
+    width:35px;
+    height:25px;
+    /*padding: 15px 25px;*/
+    font-size: 10px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #9900ff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 3px #a878e0;
+    padding: 0 0 0 0;
+    margin: 1.5% auto 0;
+
+}
+.btn-hashtag:hover {background-color:  #a878e0}
+
+.btn-hashtag:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }

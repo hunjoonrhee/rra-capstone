@@ -3,8 +3,8 @@ import {Link} from "react-router-dom";
 import "./MainPage.css"
 
 type MainPageProps={
+    saveFoundRoutes:(locationRequest:string)=>void
     setRequest:(locationRequest:string)=>void
-    getRoutesNearByLocationRequest:(locationRequest:string)=>void
 }
 
 export default function MainPage(props:MainPageProps){
@@ -16,9 +16,12 @@ export default function MainPage(props:MainPageProps){
     }
 
     const handleLinkClick = () =>{
-        console.log("button is clicked!")
-        props.setRequest(location)
-        props.getRoutesNearByLocationRequest(location);
+        props.setRequest(location);
+        saveFoundRoutes(location);
+    }
+
+    function saveFoundRoutes(location:string){
+        props.saveFoundRoutes(location);
     }
 
     return(
@@ -34,7 +37,7 @@ export default function MainPage(props:MainPageProps){
                                    aria-label="Recipient's username" aria-describedby="button-addon2" value={location}
                                    onChange={handleChange}/>
                         </label>
-                        <Link onClick={handleLinkClick} to={"/routes"}>
+                        <Link onClick={handleLinkClick} to={`/routes/${location}`}>
                             <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
                         </Link>
                     </form>

@@ -19,24 +19,21 @@ import java.util.List;
 @Service
 public class RouteService {
 
-    private RouteRepository routeRepository;
-    private IdService idService;
-    private LocationService locationService;
-    private GeoJsonPointService geoJsonPointService;
+    private final RouteRepository routeRepository;
+    private final IdService idService;
+    private final LocationService locationService;
     private MongoTemplate template;
 
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, GeoJsonPointService geoJsonPointService) {
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
-        this.geoJsonPointService = geoJsonPointService;
     }
     @Autowired
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, GeoJsonPointService geoJsonPointService, MongoTemplate template) {
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
-        this.geoJsonPointService = geoJsonPointService;
         this.template = template;
     }
 
@@ -65,6 +62,5 @@ public class RouteService {
                 .ensureIndex(new GeospatialIndex("position").typed(GeoSpatialIndexType.GEO_2DSPHERE));
 
         return routeRepository.findByPositionNear(searchPoint, new Distance(2, Metrics.KILOMETERS));
-
     }
 }
