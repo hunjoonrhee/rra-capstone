@@ -28,6 +28,6 @@ public class Route {
         this.routeName = routeName;
         this.hashtags = hashtags;
         this.imageThumbnail = imageThumbnail;
-        this.position = new GeoJsonPoint(x,y);;
+        this.position = new GeoJsonPoint(x,y);
     }
 }
