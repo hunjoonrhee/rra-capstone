@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/api/found-routes").permitAll()
+                .antMatchers("/api/found-routes").authenticated()
                 .antMatchers("/api/user/*").permitAll()
                 .and().httpBasic().and().csrf().disable();
     }
