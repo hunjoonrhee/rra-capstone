@@ -3,6 +3,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import "./RoutePage.css"
 import axios from "axios";
 import RoutesOverview from "../components/RoutesOverview";
+import Dropdown from 'react-bootstrap/Dropdown';
 
 type RoutesPageProps={
     saveFoundRoutes:(locationRequest:string)=>void
@@ -56,6 +57,17 @@ export default function RoutesPage(props:RoutesPageProps){
     return (
         <div>
             <div className={"routesPage"}>
+                <div className={"dropdown"}>
+                    <Dropdown>
+                        <Dropdown.Toggle className={"btn-primary-main"} variant="primary" id="login-routespage">
+                            <i className="fa fa-bars"></i>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item href="#/sign-in">Sign in</Dropdown.Item>
+                            <Dropdown.Item href="#/sign-up">Sign up</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>
                 <section className={"sec-search-2"}>
                     <div >
                         <form className={"form-searchField-2"}>

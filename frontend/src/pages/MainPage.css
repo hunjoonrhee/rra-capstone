@@ -56,3 +56,9 @@
     float: left;
     object-fit: fill;
 }
+#login-mainpage{
+    background-color: #a878e0;
+    background-image: linear-gradient(to top right, white, #ff7542);
+    padding: 4px 6px 4px 6px;
+    margin-right:4%
+}
