@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -41,6 +42,7 @@ class FoundRouteControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser(username = "hrhee", password = "ABC123")
     void saveFoundRoutes_ShouldSave_FoundRoutesFromRouteRepo() throws Exception {
         // GIVEN
         String[] hashtags = new String[1];
@@ -100,6 +102,7 @@ class FoundRouteControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "hrhee", password = "ABC123")
     void getAllFoundRoutes_ShouldReturn_AllObjectsInRepo() throws Exception {
         // GIVEN
         String[] hashtags = new String[1];
@@ -157,6 +160,7 @@ class FoundRouteControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "hrhee", password = "ABC123")
     void getFoundRoutesByAddress_ShouldReturn_FoundRoutesByAddress() throws Exception {
         // GIVEN
         String[] hashtags = new String[1];

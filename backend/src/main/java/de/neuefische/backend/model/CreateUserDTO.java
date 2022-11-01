@@ -7,11 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class    RouteDTO {
-
-    private String routeName;
-    private String[] hashtags;
-    private String imageThumbnail;
-    private StartPosition startPosition;
-
+public class CreateUserDTO {
+    private String username;
+    private String password;
 }

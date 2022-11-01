@@ -7,14 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FoundRouteService {
 
     private final FoundRouteRepository foundRouteRepository;
     private final RouteService routeService;
-//    private final IdService idService;
 
     @Autowired
     public FoundRouteService(FoundRouteRepository foundRouteRepository, RouteService routeService) {
