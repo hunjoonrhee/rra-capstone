@@ -7,6 +7,7 @@ import useMyRoutes from "./hooks/useMyRoutes";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import {ToastContainer} from "react-toastify";
+import RouteDetailsPage from "./pages/RouteDetailsPage";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
                 <Route path = {"/sign-in"} element = {<SignInPage/>}/>
                 <Route path = {"/sign-up"} element = {<SignUpPage/>}/>
                 <Route path = {"/routes/:id"} element = {<RoutesPage saveFoundRoutes={saveFoundRoutes} setRequest={setRequest}/>}/>
+                <Route path = {"/route/:id/details"} element = {<RouteDetailsPage/>}/>
             </Routes>
         </HashRouter>
 
