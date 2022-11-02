@@ -18,6 +18,11 @@ public class RouteController {
         this.routeService = routeService;
     }
 
+    @GetMapping
+    public List<Route> getAllRoutesInRepo(){
+        return routeService.getAllRoutesInRepo();
+    }
+
     @PostMapping
     public Route addNewRoute(@RequestBody RouteDTO routeDTO){
         return routeService.addNewRoute(routeDTO);

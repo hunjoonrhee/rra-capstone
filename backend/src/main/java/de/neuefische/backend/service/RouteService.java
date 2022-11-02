@@ -80,4 +80,8 @@ public class RouteService {
 
         return routeRepository.findByPositionNear(searchPoint, new Distance(2, Metrics.KILOMETERS));
     }
+
+    public List<Route> getAllRoutesInRepo() {
+        return routeRepository.findAll();
+    }
 }
