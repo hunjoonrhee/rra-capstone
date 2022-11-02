@@ -1,7 +1,6 @@
 package de.neuefische.backend.controller;
 
-import de.neuefische.backend.model.Route;
-import de.neuefische.backend.model.RouteDTO;
+import de.neuefische.backend.model.*;
 import de.neuefische.backend.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +11,7 @@ import java.util.List;
 @RequestMapping("api/route")
 public class RouteController {
 
-    private RouteService routeService;
+    private final RouteService routeService;
 
     @Autowired
     public RouteController(RouteService routeService) {
@@ -30,3 +29,5 @@ public class RouteController {
     }
 
 }
+
+

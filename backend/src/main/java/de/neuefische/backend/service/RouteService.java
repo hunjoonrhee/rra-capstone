@@ -1,8 +1,6 @@
 package de.neuefische.backend.service;
 
-import de.neuefische.backend.model.LocationReturn;
-import de.neuefische.backend.model.Route;
-import de.neuefische.backend.model.RouteDTO;
+import de.neuefische.backend.model.*;
 import de.neuefische.backend.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
@@ -13,6 +11,7 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
@@ -23,6 +22,8 @@ public class RouteService {
     private final IdService idService;
     private final LocationService locationService;
     private MongoTemplate template;
+
+    private final WebClient client = WebClient.create("https://routing.openstreetmap.de/routed-foot/route/v1/foot/");
 
     public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService) {
         this.routeRepository = routeRepository;
@@ -37,6 +38,21 @@ public class RouteService {
         this.template = template;
     }
 
+    public List<Routes> getRoutes(StartPosition startPosition, EndPosition endPosition) {
+
+
+       RoutesReturn routesReturn =
+                client.get()
+                        .uri(startPosition.getLon() + ","+startPosition.getLat() + ";" +
+                                endPosition.getLon()+ ","+endPosition.getLat() +
+                                "?overview=full&geometries=geojson")
+                        .retrieve()
+                        .toEntity(RoutesReturn.class)
+                        .block()
+                        .getBody();
+        return routesReturn.getRoutes();
+    }
+
 
     public Route addNewRoute(RouteDTO routeDTO) {
         Route newRoute = Route.builder()
@@ -44,6 +60,8 @@ public class RouteService {
                 .routeName(routeDTO.getRouteName())
                 .hashtags(routeDTO.getHashtags())
                 .startPosition(routeDTO.getStartPosition())
+                .endPosition(routeDTO.getEndPosition())
+                .routes(getRoutes(routeDTO.getStartPosition(), routeDTO.getEndPosition()))
                 .imageThumbnail(routeDTO.getImageThumbnail())
                 .position(new GeoJsonPoint(routeDTO.getStartPosition().getLat(),
                         routeDTO.getStartPosition().getLon()))
