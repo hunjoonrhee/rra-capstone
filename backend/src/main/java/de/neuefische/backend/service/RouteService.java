@@ -40,7 +40,6 @@ public class RouteService {
 
     public List<Routes> getRoutes(StartPosition startPosition, EndPosition endPosition) {
 
-
        RoutesReturn routesReturn =
                 client.get()
                         .uri(startPosition.getLon() + ","+startPosition.getLat() + ";" +
