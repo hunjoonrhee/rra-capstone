@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
@@ -23,34 +22,24 @@ public class RouteService {
     private final LocationService locationService;
     private MongoTemplate template;
 
-    private final WebClient client = WebClient.create("https://routing.openstreetmap.de/routed-foot/route/v1/foot/");
+    private final RoutesService routesService;
 
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService) {
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, RoutesService routesService) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
+        this.routesService = routesService;
     }
     @Autowired
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template) {
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template, RoutesService routesService) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
         this.template = template;
+        this.routesService = routesService;
     }
 
-    public List<Routes> getRoutes(StartPosition startPosition, EndPosition endPosition) {
 
-       RoutesReturn routesReturn =
-                client.get()
-                        .uri(startPosition.getLon() + ","+startPosition.getLat() + ";" +
-                                endPosition.getLon()+ ","+endPosition.getLat() +
-                                "?overview=full&geometries=geojson")
-                        .retrieve()
-                        .toEntity(RoutesReturn.class)
-                        .block()
-                        .getBody();
-        return routesReturn.getRoutes();
-    }
 
 
     public Route addNewRoute(RouteDTO routeDTO) {
@@ -60,7 +49,7 @@ public class RouteService {
                 .hashtags(routeDTO.getHashtags())
                 .startPosition(routeDTO.getStartPosition())
                 .endPosition(routeDTO.getEndPosition())
-                .routes(getRoutes(routeDTO.getStartPosition(), routeDTO.getEndPosition()))
+                .routes(routesService.getRoutes(routeDTO.getStartPosition(), routeDTO.getEndPosition()))
                 .imageThumbnail(routeDTO.getImageThumbnail())
                 .position(new GeoJsonPoint(routeDTO.getStartPosition().getLat(),
                         routeDTO.getStartPosition().getLon()))
