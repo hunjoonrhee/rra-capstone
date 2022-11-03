@@ -1,0 +1,65 @@
+.title-route-detail{
+    width: 390px;
+    height: 148px;
+    background-color: #b1e078;
+    background-image: linear-gradient(to bottom right, #ffdd76, #b1e078,#ffdd76);
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+}
+.title-border{
+    border: rgba(1, 25, 147, 0.65) 2px solid;
+    border-radius: 10px;
+    padding: 2% 4% 2% 4% ;
+    color: darkblue;
+    margin-top:10%;
+    width: 95%;
+}
+.dropdown-detailpage{
+    position:absolute;
+    top:6px;
+    width:390px;
+    height:50px;
+    text-align: right;
+}
+.btn-primary-detailpage{
+    background-color: #a878e0;
+    background-image: linear-gradient(to top right, #43f500, #fff000);
+    border-color: white;
+    padding: 4px 6px 4px 6px;
+    margin-right:4%
+}
+.title-routeName{
+    margin : 0;
+}
+.sec-route-detail{
+    position:absolute;
+    top:148px;
+    width: 390px;
+    height: 556px;
+    background-color: #b1e078;
+    background-image: linear-gradient(to bottom right, #b1e078, #ffdd76, #b1e078);
+    text-align: center;
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-evenly;
+
+}
+.div-map{
+    border: rgb(200, 255, 72) 5px solid;
+    border-radius: 10%;
+    display:flex;
+    width: 95%;
+    height: 40%;
+    justify-content: center;
+    align-items: center;
+}
+
+.map{
+    position:absolute;
+    width: 80%;
+    height: 30%;
+}

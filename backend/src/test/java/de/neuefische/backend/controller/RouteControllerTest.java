@@ -2,10 +2,7 @@ package de.neuefische.backend.controller;
 
 import de.neuefische.backend.model.*;
 import de.neuefische.backend.repository.RouteRepository;
-import de.neuefische.backend.service.GeoJsonPointService;
-import de.neuefische.backend.service.IdService;
-import de.neuefische.backend.service.LocationService;
-import de.neuefische.backend.service.RouteService;
+import de.neuefische.backend.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,10 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.awt.*;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.when;
@@ -49,6 +44,8 @@ class RouteControllerTest {
     private MongoTemplate template;
     @MockBean
     private LocationService locationService;
+    @MockBean
+    private RoutesService routesService;
 
 
 
@@ -128,6 +125,7 @@ class RouteControllerTest {
         // GIVEN
         when(idService.generateId()).thenReturn("1");
         when(geoJsonPointService.createGeoJsonPoint(anyDouble(), anyDouble())).thenReturn(new GeoJsonPoint(49.4543507, 11.0873597));
+        when(routesService.getRoutes(any(), any())).thenReturn(null);
         String requestBody = """
                         {
                           "routeName": "Jogging by Wöhrder See",
@@ -137,6 +135,10 @@ class RouteControllerTest {
                           ],
                           "imageThumbnail": "https://mapio.net/images-p/10982408.jpg",
                           "startPosition": {
+                            "lat": 49.4543507,
+                            "lon": 11.0873597
+                          },
+                          "endPosition": {
                             "lat": 49.4543507,
                             "lon": 11.0873597
                           }
@@ -156,6 +158,11 @@ class RouteControllerTest {
                                 "lat": 49.4543507,
                                 "lon": 11.0873597
                             },
+                            "endPosition": {
+                                "lat": 49.4543507,
+                                "lon": 11.0873597
+                            },
+                            "routes": null,
                             "position": {
                                 "x": 49.4543507,
                                 "y": 11.0873597,

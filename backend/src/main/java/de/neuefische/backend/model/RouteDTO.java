@@ -13,5 +13,6 @@ public class    RouteDTO {
     private String[] hashtags;
     private String imageThumbnail;
     private StartPosition startPosition;
+    private EndPosition endPosition;
 
 }

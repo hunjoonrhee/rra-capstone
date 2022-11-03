@@ -1,8 +1,6 @@
 package de.neuefische.backend.service;
 
-import de.neuefische.backend.model.LocationReturn;
-import de.neuefische.backend.model.Route;
-import de.neuefische.backend.model.RouteDTO;
+import de.neuefische.backend.model.*;
 import de.neuefische.backend.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
@@ -24,18 +22,24 @@ public class RouteService {
     private final LocationService locationService;
     private MongoTemplate template;
 
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService) {
+    private final RoutesService routesService;
+
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, RoutesService routesService) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
+        this.routesService = routesService;
     }
     @Autowired
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template) {
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template, RoutesService routesService) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
         this.template = template;
+        this.routesService = routesService;
     }
+
+
 
 
     public Route addNewRoute(RouteDTO routeDTO) {
@@ -44,6 +48,8 @@ public class RouteService {
                 .routeName(routeDTO.getRouteName())
                 .hashtags(routeDTO.getHashtags())
                 .startPosition(routeDTO.getStartPosition())
+                .endPosition(routeDTO.getEndPosition())
+                .routes(routesService.getRoutes(routeDTO.getStartPosition(), routeDTO.getEndPosition()))
                 .imageThumbnail(routeDTO.getImageThumbnail())
                 .position(new GeoJsonPoint(routeDTO.getStartPosition().getLat(),
                         routeDTO.getStartPosition().getLon()))
@@ -62,5 +68,9 @@ public class RouteService {
                 .ensureIndex(new GeospatialIndex("position").typed(GeoSpatialIndexType.GEO_2DSPHERE));
 
         return routeRepository.findByPositionNear(searchPoint, new Distance(2, Metrics.KILOMETERS));
+    }
+
+    public List<Route> getAllRoutesInRepo() {
+        return routeRepository.findAll();
     }
 }
