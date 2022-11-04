@@ -6,13 +6,16 @@ import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import "leaflet/dist/leaflet.css"
 import Dropdown from "react-bootstrap/Dropdown";
 import React from "react";
-
+import ImageUploading, {ImageListType} from "react-images-uploading";
 
 type RouteDetailsProps = {
     routes:Route[];
 }
 
 export default function RouteDetails(props:RouteDetailsProps){
+
+    const [images, setImages] = React.useState([]);
+    const maxNumber = 4;
 
     const params = useParams();
     const id = params.id;
@@ -58,6 +61,12 @@ export default function RouteDetails(props:RouteDetailsProps){
     })
 
 
+    const handleOnChange = (imageList:ImageListType, addUpdateIndex: number[] | undefined)=> {
+        console.log(imageList, addUpdateIndex);
+        setImages(imageList as never[]);
+    }
+
+
     return(
         <div>
             <div className={"dropdown-detailpage"}>
@@ -98,7 +107,32 @@ export default function RouteDetails(props:RouteDetailsProps){
 
                         <ResetCenterView/>
                     </MapContainer>
+
                 </div>
+                <ImageUploading value={images} onChange={handleOnChange} maxNumber={maxNumber}>
+                    {({
+                          imageList,
+                          onImageUpload,
+                      }) => (
+                        // write your building UI
+                        <div className="upload__image-wrapper">
+                            <div >
+                                {imageList.map((image, index) => (
+                                    <div key={index} className="image-item">
+                                        <img src={image.dataURL} alt="" width="100" />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <button onClick={onImageUpload}>
+                                Upload some photos!
+                            </button>
+                        </div>
+
+                    )}
+
+                </ImageUploading>
+
 
             </section>
         </div>
