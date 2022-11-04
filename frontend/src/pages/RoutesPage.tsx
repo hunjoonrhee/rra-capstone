@@ -10,8 +10,6 @@ import {LocationReturn} from "../model/LocationReturn";
 type RoutesPageProps={
     saveFoundRoutes:(locationRequest:string)=>void
     setRequest:(locationRequest:string)=>void
-    getCurrentLocation:(lat:number, lon:number)=>void
-    currentAddress:LocationReturn
 }
 
 export default function RoutesPage(props:RoutesPageProps){
@@ -20,6 +18,30 @@ export default function RoutesPage(props:RoutesPageProps){
     const [isClicked, setIsClicked] = useState(false);
 
     const currentLocation = useGeoLocation();
+
+    const [currentAddress, setCurrentAddress] = useState<LocationReturn>({
+        address: {
+            house_number:"",
+            city:"",
+            country_code:"",
+            postcode:"",
+            road:"",
+            state:"",
+            suburb:""},
+        display_name: "",
+        lat: "",
+        lon: "",
+        osm_id: undefined
+    });
+
+    function getCurrentLocation(lat:number, lon:number) {
+        console.log(lat, lon)
+        axios.get("https://nominatim.openstreetmap.org/reverse?lat="+lat+"&lon="+lon+"&format=json")
+            .then((response)=> {return response.data })
+            .then((data)=>{setCurrentAddress(data)})
+            .finally(()=>console.log("places are: ", currentAddress))
+            .catch((err)=>console.log("err: ", err))
+    }
 
     useEffect(()=>{
         getAllFoundRoutes()
@@ -43,12 +65,19 @@ export default function RoutesPage(props:RoutesPageProps){
     }
 
     const handleLinkClick = () =>{
-        props.setRequest(location);
-        saveFoundRoutes(location);
+        if(isClicked){
+            props.setRequest(curAddress);
+            saveFoundRoutes(curAddress);
+        }else{
+            props.setRequest(location);
+            saveFoundRoutes(location);
+        }
+
     }
 
     function saveFoundRoutes(location:string){
         props.saveFoundRoutes(location);
+
     }
 
     const hashtags: string[] = ["all", "city", "river", "street", "tree", "park"];
@@ -64,9 +93,11 @@ export default function RoutesPage(props:RoutesPageProps){
     function handleOnClick() {
 
         setIsClicked(!isClicked)
-        props.getCurrentLocation(Number(currentLocation.coordinates.lat), Number(currentLocation.coordinates.lon))
-        console.log("ddd",props.currentAddress.address?.road)
+        getCurrentLocation(Number(currentLocation.coordinates.lat), Number(currentLocation.coordinates.lon))
     }
+
+    let curAddress = currentAddress.address?.road + ", " + currentAddress.address?.house_number + ", " +
+        currentAddress.address?.postcode + ", " + currentAddress.address?.city;
 
     return (
         <div>
@@ -92,7 +123,7 @@ export default function RoutesPage(props:RoutesPageProps){
                             <div className={"form-input-2"}>
                                 { isClicked ?
                                     <input type="text" className="form-control-2" placeholder="Where do you want to run?" name = "location"
-                                           aria-label="Recipient's username" aria-describedby="button-addon2" value={props.currentAddress.address?.road}
+                                           aria-label="Recipient's username" aria-describedby="button-addon2" value={curAddress}
                                            onChange={handleChange}/>
                                     :
                                     <input type="text" className="form-control-2" placeholder="Where do you want to run?" name = "location"

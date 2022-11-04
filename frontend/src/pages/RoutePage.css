@@ -42,8 +42,9 @@
     border-width: 1px;
 }
 .form-control-2::placeholder{
-    font-size: 12px;
+    font-size: 10px;
 }
+
 
 .btn-outline-secondary-2{
     border-color: darkblue;

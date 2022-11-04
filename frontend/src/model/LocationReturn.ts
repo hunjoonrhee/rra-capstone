@@ -1,5 +1,6 @@
 export type LocationReturn = {
     address:{
+        house_number:string | undefined;
         city:string | undefined;
         country_code:string | undefined;
         postcode:string | undefined;
