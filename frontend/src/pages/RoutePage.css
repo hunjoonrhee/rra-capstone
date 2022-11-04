@@ -23,6 +23,14 @@
 }
 .form-input-2{
     margin-bottom: 0;
+    display:inline-block;
+}
+.btn-current-loc{
+    background-color: white;
+    border-color: darkblue;
+    border-radius: 4px;
+    border-width: 1px;
+    padding: 2px 4px;
 }
 
 .form-control-2{
