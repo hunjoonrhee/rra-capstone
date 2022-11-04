@@ -10,3 +10,4 @@ public class GeoJsonPointService {
         return new GeoJsonPoint(x, y);
     }
 }
+

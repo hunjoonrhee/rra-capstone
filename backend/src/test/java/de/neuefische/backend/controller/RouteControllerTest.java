@@ -46,6 +46,8 @@ class RouteControllerTest {
     private LocationService locationService;
     @MockBean
     private RoutesService routesService;
+    @MockBean
+    private PhotoService photoService;
 
 
 
@@ -126,6 +128,7 @@ class RouteControllerTest {
         when(idService.generateId()).thenReturn("1");
         when(geoJsonPointService.createGeoJsonPoint(anyDouble(), anyDouble())).thenReturn(new GeoJsonPoint(49.4543507, 11.0873597));
         when(routesService.getRoutes(any(), any())).thenReturn(null);
+        when(photoService.getAllPhotosByRouteId(any())).thenReturn(null);
         String requestBody = """
                         {
                           "routeName": "Jogging by Wöhrder See",
@@ -163,6 +166,7 @@ class RouteControllerTest {
                                 "lon": 11.0873597
                             },
                             "routes": null,
+                            "photos": null,
                             "position": {
                                 "x": 49.4543507,
                                 "y": 11.0873597,
@@ -181,6 +185,57 @@ class RouteControllerTest {
                         post("/api/route")
                                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                                 .content(requestBody))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expectedJSON));
+    }
+
+    @Test
+    void getAllRoutes_ShouldReturn_AllRoutes() throws Exception {
+        // GIVEN
+        String[] hashtags = new String[1];
+        hashtags[0] = "tree";
+        StartPosition startPosition = new StartPosition(2.2, 1.1);
+        EndPosition endPosition = new EndPosition(2.3, 1.12);
+        Route dummyRoute = new Route("1", "Jogging by Wöhrder See", hashtags, "https://mapio.net/images-p/10982408.jpg", startPosition,
+                endPosition, null, null, new GeoJsonPoint(2.2, 1.1));
+        when(routeRepository.findAll()).thenReturn(List.of(dummyRoute));
+
+        String expectedJSON = """
+                    [
+                        {
+                            "id": "1",
+                            "routeName": "Jogging by Wöhrder See",
+                            "hashtags": [
+                                "tree"
+                            ],
+                            "imageThumbnail": "https://mapio.net/images-p/10982408.jpg",
+                            "startPosition": {
+                                "lat": 2.2,
+                                "lon": 1.1
+                            },
+                            "endPosition": {
+                                "lat": 2.3,
+                                "lon": 1.12
+                            },
+                            "routes": null,
+                            "photos": null,
+                            "position": {
+                                "x": 2.2,
+                                "y": 1.1,
+                                "type": "Point",
+                                "coordinates": [
+                                    2.2,
+                                    1.1
+                                ]
+                            }
+                        }
+                    ]
+                """;
+
+        //WHEN THEN
+
+        mockMvc.perform(
+                        get("/api/route/"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJSON));
     }
