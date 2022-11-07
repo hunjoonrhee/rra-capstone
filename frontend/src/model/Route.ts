@@ -1,6 +1,7 @@
 import {StartPosition} from "./StartPosition";
 import {Routes} from "./Routes";
 import {EndPosition} from "./EndPosition";
+import {Photo} from "./Photo";
 
 export type Route = {
     id:string;
@@ -10,4 +11,5 @@ export type Route = {
     startPosition:StartPosition;
     endPosition:EndPosition;
     routes:Routes[];
+    photos:Photo[];
 }

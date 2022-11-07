@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -60,6 +62,28 @@ class RouteServiceTest {
                 .position(new GeoJsonPoint(2.2, 1.1))
                 .build();
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void getAllRoutes_ShouldReturn_AllRoutes(){
+        // GIVEN
+        String[] hashtags = new String[1];
+        hashtags[0] = "tree";
+        StartPosition startPosition = new StartPosition(2.2, 1.1);
+        EndPosition endPosition = new EndPosition(2.3, 1.12);
+
+        Route dummyRoute = new Route("1", "routeName", hashtags, "imageThumbnail", startPosition,
+                endPosition, null, null, new GeoJsonPoint(2.2, 1.1));
+
+        when(routeRepository.findAll()).thenReturn(List.of(dummyRoute));
+
+        // WHEN
+        List<Route> actual = routeService.getAllRoutesInRepo();
+
+        // THEN
+        List<Route> expected = List.of(dummyRoute);
+        assertEquals(expected, actual);
+
     }
 
 }

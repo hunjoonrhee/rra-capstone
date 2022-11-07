@@ -1,6 +1,8 @@
-import {useEffect, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
+import useGeoLocation from "./useGeoLocation";
+import {LocationReturn} from "../model/LocationReturn";
 
 export default function useMyRoutes(){
 
@@ -45,6 +47,70 @@ export default function useMyRoutes(){
     }
 
 
+    const [allFoundRoutes, setAllFoundRoutes] = useState([]);
+    const [isClicked, setIsClicked] = useState(false);
 
-    return {setRequest, foundRoutes, saveFoundRoutes}
+    const currentLocation = useGeoLocation();
+
+    const [currentAddress, setCurrentAddress] = useState<LocationReturn>({
+        address: {
+            house_number:"",
+            city:"",
+            country_code:"",
+            postcode:"",
+            road:"",
+            state:"",
+            suburb:""},
+        display_name: "",
+        lat: "",
+        lon: "",
+        osm_id: undefined
+    });
+
+    function getCurrentLocation(lat:number, lon:number) {
+        console.log(lat, lon)
+        axios.get("https://nominatim.openstreetmap.org/reverse?lat="+lat+"&lon="+lon+"&format=json")
+            .then((response)=> {return response.data })
+            .then((data)=>{setCurrentAddress(data)})
+            .finally(()=>console.log("places are: ", currentAddress))
+            .catch((err)=>console.log("err: ", err))
+    }
+
+    useEffect(()=>{
+        getAllFoundRoutes()
+    }, [])
+
+    function getAllFoundRoutes(){
+        axios.get("/api/found-routes/")
+            .then((response)=> {return response.data})
+            .then((data)=>setAllFoundRoutes(data))
+            .catch((err)=>console.log((err)))
+    }
+
+
+    const [location, setLocation] = useState("");
+    const [filterTag, setFilterTag] = useState("");
+    const [allFilter, setAllFilter] = useState (true);
+
+    function handleChange(event:ChangeEvent<HTMLInputElement>) {
+        const inputFieldValue = event.target.value;
+        setLocation(inputFieldValue);
+    }
+
+    const [routes, setRoutes] = useState([]);
+
+    useEffect(()=>{
+        getAllRoutes()
+    }, [])
+
+    function getAllRoutes(){
+        axios.get("/api/route/")
+            .then((response)=> {return response.data})
+            .then((data)=>setRoutes(data))
+            .catch((err)=>console.log((err)))
+    }
+
+
+    return {setRequest, foundRoutes, saveFoundRoutes, getCurrentLocation, allFoundRoutes, isClicked, setIsClicked, currentLocation,
+    location, filterTag, setFilterTag, allFilter, setAllFilter, handleChange,currentAddress, routes, setRoutes, getAllRoutes}
 }

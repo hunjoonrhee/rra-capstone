@@ -1,11 +1,9 @@
 import {Link} from "react-router-dom";
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React from "react";
 import "./RoutePage.css"
-import axios from "axios";
 import RoutesOverview from "../components/RoutesOverview";
 import Dropdown from 'react-bootstrap/Dropdown';
-import useGeoLocation from "../hooks/useGeoLocation";
-import {LocationReturn} from "../model/LocationReturn";
+import useMyRoutes from "../hooks/useMyRoutes";
 
 type RoutesPageProps={
     saveFoundRoutes:(locationRequest:string)=>void
@@ -14,55 +12,8 @@ type RoutesPageProps={
 
 export default function RoutesPage(props:RoutesPageProps){
 
-    const [allFoundRoutes, setAllFoundRoutes] = useState([]);
-    const [isClicked, setIsClicked] = useState(false);
-
-    const currentLocation = useGeoLocation();
-
-    const [currentAddress, setCurrentAddress] = useState<LocationReturn>({
-        address: {
-            house_number:"",
-            city:"",
-            country_code:"",
-            postcode:"",
-            road:"",
-            state:"",
-            suburb:""},
-        display_name: "",
-        lat: "",
-        lon: "",
-        osm_id: undefined
-    });
-
-    function getCurrentLocation(lat:number, lon:number) {
-        console.log(lat, lon)
-        axios.get("https://nominatim.openstreetmap.org/reverse?lat="+lat+"&lon="+lon+"&format=json")
-            .then((response)=> {return response.data })
-            .then((data)=>{setCurrentAddress(data)})
-            .finally(()=>console.log("places are: ", currentAddress))
-            .catch((err)=>console.log("err: ", err))
-    }
-
-    useEffect(()=>{
-        getAllFoundRoutes()
-    }, [])
-
-    function getAllFoundRoutes(){
-        axios.get("/api/found-routes/")
-            .then((response)=> {return response.data})
-            .then((data)=>setAllFoundRoutes(data))
-            .catch((err)=>console.log((err)))
-    }
-
-
-    const [location, setLocation] = useState("");
-    const [filterTag, setFilterTag] = useState("");
-    const [allFilter, setAllFilter] = useState (true);
-
-    function handleChange(event:ChangeEvent<HTMLInputElement>) {
-        const inputFieldValue = event.target.value;
-        setLocation(inputFieldValue);
-    }
+    const {getCurrentLocation, allFoundRoutes, isClicked, setIsClicked, currentLocation,
+        location, filterTag, setFilterTag, allFilter, setAllFilter, handleChange, currentAddress} = useMyRoutes();
 
     const handleLinkClick = () =>{
         if(isClicked){

@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,6 +25,7 @@ public class Route {
     private StartPosition startPosition;
     private EndPosition endPosition;
     private List<Routes> routes;
+    private List<Photo> photos = new ArrayList<>();
     private GeoJsonPoint position;
 
     public Route(String id, String routeName, String[] hashtags,

@@ -43,9 +43,10 @@
     background-image: linear-gradient(to bottom right, #b1e078, #ffdd76, #b1e078);
     text-align: center;
     display:flex;
-    flex-direction: row;
-    flex-wrap:wrap;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    /*border: rgb(40, 40, 40) 5px solid;*/
 
 }
 .div-map{
@@ -60,16 +61,54 @@
 
 .map{
     position:absolute;
-    width: 80%;
-    height: 30%;
+    width: 85%;
+    height: 35%;
 }
-.upload__image-wrapper{
+.div-images{
     border: rgb(200, 255, 72) 5px solid;
-    border-radius: 10%;
+    border-radius: 6%;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-y:scroll;
+    white-space: nowrap;
+    max-width: 95%;
+    height: 30%;
+    display:flex;
+}
+.div-share{
+    border: rgb(200, 255, 72) 5px solid;
+    border-radius: 6%;
     display:flex;
     flex-direction: row;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    width: 80%;
-    height: 30%;
+    width: 95%;
+    height: 15%;
 }
+.custom-file{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.custom-file-find{
+    border: 1px solid #282828;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+.btn-upload{
+    border-radius: 14px;
+    border-color: rgb(200, 255, 72);
+}
+.form-control-sm{
+    height: calc(1.5em + .75rem + 2px);
+    background-color: transparent;
+    border-color: transparent;
+    width: 80%;
+
+}
+.mb-3{
+    margin-top:4%
+}
+
