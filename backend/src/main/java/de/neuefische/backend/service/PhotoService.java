@@ -4,14 +4,13 @@ import de.neuefische.backend.model.Photo;
 import de.neuefische.backend.model.Route;
 import de.neuefische.backend.repository.PhotoRepository;
 import de.neuefische.backend.repository.RouteRepository;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,30 +19,23 @@ public class PhotoService {
 
     private final PhotoRepository photoRepository;
     private final RouteRepository routeRepository;
-//    private final String uploadDirectory = System.getProperty("user.dir")+"/frontend/src/images/uploads";
-    private final String uploadDirectory = "../../../../../../../../../private/tmp/uploads";
+    private final IdService idService;
 
 
 
-    public PhotoService(PhotoRepository photoRepository, RouteRepository routeRepository) {
+
+    public PhotoService(PhotoRepository photoRepository, RouteRepository routeRepository, IdService idService) {
         this.photoRepository = photoRepository;
         this.routeRepository = routeRepository;
+        this.idService = idService;
     }
 
-    public String uploadNewPhoto(String routeId, MultipartFile multipartFile) throws IOException {
-        File directoryName = new File(Path.of(uploadDirectory).toUri());
-        File directory = new File(directoryName.toURI());
-        if(!directory.exists()){
-            directory.mkdir();
-        }
-
-        Path fileNameAndPath = Paths.get(uploadDirectory, multipartFile.getOriginalFilename());
-
-        Files.write(fileNameAndPath, multipartFile.getBytes());
+    public String uploadNewPhoto(String routeId, String name, MultipartFile multipartFile) throws IOException {
 
         Photo newPhoto = Photo.builder()
-                .routeId(routeId)
-                .photoName(multipartFile.getOriginalFilename())
+                .id(idService.generateId())
+                .name(name)
+                .image(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()))
                 .build();
         photoRepository.save(newPhoto);
 
@@ -52,14 +44,27 @@ public class PhotoService {
         Optional<Route> optionalRoute = routeRepository.findById(routeId);
         if(optionalRoute.isPresent()){
             route = optionalRoute.get();
-            List<Photo> photoURLs = route.getPhotos();
-            photoURLs.add(newPhoto);
-            route.setPhotos(photoURLs);
+            List<Photo> photos = route.getPhotos();
+            photos.add(newPhoto);
+            route.setPhotos(photos);
 
             routeRepository.save(route);
         }
-        return fileNameAndPath.toString();
+        return newPhoto.getId();
     }
 
 
+    public List<Photo> getPhotosByRouteId(String routeId) {
+        Route route;
+        List<Photo> photos = new ArrayList<>();
+        Optional<Route> optionalRoute = routeRepository.findById(routeId);
+        if(optionalRoute.isPresent()){
+            route = optionalRoute.get();
+            photos = route.getPhotos();
+        }
+        return photos;
+    }
+
+//    public String getPhotoForGivenRouteId(String routeId, String photoId) {
+//    }
 }

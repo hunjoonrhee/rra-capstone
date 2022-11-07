@@ -4,10 +4,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import SignIn from "../components/SignIn";
 import 'react-toastify/dist/ReactToastify.css';
+import useSecurity from "../hooks/useSecurity";
 
 
 export default function SignInPage(){
-
+    const {me, handleLogin, setUsername} = useSecurity();
 
     return(
         <div className={"mainpage"}>
@@ -27,7 +28,7 @@ export default function SignInPage(){
                 <h2 id={"title"}>Running Route Advisor</h2>
             </section>
             <section className={"sec-login"}>
-                <SignIn/>
+                <SignIn me={me} handleLogin={handleLogin} setUsername={()=>setUsername}/>
             </section>
         </div>
     )
