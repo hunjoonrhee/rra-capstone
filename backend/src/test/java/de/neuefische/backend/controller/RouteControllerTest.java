@@ -128,7 +128,6 @@ class RouteControllerTest {
         when(idService.generateId()).thenReturn("1");
         when(geoJsonPointService.createGeoJsonPoint(anyDouble(), anyDouble())).thenReturn(new GeoJsonPoint(49.4543507, 11.0873597));
         when(routesService.getRoutes(any(), any())).thenReturn(null);
-        when(photoService.getAllPhotosByRouteId(any())).thenReturn(null);
         String requestBody = """
                         {
                           "routeName": "Jogging by Wöhrder See",
@@ -166,7 +165,6 @@ class RouteControllerTest {
                                 "lon": 11.0873597
                             },
                             "routes": null,
-                            "photos": null,
                             "position": {
                                 "x": 49.4543507,
                                 "y": 11.0873597,
