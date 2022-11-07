@@ -1,13 +1,17 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.Photo;
-import de.neuefische.backend.model.PhotoDTO;
 import de.neuefische.backend.model.Route;
 import de.neuefische.backend.repository.PhotoRepository;
 import de.neuefische.backend.repository.RouteRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,19 +20,29 @@ public class PhotoService {
 
     private final PhotoRepository photoRepository;
     private final RouteRepository routeRepository;
-    private final IdService idService;
+    private final String uploadDirectory = System.getProperty("user.dir")+"/frontend/src/images/uploads";
 
-    public PhotoService(PhotoRepository photoRepository, RouteRepository routeRepository, IdService idService) {
+
+
+    public PhotoService(PhotoRepository photoRepository, RouteRepository routeRepository) {
         this.photoRepository = photoRepository;
         this.routeRepository = routeRepository;
-        this.idService = idService;
     }
 
-    public Photo uploadNewPhoto(String routeId, PhotoDTO photoDTO) {
+    public String uploadNewPhoto(String routeId, MultipartFile multipartFile) throws IOException {
+        File directoryName = new File(Path.of(uploadDirectory).toUri());
+        File directory = new File(directoryName.toURI());
+        if(!directory.exists()){
+            directory.mkdir();
+        }
+
+        Path fileNameAndPath = Paths.get(uploadDirectory, multipartFile.getOriginalFilename());
+
+        Files.write(fileNameAndPath, multipartFile.getBytes());
+
         Photo newPhoto = Photo.builder()
-                .id(idService.generateId())
                 .routeId(routeId)
-                .photoURL(photoDTO.getPhotoURL())
+                .photoName(multipartFile.getOriginalFilename())
                 .build();
         photoRepository.save(newPhoto);
 
@@ -37,25 +51,14 @@ public class PhotoService {
         Optional<Route> optionalRoute = routeRepository.findById(routeId);
         if(optionalRoute.isPresent()){
             route = optionalRoute.get();
-            List<Photo> photos = route.getPhotos();
-            photos.add(newPhoto);
-            route.setPhotos(photos);
+            List<Photo> photoURLs = route.getPhotos();
+            photoURLs.add(newPhoto);
+            route.setPhotos(photoURLs);
 
             routeRepository.save(route);
         }
-        return newPhoto;
+        return fileNameAndPath.toString();
     }
 
-    public List<Photo> getAllPhotosByRouteId(String routeId) {
-        List<Photo> photosOfRoute = new ArrayList<>();
-        List<Photo> allPhotos = photoRepository.findAll();
-
-        for(Photo photo:allPhotos){
-            if(photo.getRouteId().equals(routeId)){
-                photosOfRoute.add(photo);
-            }
-        }
-        return photosOfRoute;
-    }
 
 }

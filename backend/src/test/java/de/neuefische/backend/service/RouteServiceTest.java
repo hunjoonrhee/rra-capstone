@@ -19,12 +19,11 @@ class RouteServiceTest {
     private final RouteRepository routeRepository = mock(RouteRepository.class);
     private final IdService idService = mock(IdService.class);
     private final LocationService locationService = mock(LocationService.class);
-    private final PhotoService photoService = mock(PhotoService.class);
 
     private final RoutesService routesService = mock(RoutesService.class);
 
     private final RouteService routeService = new RouteService(routeRepository,
-            idService, locationService, photoService, routesService);
+            idService, locationService, routesService);
 
     @Test
     void addNewRoute_ShouldReturn_AddedRoute(){
@@ -36,7 +35,6 @@ class RouteServiceTest {
         RouteDTO routeDTO = new RouteDTO("routeName", hashtags, "imageThumbnail", startPosition, endPosition);
         when(idService.generateId()).thenReturn("1");
         when(routesService.getRoutes(any(), any())).thenReturn(null);
-        when(photoService.getAllPhotosByRouteId(any())).thenReturn(null);
         when(routeRepository.save(any())).thenReturn(
                 Route.builder()
                         .id("1")
@@ -46,7 +44,6 @@ class RouteServiceTest {
                         .startPosition(routeDTO.getStartPosition())
                         .endPosition(routeDTO.getEndPosition())
                         .routes(null)
-                        .photos(null)
                         .position(new GeoJsonPoint(2.2, 1.1))
                         .build()
         );
@@ -62,7 +59,6 @@ class RouteServiceTest {
                 .startPosition(routeDTO.getStartPosition())
                 .endPosition(routeDTO.getEndPosition())
                 .routes(null)
-                .photos(null)
                 .position(new GeoJsonPoint(2.2, 1.1))
                 .build();
         assertEquals(expected, actual);

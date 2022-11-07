@@ -5,17 +5,16 @@ import L, {LatLngExpression} from "leaflet";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import "leaflet/dist/leaflet.css"
 import Dropdown from "react-bootstrap/Dropdown";
-import React from "react";
-import ImageUploading, {ImageListType} from "react-images-uploading";
+import React, {FormEvent} from "react";
+import axios from "axios";
+import {toast} from "react-toastify";
+import PhotoCard from "./PhotoCard";
 
 type RouteDetailsProps = {
     routes:Route[];
 }
 
 export default function RouteDetails(props:RouteDetailsProps){
-
-    const [images, setImages] = React.useState([]);
-    const maxNumber = 4;
 
     const params = useParams();
     const id = params.id;
@@ -61,11 +60,19 @@ export default function RouteDetails(props:RouteDetailsProps){
     })
 
 
-    const handleOnChange = (imageList:ImageListType, addUpdateIndex: number[] | undefined)=> {
-        console.log(imageList, addUpdateIndex);
-        setImages(imageList as never[]);
-    }
+    function uploadFile(event: FormEvent<HTMLFormElement>, route:Route) {
+        const file = event.currentTarget["fileInput"].files
+        console.log("file", file[0].name)
 
+        const formData = new FormData();
+
+        formData.append("file", file[0]);
+        console.log(formData.get("file"))
+        axios.post(`/api/photo/${route.id}`,formData )
+            .then(()=>toast.success("Your photo is successfully uploaded!"))
+            .then(()=>{setTimeout(()=>{window.location.reload();}, 100)})
+            .catch((err)=>toast.error(err.message))
+    }
 
     return(
         <div>
@@ -93,7 +100,7 @@ export default function RouteDetails(props:RouteDetailsProps){
                             url="https://api.maptiler.com/maps/openstreetmap/256/{z}/{x}/{y}.jpg?key=Kbj8H7YVAHDxxoLRTnz3"
                         />
                         <MakeRoute id={route.id} routes={route.routes} routeName={route.routeName} imageThumbnail={route.imageThumbnail}
-                                   hashtags={route.hashtags} startPosition={route.startPosition} endPosition={route.endPosition}/>
+                                   hashtags={route.hashtags} startPosition={route.startPosition} endPosition={route.endPosition} photos={route.photos}/>
                         <Marker position={locationStart} icon={iconStart}>
                             <Popup>
                                 You can start here!
@@ -109,29 +116,24 @@ export default function RouteDetails(props:RouteDetailsProps){
                     </MapContainer>
 
                 </div>
-                <ImageUploading value={images} onChange={handleOnChange} maxNumber={maxNumber}>
-                    {({
-                          imageList,
-                          onImageUpload,
-                      }) => (
-                        // write your building UI
-                        <div className="upload__image-wrapper">
-                            <div >
-                                {imageList.map((image, index) => (
-                                    <div key={index} className="image-item">
-                                        <img src={image.dataURL} alt="" width="100" />
-                                    </div>
-                                ))}
-                            </div>
+                <div className={"div-share"}>
 
-                            <button onClick={onImageUpload}>
-                                Upload some photos!
-                            </button>
-                        </div>
+                </div>
 
-                    )}
-
-                </ImageUploading>
+                <div className={"div-images"}>
+                    {
+                        route.photos &&
+                        route.photos.map((photo)=>{
+                            return <PhotoCard key={photo.photoName} photo={photo}/>
+                        })
+                    }
+                </div>
+                <div className={"custom-file"}>
+                    <form onSubmit={(event)=>uploadFile(event, route)}>
+                        <input id={"fileInput"} type={"file"} className={"form-control-sm"} />
+                        <input type={"submit"} className={"btn-upload"} />
+                    </form>
+                </div>
 
 
             </section>

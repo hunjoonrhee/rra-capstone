@@ -20,24 +20,21 @@ public class RouteService {
     private final RouteRepository routeRepository;
     private final IdService idService;
     private final LocationService locationService;
-    private final PhotoService photoService;
     private MongoTemplate template;
 
     private final RoutesService routesService;
 
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, PhotoService photoService, RoutesService routesService) {
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, RoutesService routesService) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
-        this.photoService = photoService;
         this.routesService = routesService;
     }
     @Autowired
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, PhotoService photoService, MongoTemplate template, RoutesService routesService) {
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template, RoutesService routesService) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
-        this.photoService = photoService;
         this.template = template;
         this.routesService = routesService;
     }
@@ -57,7 +54,6 @@ public class RouteService {
                 .position(new GeoJsonPoint(routeDTO.getStartPosition().getLat(),
                         routeDTO.getStartPosition().getLon()))
                 .build();
-        newRoute.setPhotos(photoService.getAllPhotosByRouteId(newRoute.getId()));
         routeRepository.save(newRoute);
         return newRoute;
     }
