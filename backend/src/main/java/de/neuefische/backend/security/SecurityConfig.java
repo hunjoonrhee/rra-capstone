@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class     SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AppUserDetailService appUserDetailService;
 
     public SecurityConfig(AppUserDetailService appUserDetailService) {
@@ -25,8 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/api/found-routes").authenticated()
+                .antMatchers("/api/found-routes").permitAll()
                 .antMatchers("/api/user/*").permitAll()
+                .antMatchers("/api/photo/**").authenticated()
+                .antMatchers("/api/**").hasRole("ADMIN")
                 .and().httpBasic().and().csrf().disable();
     }
 
