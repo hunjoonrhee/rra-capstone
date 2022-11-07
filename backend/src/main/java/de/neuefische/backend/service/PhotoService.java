@@ -20,7 +20,8 @@ public class PhotoService {
 
     private final PhotoRepository photoRepository;
     private final RouteRepository routeRepository;
-    private final String uploadDirectory = System.getProperty("user.dir")+"/frontend/src/images/uploads";
+//    private final String uploadDirectory = System.getProperty("user.dir")+"/frontend/src/images/uploads";
+    private final String uploadDirectory = "../../../../../../../../../private/tmp/uploads";
 
 
 
