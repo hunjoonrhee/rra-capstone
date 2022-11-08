@@ -16,7 +16,7 @@ export default function RouteCard(props:RouteCardProps){
 
             </div>
             {props.route.hashtags.map((hashtag)=>{
-             return <span className={"hashtag"}>{hashtag}</span>
+             return <span className={"hashtag"} key={hashtag}>{hashtag}</span>
             })}
         </div>
 
