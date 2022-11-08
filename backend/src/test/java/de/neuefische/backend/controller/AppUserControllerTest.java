@@ -21,7 +21,7 @@ class AppUserControllerTest {
     @Test
     void WithoutLogin_ShouldReturn_Unauthorized() throws Exception {
 
-        mockMvc.perform(get("/api/found-routes"))
+        mockMvc.perform(get("/api/photo/11"))
                 .andExpect(status().isUnauthorized());
     }
 
