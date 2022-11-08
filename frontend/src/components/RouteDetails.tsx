@@ -5,7 +5,7 @@ import L, {LatLngExpression} from "leaflet";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import "leaflet/dist/leaflet.css"
 import Dropdown from "react-bootstrap/Dropdown";
-import React, {FormEvent} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
 import PhotoCard from "./PhotoCard";
@@ -16,6 +16,7 @@ type RouteDetailsProps = {
 
 export default function RouteDetails(props:RouteDetailsProps){
 
+    const [imageSelected, setImageSelected] = useState<File>()
     const params = useParams();
     const id = params.id;
 
@@ -60,18 +61,18 @@ export default function RouteDetails(props:RouteDetailsProps){
     })
 
 
-    function uploadFile(event: FormEvent<HTMLFormElement>, route:Route) {
-        const file = event.currentTarget["fileInput"].files
-        console.log("file", file[0].name)
-
+    function uploadImage() {
         const formData = new FormData();
+        const imgName:string|undefined = imageSelected?.name.split(".")[0]
+        formData.append("file", imageSelected!)
+        formData.append("public_id", imgName!);
+        formData.append("upload_preset", "mo1ocdza")
 
-        formData.append("file", file[0]);
-        console.log(formData.get("file"))
-        axios.post(`/api/photo/${route.id}`,formData )
-            .then(()=>toast.success("Your photo is successfully uploaded!"))
-            .then(()=>{setTimeout(()=>{window.location.reload();}, 100)})
-            .catch((err)=>toast.error(err.message))
+        axios.post("https://api.cloudinary.com/v1_1/dckpphdfa/image/upload", formData)
+            .then((response)=>console.log(response))
+        axios.post("/api/photo/add/"+route!.id+"?name="+imgName)
+            .then(()=>toast.success("Your photo uploaded successfully!"))
+            .then(()=>{setTimeout(()=>{window.location.reload();}, 3000)})
     }
 
     return(
@@ -124,15 +125,13 @@ export default function RouteDetails(props:RouteDetailsProps){
                     {
                         route.photos &&
                         route.photos.map((photo)=>{
-                            return <PhotoCard key={photo.photoName} photo={photo}/>
+                            return <PhotoCard key={photo.id} photo={photo}/>
                         })
                     }
                 </div>
                 <div className={"custom-file"}>
-                    <form onSubmit={(event)=>uploadFile(event, route)}>
-                        <input id={"fileInput"} type={"file"} className={"form-control-sm"} />
-                        <input type={"submit"} className={"btn-upload"} />
-                    </form>
+                    <input type={"file"} onChange={(event)=>setImageSelected(event.target.files![0])}/>
+                    <button onClick={uploadImage}>Upload a photo</button>
                 </div>
 
 

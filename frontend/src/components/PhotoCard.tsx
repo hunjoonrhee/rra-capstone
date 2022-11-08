@@ -1,5 +1,9 @@
 import {Photo} from "../model/Photo";
 import "./PhotoCard.css"
+import {Cloudinary} from "@cloudinary/url-gen";
+import {
+    AdvancedImage
+} from "@cloudinary/react";
 
 type PhotoCardProps = {
     photo:Photo;
@@ -7,9 +11,12 @@ type PhotoCardProps = {
 
 export default function PhotoCard (props:PhotoCardProps){
 
+    const cld = new Cloudinary({cloud: {cloudName:"dckpphdfa"}})
+    const myImage = cld.image(props.photo.name)
+    // console.log(myImage)
     return(
         <div className={"photo"}>
-            <img src={require(`../../../../../../../../../private/tmp/uploads/${props.photo.photoName}`)} alt={""}/>
+            <AdvancedImage cldImg={myImage}/>
         </div>
     )
 

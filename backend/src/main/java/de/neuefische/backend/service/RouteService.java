@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -50,6 +51,7 @@ public class RouteService {
                 .startPosition(routeDTO.getStartPosition())
                 .endPosition(routeDTO.getEndPosition())
                 .routes(routesService.getRoutes(routeDTO.getStartPosition(), routeDTO.getEndPosition()))
+                .photos(new ArrayList<>())
                 .imageThumbnail(routeDTO.getImageThumbnail())
                 .position(new GeoJsonPoint(routeDTO.getStartPosition().getLat(),
                         routeDTO.getStartPosition().getLon()))

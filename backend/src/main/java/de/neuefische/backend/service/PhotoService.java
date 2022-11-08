@@ -4,12 +4,8 @@ import de.neuefische.backend.model.Photo;
 import de.neuefische.backend.model.Route;
 import de.neuefische.backend.repository.PhotoRepository;
 import de.neuefische.backend.repository.RouteRepository;
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,12 +26,12 @@ public class PhotoService {
         this.idService = idService;
     }
 
-    public String uploadNewPhoto(String routeId, String name, MultipartFile multipartFile) throws IOException {
+    public String uploadNewPhoto(String routeId, String name) {
 
         Photo newPhoto = Photo.builder()
                 .id(idService.generateId())
                 .name(name)
-                .image(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()))
+//                .image(new Binary(BsonBinarySubType.BINARY, multipartFile.getBytes()))
                 .build();
         photoRepository.save(newPhoto);
 
@@ -65,6 +61,4 @@ public class PhotoService {
         return photos;
     }
 
-//    public String getPhotoForGivenRouteId(String routeId, String photoId) {
-//    }
 }

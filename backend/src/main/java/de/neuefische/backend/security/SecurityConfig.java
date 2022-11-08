@@ -25,10 +25,11 @@ public class     SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/api/found-routes").permitAll()
+                .antMatchers("/api/route/*").permitAll()
+                .antMatchers("/api/found-routes/*").permitAll()
                 .antMatchers("/api/user/*").permitAll()
                 .antMatchers("/api/photo/**").authenticated()
-                .antMatchers("/api/**").hasRole("ADMIN")
+//                .antMatchers("/api/**").hasRole("ADMIN")
                 .and().httpBasic().and().csrf().disable();
     }
 
