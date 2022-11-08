@@ -68,7 +68,6 @@ export default function useMyRoutes(){
     });
 
     function getCurrentLocation(lat:number, lon:number) {
-        console.log(lat, lon)
         axios.get("https://nominatim.openstreetmap.org/reverse?lat="+lat+"&lon="+lon+"&format=json")
             .then((response)=> {return response.data })
             .then((data)=>{setCurrentAddress(data)})
@@ -92,7 +91,7 @@ export default function useMyRoutes(){
     const [filterTag, setFilterTag] = useState("");
     const [allFilter, setAllFilter] = useState (true);
 
-    function handleChange(event:ChangeEvent<HTMLInputElement>) {
+    function handleLocationChange(event:ChangeEvent<HTMLInputElement>) {
         const inputFieldValue = event.target.value;
         setLocation(inputFieldValue);
     }
@@ -111,6 +110,7 @@ export default function useMyRoutes(){
     }
 
 
+
     return {setRequest, foundRoutes, saveFoundRoutes, getCurrentLocation, allFoundRoutes, isClicked, setIsClicked, currentLocation,
-    location, filterTag, setFilterTag, allFilter, setAllFilter, handleChange,currentAddress, routes, setRoutes, getAllRoutes}
+    location, filterTag, setFilterTag, allFilter, setAllFilter, handleLocationChange,currentAddress, routes, setRoutes, getAllRoutes}
 }

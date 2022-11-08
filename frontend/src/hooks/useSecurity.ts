@@ -1,23 +1,44 @@
 import {useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
+import {AppUser} from "../model/AppUser";
 
 export default function useSecurity(){
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [me, setMe] = useState("")
+    const [isLoggedOut, setIsLoggedOut] = useState(false);
 
 
     function handleLogin() {
         axios.get("api/user/login", {auth: {username, password}})
             .then((response)=>{return response.data})
             .then((data)=>setMe(data))
-            .then(()=>toast.success("Logged in!"))
+            .then(()=>toast.success("Hi!👋 You are logged in!"))
             .then(()=>setUsername(""))
             .then(()=>setPassword(""))
             .catch((error)=>toast.error(error.message+ ": Username or password is wrong!"))
     }
 
-    return {me, handleLogin, username, setUsername, password, setPassword}
+    function setUserName(user:string){
+        setUsername(user);
+    }
+    function setUserPassword(password:string){
+        setPassword(password);
+    }
+
+    function register(newUser:AppUser){
+        axios.post("api/user/register", {username:newUser.username, password:newUser.password})
+            .then((response)=>{return response.data})
+            .then(()=>toast.success("Welcome⭐🏃‍♀️🏃‍♂️️⭐Registration succeed!"))
+    }
+    function handleLogout() {
+        axios.get("api/user/logout")
+            .then(()=>setMe(""))
+            .then(()=>setIsLoggedOut(true))
+            .then(()=>toast.success("Good bye 👋 You are logged out."))
+    }
+
+    return {me, handleLogin, username, setUserName, password, setUserPassword, register, handleLogout, isLoggedOut}
 }

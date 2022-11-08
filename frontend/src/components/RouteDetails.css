@@ -1,20 +1,74 @@
-.title-route-detail{
+.detailPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sec-links{
+    position:absolute;
     width: 390px;
-    height: 148px;
+    height: 50px;
+    background-color: #b1e078;
+    background-image: linear-gradient(to bottom left, #ffdd76, #b1e078,#ffdd76);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.div-dropdown{
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.btn-outline-secondary{
+    margin-left:2%;
+}
+
+.mb-3{
+    width: 95%;
+}
+#inputGroupFileAddon03{
+    height: 38px;
+    margin-right:5px;
+    border-color: transparent;
+}
+
+/*.sec-links{*/
+/*    width: 390px;*/
+/*    height: 50px;*/
+/*    */
+/*    display: flex;*/
+/*    align-items: center;*/
+
+
+/*}*/
+.title-route-detail{
+    position:absolute;
+    width: 390px;
+    height: 98px;
+    top:50px;
     background-color: #b1e078;
     background-image: linear-gradient(to bottom right, #ffdd76, #b1e078,#ffdd76);
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+/*.btn-outline-secondary-2{*/
+/*    float:left;*/
+
+/*}*/
+
+.title-border{
     display:flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-
-}
-.title-border{
     border: rgba(1, 25, 147, 0.65) 2px solid;
     border-radius: 10px;
     padding: 2% 4% 2% 4% ;
     color: darkblue;
-    margin-top:10%;
     width: 95%;
 }
 .dropdown-detailpage{
@@ -50,7 +104,7 @@
 
 }
 .div-map{
-    border: rgb(200, 255, 72) 5px solid;
+    /*border: rgb(200, 255, 72) 5px solid;*/
     border-radius: 10%;
     display:flex;
     width: 95%;
@@ -63,16 +117,17 @@
     position:absolute;
     width: 85%;
     height: 35%;
+    border-radius: 12px;
 }
 .div-images{
-    border: rgb(200, 255, 72) 5px solid;
+    /*border: rgb(200, 255, 72) 5px solid;*/
     border-radius: 6%;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     overflow-y:scroll;
     white-space: nowrap;
     max-width: 95%;
-    height: 30%;
+    height: 20%;
     display:flex;
 }
 .div-share{
@@ -90,6 +145,9 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+.custom-file fileInput{
+    display:none;
 }
 .custom-file-find{
     border: 1px solid #282828;

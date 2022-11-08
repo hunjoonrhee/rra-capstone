@@ -2,23 +2,22 @@ import React, {ChangeEvent, useState} from "react";
 import {Link} from "react-router-dom";
 import "./MainPage.css"
 import Dropdown from "react-bootstrap/Dropdown";
+import SignIODropDownMenu from "../components/SignIODropDownMenu";
 
 type MainPageProps={
+    me:string
     saveFoundRoutes:(locationRequest:string)=>void
     setRequest:(locationRequest:string)=>void
+    handleLogout:()=>void
+    location:string
+    handleLocationChange:(event:ChangeEvent<HTMLInputElement>)=>void
 }
 
 export default function MainPage(props:MainPageProps){
 
-    const [location, setLocation] = useState("");
-    function handleChange(event:ChangeEvent<HTMLInputElement>) {
-        const inputFieldValue = event.target.value;
-        setLocation(inputFieldValue);
-    }
-
     const handleLinkClick = () =>{
-        props.setRequest(location);
-        saveFoundRoutes(location);
+        props.setRequest(props.location);
+        saveFoundRoutes(props.location);
     }
 
     function saveFoundRoutes(location:string){
@@ -27,17 +26,8 @@ export default function MainPage(props:MainPageProps){
 
     return(
         <div className={"mainpage"}>
-            <div className={"dropdown"}>
-                <Dropdown>
-                    <Dropdown.Toggle className={"btn-primary-main"} variant="primary" id="login-mainpage">
-                        <i className="fa fa-bars"></i>
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        <Dropdown.Item href="#/sign-in">Sign in</Dropdown.Item>
-                        <Dropdown.Item href="#/sign-up">Sign up</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+            <div className={"div-dropdown"}>
+                <SignIODropDownMenu me={props.me} handleLogout={props.handleLogout}/>
             </div>
             <section className={"sec-title"}>
                 <h2 id={"title"}>Running Route Advisor</h2>
@@ -47,10 +37,10 @@ export default function MainPage(props:MainPageProps){
                     <form>
                         <label className={"form-input"}>
                             <input type="text" className="form-control" placeholder="Where do you want to run?" name = "location"
-                                   aria-label="Recipient's username" aria-describedby="button-addon2" value={location}
-                                   onChange={handleChange}/>
+                                   aria-label="Recipient's username" aria-describedby="button-addon2" value={props.location}
+                                   onChange={props.handleLocationChange}/>
                         </label>
-                        <Link onClick={handleLinkClick} to={`/routes/${location}`}>
+                        <Link onClick={handleLinkClick} to={`/routes/${props.location}`}>
                             <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
                         </Link>
                     </form>

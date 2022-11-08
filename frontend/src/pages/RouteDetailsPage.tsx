@@ -1,15 +1,21 @@
 import RouteDetails from "../components/RouteDetails";
 import "./RouteDetailsPage.css"
 import useMyRoutes from "../hooks/useMyRoutes";
+import {Route} from "../model/Route";
 
+type RouteDetailsPageProps={
+    me:string
+    routes:Route[];
+    handleLogout:()=>void
+    location:string
+}
 
-export default function RouteDetailsPage(){
-    const {routes} = useMyRoutes();
+export default function RouteDetailsPage(props:RouteDetailsPageProps){
 
 
     return (
-        <div className={"detail-page"}>
-            <RouteDetails routes={routes}/>
+        <div>
+            <RouteDetails me={props.me} routes={props.routes} handleLogout={props.handleLogout} location={props.location}/>
         </div>
     )
 }

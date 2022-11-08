@@ -1,5 +1,5 @@
 import {Route} from "../model/Route";
-import {useParams} from "react-router-dom";
+import {Link, Router, useNavigate, useParams} from "react-router-dom";
 import "./RouteDetails.css"
 import L, {LatLngExpression} from "leaflet";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
@@ -9,12 +9,18 @@ import React, {useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
 import PhotoCard from "./PhotoCard";
+import SignIODropDownMenu from "./SignIODropDownMenu";
 
 type RouteDetailsProps = {
+    me:string
     routes:Route[];
+    handleLogout:()=>void
+    location:string
 }
 
 export default function RouteDetails(props:RouteDetailsProps){
+
+    const navigate = useNavigate();
 
     const [imageSelected, setImageSelected] = useState<File>()
     const params = useParams();
@@ -75,18 +81,14 @@ export default function RouteDetails(props:RouteDetailsProps){
             .then(()=>{setTimeout(()=>{window.location.reload();}, 3000)})
     }
 
+
     return(
-        <div>
-            <div className={"dropdown-detailpage"}>
-                <Dropdown>
-                    <Dropdown.Toggle className={"btn-primary-detailpage"} variant="primary" id="login-routespage">
-                        <i className="fa fa-bars"></i>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Dropdown.Item href="#/sign-in">Sign in</Dropdown.Item>
-                        <Dropdown.Item href="#/sign-up">Sign up</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+        <div className={"detailPage"}>
+            <div className={"div-dropdown"}>
+                <button className="btn btn-outline-secondary"
+                onClick={()=>navigate(-1)}><i className="bi bi-caret-left-fill"></i> Back</button>
+                <SignIODropDownMenu me={props.me} handleLogout={props.handleLogout}/>
+
             </div>
             <section className={"title-route-detail"}>
                 <div className={"title-border"}>
@@ -129,10 +131,30 @@ export default function RouteDetails(props:RouteDetailsProps){
                         })
                     }
                 </div>
-                <div className={"custom-file"}>
-                    <input type={"file"} onChange={(event)=>setImageSelected(event.target.files![0])}/>
-                    <button onClick={uploadImage}>Upload a photo</button>
+
+
+
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <button className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon03"
+                                onClick={uploadImage}>Upload
+                        </button>
+                    </div>
+                    <div className="custom-file">
+                        <input type="file" className="custom-file-input" id="inputGroupFile03"
+                               aria-describedby="inputGroupFileAddon03"
+                               onChange={(event)=>setImageSelected(event.target.files![0])}/>
+
+                        <label className="custom-file-label" htmlFor="inputGroupFile03">Choose file</label>
+                    </div>
                 </div>
+
+                {/*s*/}
+                {/*<div className={"custom-file"}>*/}
+                {/*    <input className={"fileInput"} type={"file"}*/}
+                {/*           onChange={(event)=>setImageSelected(event.target.files![0])}/>*/}
+                {/*    <button onClick={uploadImage}>Upload a photo</button>*/}
+                {/*</div>*/}
 
 
             </section>
