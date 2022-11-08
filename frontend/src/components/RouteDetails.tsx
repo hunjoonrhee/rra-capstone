@@ -1,10 +1,9 @@
 import {Route} from "../model/Route";
-import {Link, Router, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import "./RouteDetails.css"
 import L, {LatLngExpression} from "leaflet";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import "leaflet/dist/leaflet.css"
-import Dropdown from "react-bootstrap/Dropdown";
 import React, {useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
@@ -68,17 +67,31 @@ export default function RouteDetails(props:RouteDetailsProps){
 
 
     function uploadImage() {
-        const formData = new FormData();
-        const imgName:string|undefined = imageSelected?.name.split(".")[0]
-        formData.append("file", imageSelected!)
-        formData.append("public_id", imgName!);
-        formData.append("upload_preset", "mo1ocdza")
+        if(props.me !==""){
+            const formData = new FormData();
+            const imgName:string|undefined = imageSelected?.name.split(".")[0]
+            formData.append("file", imageSelected!)
+            formData.append("public_id", imgName!);
+            formData.append("upload_preset", "mo1ocdza")
 
-        axios.post("https://api.cloudinary.com/v1_1/dckpphdfa/image/upload", formData)
-            .then((response)=>console.log(response))
-        axios.post("/api/photo/add/"+route!.id+"?name="+imgName)
-            .then(()=>toast.success("Your photo uploaded successfully!"))
-            .then(()=>{setTimeout(()=>{window.location.reload();}, 3000)})
+            axios.post("https://api.cloudinary.com/v1_1/dckpphdfa/image/upload", formData)
+                .then((response)=>console.log(response))
+            axios.post("/api/photo/add/"+route!.id+"?name="+imgName)
+                .then(()=>toast.success("Your photo uploaded successfully!"))
+                .then(()=>{setTimeout(()=>{window.location.reload();}, 3000)})
+        }else{
+            toast('🦄 You have to log in for uploading photos!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+
     }
 
 
@@ -148,14 +161,6 @@ export default function RouteDetails(props:RouteDetailsProps){
                         <label className="custom-file-label" htmlFor="inputGroupFile03">Choose file</label>
                     </div>
                 </div>
-
-                {/*s*/}
-                {/*<div className={"custom-file"}>*/}
-                {/*    <input className={"fileInput"} type={"file"}*/}
-                {/*           onChange={(event)=>setImageSelected(event.target.files![0])}/>*/}
-                {/*    <button onClick={uploadImage}>Upload a photo</button>*/}
-                {/*</div>*/}
-
 
             </section>
         </div>
