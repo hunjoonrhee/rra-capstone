@@ -16,12 +16,7 @@ export default function useSecurity(){
             .then(()=>toast.success("Logged in!"))
             .then(()=>setUsername(""))
             .then(()=>setPassword(""))
-            .catch((error)=>toast.error("Username or password is wrong!"))
-    }
-
-    function handleLogout() {
-        axios.get("api/user/logout")
-            .then(()=>setMe(""))
+            .catch((error)=>toast.error(error.message+ ": Username or password is wrong!"))
     }
 
     return {me, handleLogin, username, setUsername, password, setPassword}
