@@ -14,6 +14,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("photos")
 public class Photo {
     @Id
-    private String photoName;
-    private String routeId;
+    private String id;
+    private String name;
 }

@@ -1,35 +1,25 @@
 import {Link} from "react-router-dom";
-import React, {useState} from "react";
-import axios from "axios";
-import {toast} from "react-toastify";
+import React from "react";
 
-export default function SignIn(){
+import useSecurity from "../hooks/useSecurity";
 
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [me, setMe] = useState("")
+type SignInProps = {
+    me:string
+    handleLogin: ()=> void
+    setUsername: ()=> void
+}
 
 
-    function handleLogin() {
-        axios.get("api/user/login", {auth: {username, password}})
-            .then((response)=>{return response.data})
-            .then((data)=>setMe(data))
-            .then(()=>toast.success("Logged in!"))
-            .then(()=>setUsername(""))
-            .then(()=>setPassword(""))
-            .catch((error)=>toast.error("Username or password is wrong!"))
-    }
+export default function SignIn(props:SignInProps){
 
-    function handleLogout() {
-        axios.get("api/user/logout")
-            .then(()=>setMe(""))
-    }
+
+    const {me, handleLogin, setUsername, setPassword} = useSecurity()
 
     return(
         <>
             {
-                !me ?
+                !me &&
                     <div className={"form-login"}>
                         <form onSubmit={handleLogin}>
                             <div className="form-group">
@@ -55,14 +45,7 @@ export default function SignIn(){
                         </Link>
 
                     </div>
-                    :
-                    <>
-                        <p>Logged in as: {me}</p>
-                        <Link to={"/"}>
-                            <button>go to main</button>
-                        </Link>
-                        <button onClick={handleLogout}>Logout</button>
-                    </>
+
             }
 
         </>

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,6 +60,7 @@ class RouteServiceTest {
                 .startPosition(routeDTO.getStartPosition())
                 .endPosition(routeDTO.getEndPosition())
                 .routes(null)
+                .photos(new ArrayList<>())
                 .position(new GeoJsonPoint(2.2, 1.1))
                 .build();
         assertEquals(expected, actual);

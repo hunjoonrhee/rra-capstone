@@ -92,7 +92,7 @@ export default function RoutesPage(props:RoutesPageProps){
                     </div>
                 </section>
                 <div className={"hashtag-band"}>
-                    {hashtags.map((hashtag)=> <button className={"btn-hashtag"} onClick={()=>onClickHashtag(hashtag)}> {hashtag}</button>)}
+                    {hashtags.map((hashtag)=> <button className={"btn-hashtag"} onClick={()=>onClickHashtag(hashtag)} key={hashtag}> {hashtag}</button>)}
                 </div>
                     <RoutesOverview key={allFoundRoutes.at(0)} allFoundRoutes={allFoundRoutes} filterTag={filterTag} allFilter={allFilter}/>
                 {/*Todo: Ausfüllen Blabla*/}
