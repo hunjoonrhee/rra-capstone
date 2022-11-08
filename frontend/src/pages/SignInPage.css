@@ -3,8 +3,8 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    width: 390px;
-    height: 586px;
+    width:100%;
+    height: 100vh;
     background-image: url("https://i.pinimg.com/originals/bc/2c/97/bc2c97eb4bbe0df9f4d3566deb1b7869.jpg");
 
     /*https://wallpaperset.com/w/full/4/0/4/336076.jpg*/
@@ -13,7 +13,7 @@
 }
 
 #btn-sign{
-    width: 70px;
+    width: 40%;
     height: 35px;
     background-color: #a878e0;
     background-image: linear-gradient(to top right, white, #ff7542);
@@ -24,4 +24,12 @@
 }
 #btn-sign:hover{
     background-color: #ff7542;
+}
+.div-dropdown-signIn{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 2%;
+
 }

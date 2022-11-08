@@ -9,6 +9,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import PhotoCard from "./PhotoCard";
 import SignIODropDownMenu from "./SignIODropDownMenu";
+import 'react-comments-section/dist/index.css'
 
 type RouteDetailsProps = {
     me:string
@@ -65,7 +66,6 @@ export default function RouteDetails(props:RouteDetailsProps){
         iconSize: [20,20]
     })
 
-
     function uploadImage() {
         if(props.me !==""){
             const formData = new FormData();
@@ -98,7 +98,7 @@ export default function RouteDetails(props:RouteDetailsProps){
     return(
         <div className={"detailPage"}>
             <div className={"div-dropdown"}>
-                <button className="btn btn-outline-secondary"
+                <button className="btn btn-outline-secondary-rd"
                 onClick={()=>navigate(-1)}><i className="bi bi-caret-left-fill"></i> Back</button>
                 <SignIODropDownMenu me={props.me} handleLogout={props.handleLogout}/>
 
@@ -135,8 +135,12 @@ export default function RouteDetails(props:RouteDetailsProps){
                 <div className={"div-share"}>
 
                 </div>
+                <div className={"photos-share"}>
+                    <p className={"text-photos-share"}>Share some photos for this route!</p>
+                </div>
 
                 <div className={"div-images"}>
+
                     {
                         route.photos &&
                         route.photos.map((photo)=>{
@@ -161,6 +165,9 @@ export default function RouteDetails(props:RouteDetailsProps){
                         <label className="custom-file-label" htmlFor="inputGroupFile03">Choose file</label>
                     </div>
                 </div>
+
+            </section>
+            <section className={"sec-comments"}>
 
             </section>
         </div>

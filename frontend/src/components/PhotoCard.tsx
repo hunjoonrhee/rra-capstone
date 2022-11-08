@@ -15,9 +15,12 @@ export default function PhotoCard (props:PhotoCardProps){
     const myImage = cld.image(props.photo.name)
     // console.log(myImage)
     return(
+
+
         <div className={"photo"}>
             <AdvancedImage cldImg={myImage}/>
         </div>
+
     )
 
 }
