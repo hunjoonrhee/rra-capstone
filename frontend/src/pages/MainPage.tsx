@@ -1,7 +1,6 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {Link} from "react-router-dom";
 import "./MainPage.css"
-import Dropdown from "react-bootstrap/Dropdown";
 import SignIODropDownMenu from "../components/SignIODropDownMenu";
 
 type MainPageProps={
@@ -26,7 +25,7 @@ export default function MainPage(props:MainPageProps){
 
     return(
         <div className={"mainpage"}>
-            <div className={"div-dropdown"}>
+            <div className={"div-dropdown-main"}>
                 <SignIODropDownMenu me={props.me} handleLogout={props.handleLogout}/>
             </div>
             <section className={"sec-title"}>
@@ -34,16 +33,14 @@ export default function MainPage(props:MainPageProps){
             </section>
             <section className={"sec-search"}>
                 <div className={"form-searchField"}>
-                    <form>
-                        <label className={"form-input"}>
-                            <input type="text" className="form-control" placeholder="Where do you want to run?" name = "location"
-                                   aria-label="Recipient's username" aria-describedby="button-addon2" value={props.location}
-                                   onChange={props.handleLocationChange}/>
-                        </label>
-                        <Link onClick={handleLinkClick} to={`/routes/${props.location}`}>
-                            <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
-                        </Link>
-                    </form>
+                    <label className={"form-input"}>
+                        <input type="text" className="form-control" placeholder="Where do you want to run?" name = "location"
+                               aria-label="Recipient's username" aria-describedby="button-addon2" value={props.location}
+                               onChange={props.handleLocationChange}/>
+                    </label>
+                    <Link onClick={handleLinkClick} to={`/routes/${props.location}`}>
+                        <button className="btn btn-outline-secondary-main" type="submit" id="button-addon2">Search</button>
+                    </Link>
                 </div>
             </section>
         </div>
