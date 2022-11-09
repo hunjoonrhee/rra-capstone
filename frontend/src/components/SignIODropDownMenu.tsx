@@ -1,6 +1,5 @@
 import Dropdown from "react-bootstrap/Dropdown";
-import React, {useState} from "react";
-import {Link} from "react-router-dom";
+import React from "react";
 import "./SignIODropDownMenu.css"
 
 type SignIODropDownMenuProps = {

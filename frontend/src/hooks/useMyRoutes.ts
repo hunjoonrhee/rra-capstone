@@ -112,5 +112,5 @@ export default function useMyRoutes(){
 
 
     return {setRequest, foundRoutes, saveFoundRoutes, getCurrentLocation, allFoundRoutes, isClicked, setIsClicked, currentLocation,
-    location, filterTag, setFilterTag, allFilter, setAllFilter, handleLocationChange,currentAddress, routes, setRoutes, getAllRoutes}
+    location, filterTag, setFilterTag, allFilter, setAllFilter, handleLocationChange,currentAddress, routes, setRoutes}
 }
