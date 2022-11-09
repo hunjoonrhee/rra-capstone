@@ -1,0 +1,30 @@
+.modal-body{
+    color:snow;
+    margin: 0 0 0 0;
+    width: 100%;
+    height: 100%;
+    display:flex;
+    justify-content: center;
+}
+.btn-save{
+    margin-left:10px
+    /*height: 36px*/
+}
+.modal-content{
+    background-color: #0d0f44;
+    color: snow;
+    width:100%;
+    height: 600px;
+}
+modal-header{
+    color:snow;
+    height:10px;
+}
+.div-map-modal{
+    border-radius: 10%;
+    display:flex;
+
+    width: 95%;
+    justify-content: center;
+    align-content: center;
+}
