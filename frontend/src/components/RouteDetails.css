@@ -9,7 +9,7 @@
 }
 
 .div-dropdown{
-    width: 100%;
+    width: 90%;
     display:flex;
     flex-direction: row;
     justify-content: space-between;
@@ -30,7 +30,7 @@
 
 .title-route-detail{
     position:absolute;
-    width: 100%;
+    width: 90%;
     height: 12%;
     top:6%;
     /*background-color: #b1e078;*/
@@ -67,10 +67,8 @@
 .sec-route-detail{
     position:absolute;
     top:17%;
-    width: 100%;
+    width: 90%;
     height: 70%;
-    /*background-color: #b1e078;*/
-    /*background-image: linear-gradient(to bottom right, #b1e078, #ffdd76, #b1e078);*/
     text-align: center;
     display:flex;
     flex-direction: column;
@@ -157,7 +155,7 @@
 .sec-comments{
     position:absolute;
     top:86%;
-    width:100%;
+    width:90%;
     /*background-color: #b1e078;*/
     /*background-image: linear-gradient(to bottom right, #b1e078, #ffdd76, #b1e078);*/
 }

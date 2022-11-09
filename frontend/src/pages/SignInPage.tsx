@@ -2,7 +2,7 @@ import React from "react";
 import "./SignInPage.css"
 import SignIn from "../components/SignIn";
 import 'react-toastify/dist/ReactToastify.css';
-import SignIODropDownMenu from "../components/SignIODropDownMenu";
+import DropDownMenu from "../components/DropDownMenu";
 import {useNavigate} from "react-router-dom";
 
 type SignInPageProps = {
@@ -22,7 +22,7 @@ export default function SignInPage(props:SignInPageProps){
             <div className={"div-dropdown-signIn"}>
                 <button className="btn btn-outline-secondary-rd"
                         onClick={()=>navigate(-1)}><i className="bi bi-caret-left-fill"></i> Back</button>
-                <SignIODropDownMenu me={props.me} handleLogout={props.handleLogout}/>
+                <DropDownMenu me={props.me} handleLogout={props.handleLogout}/>
             </div>
 
             <section className={"sec-title"}>

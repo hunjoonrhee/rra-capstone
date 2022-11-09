@@ -1,13 +1,13 @@
 import Dropdown from "react-bootstrap/Dropdown";
 import React from "react";
-import "./SignIODropDownMenu.css"
+import "./DropDownMenu.css"
 
-type SignIODropDownMenuProps = {
+type DropDownMenuProps = {
     me:string
     handleLogout:()=>void
 }
 
-export default function SignIODropDownMenu(props:SignIODropDownMenuProps){
+export default function DropDownMenu(props:DropDownMenuProps){
 
     return (
         <div className={"dropdown"}>
@@ -32,6 +32,7 @@ export default function SignIODropDownMenu(props:SignIODropDownMenuProps){
                         <Dropdown.Menu>
                             <Dropdown.Item href="#/sign-in">Signed in as {props.me.split("@")[0]}</Dropdown.Item>
                             <Dropdown.Item href="#/" onClick={props.handleLogout}>Sign out</Dropdown.Item>
+                            <Dropdown.Item><i className="bi bi-link"></i> Share this page!</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
 

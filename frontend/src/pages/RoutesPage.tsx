@@ -3,7 +3,7 @@ import React from "react";
 import "./RoutePage.css"
 import RoutesOverview from "../components/RoutesOverview";
 import useMyRoutes from "../hooks/useMyRoutes";
-import SignIODropDownMenu from "../components/SignIODropDownMenu";
+import DropDownMenu from "../components/DropDownMenu";
 
 type RoutesPageProps={
     me:string
@@ -57,7 +57,7 @@ export default function RoutesPage(props:RoutesPageProps){
 
         <div className={"routesPage"}>
             <div className={"div-dropdown-1"}>
-                <SignIODropDownMenu me={props.me} handleLogout={props.handleLogout}/>
+                <DropDownMenu me={props.me} handleLogout={props.handleLogout}/>
             </div>
             <section className={"sec-search-2"}>
                 {/*<form className={"form-searchField-2"}>*/}

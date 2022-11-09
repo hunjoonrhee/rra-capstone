@@ -8,7 +8,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
 import PhotoCard from "./PhotoCard";
-import SignIODropDownMenu from "./SignIODropDownMenu";
+import DropDownMenu from "./DropDownMenu";
 import 'react-comments-section/dist/index.css'
 
 type RouteDetailsProps = {
@@ -54,9 +54,9 @@ export default function RouteDetails(props:RouteDetailsProps){
         return null;
     }
     const locationStart:LatLngExpression =
-        [Number(route!.startPosition.lat), Number(route!.startPosition.lon)];
+        [Number(route.startPosition.lat), Number(route.startPosition.lon)];
     const locationEnd:LatLngExpression =
-        [Number(route!.endPosition.lat), Number(route!.endPosition.lon)];
+        [Number(route.endPosition.lat), Number(route.endPosition.lon)];
     const iconEnd = L.icon({
         iconUrl:"./placeholder.png",
         iconSize: [15,15]
@@ -100,7 +100,7 @@ export default function RouteDetails(props:RouteDetailsProps){
             <div className={"div-dropdown"}>
                 <button className="btn btn-outline-secondary-rd"
                 onClick={()=>navigate(-1)}><i className="bi bi-caret-left-fill"></i> Back</button>
-                <SignIODropDownMenu me={props.me} handleLogout={props.handleLogout}/>
+                <DropDownMenu me={props.me} handleLogout={props.handleLogout}/>
 
             </div>
             <section className={"title-route-detail"}>
