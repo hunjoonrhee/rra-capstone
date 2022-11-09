@@ -17,10 +17,9 @@
     justify-content: space-evenly;
     align-items: center;
     width:100%;
-    height: 100vh;
-    background-image: url("https://i.pinimg.com/originals/bc/2c/97/bc2c97eb4bbe0df9f4d3566deb1b7869.jpg");
-
-    /*https://wallpaperset.com/w/full/4/0/4/336076.jpg*/
+    height: 70vh;
+    background-color: #a878e0;
+    background-image: linear-gradient(to top right, #a878e0, #ff923c);
+    opacity: 90%;
     background-size: cover;
-    /*background-color: #FF8562;*/
 }

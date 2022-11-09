@@ -3,7 +3,7 @@ import "./SignInPage.css"
 import "./SignUpPage.css"
 import SignUp from "../components/SignUp";
 import {AppUser} from "../model/AppUser";
-import SignIODropDownMenu from "../components/SignIODropDownMenu";
+import DropDownMenu from "../components/DropDownMenu";
 import {useNavigate} from "react-router-dom";
 
 type SignUpPageProps = {
@@ -22,7 +22,7 @@ export default function SignUpPage(props:SignUpPageProps){
             <div className={"div-dropdown-signUp"}>
                 <button className="btn btn-outline-secondary-rd"
                         onClick={()=>navigate(-1)}><i className="bi bi-caret-left-fill"></i> Back</button>
-                <SignIODropDownMenu me={props.me} handleLogout={props.handleLogout}/>
+                <DropDownMenu me={props.me} handleLogout={props.handleLogout}/>
             </div>
             <section className={"sec-title"}>
                 <h2 id={"title"}>Running Route Advisor</h2>

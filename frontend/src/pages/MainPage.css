@@ -2,13 +2,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("https://www.freevector.com/uploads/vector/preview/25131/Free_Sprint_Vector.png");
+    background-position-y: 95px;
+    background-repeat: no-repeat;
 }
 
 .sec-title{
-    width: 390px;
-    height: 258px;
-    background-image: url("https://www.freevector.com/uploads/vector/preview/25131/Free_Sprint_Vector.png");
-    background-size:cover;
+    width: 100%;
 }
 #title{
     text-align: center;
@@ -16,13 +18,13 @@
     font-family: monospace;
     font-weight: bold;
     font-size: 35px;
+    font-style: italic;
 }
 
 .sec-search{
+    position:absolute;
+    top:44%;
     width:100%;
-    height: 100vh;
-    background-image: url("https://i.pinimg.com/originals/bc/2c/97/bc2c97eb4bbe0df9f4d3566deb1b7869.jpg");
-    background-size: cover;
 }
 
 .form-searchField{
@@ -37,8 +39,6 @@
     height:32px;
 }
 .form-input{
-    /*margin-top: 10%;*/
-    /*margin-right:5%;*/
     width: 260px;
 
 }
@@ -58,7 +58,6 @@
     border-color: darkblue;
     color: darkblue;
     transition-duration: 0.4s;
-    /*font-size: 12px;*/
     height: 32px;
     margin-right:5%;
     display: grid;

@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from "react";
 import {Link} from "react-router-dom";
 import "./MainPage.css"
-import SignIODropDownMenu from "../components/SignIODropDownMenu";
+import DropDownMenu from "../components/DropDownMenu";
 
 type MainPageProps={
     me:string
@@ -26,7 +26,7 @@ export default function MainPage(props:MainPageProps){
     return(
         <div className={"mainpage"}>
             <div className={"div-dropdown-main"}>
-                <SignIODropDownMenu me={props.me} handleLogout={props.handleLogout}/>
+                <DropDownMenu me={props.me} handleLogout={props.handleLogout}/>
             </div>
             <section className={"sec-title"}>
                 <h2 id={"title"}>Running Route Advisor</h2>
