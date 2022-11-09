@@ -1,6 +1,5 @@
 import RouteDetails from "../components/RouteDetails";
 import "./RouteDetailsPage.css"
-import useMyRoutes from "../hooks/useMyRoutes";
 import {Route} from "../model/Route";
 
 type RouteDetailsPageProps={
