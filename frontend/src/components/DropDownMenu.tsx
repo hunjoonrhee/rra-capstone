@@ -30,7 +30,7 @@ export default function DropDownMenu(props:DropDownMenuProps){
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item href="#/sign-in">Signed in as {props.me.split("@")[0]}</Dropdown.Item>
+                            <Dropdown.Item href="#/sign-in">Signed in as {props.me}</Dropdown.Item>
                             <Dropdown.Item href="#/" onClick={props.handleLogout}>Sign out</Dropdown.Item>
                             <Dropdown.Item><i className="bi bi-link"></i> Share this page!</Dropdown.Item>
                         </Dropdown.Menu>

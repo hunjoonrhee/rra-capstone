@@ -23,10 +23,12 @@ public class Route {
     private String[] hashtags;
     private String imageThumbnail;
     private StartPosition startPosition;
+    private List<Position> betweenPositions = new ArrayList<>();
     private EndPosition endPosition;
     private List<Routes> routes;
     private List<Photo> photos = new ArrayList<>();
     private GeoJsonPoint position;
+    private String createdBy;
 
     public Route(String id, String routeName, String[] hashtags,
                  String imageThumbnail, double x, double y) {

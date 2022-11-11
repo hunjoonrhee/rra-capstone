@@ -33,9 +33,9 @@ class RouteServiceTest {
         hashtags[0] = "tree";
         StartPosition startPosition = new StartPosition(2.2, 1.1);
         EndPosition endPosition = new EndPosition(2.3, 1.12);
-        RouteDTO routeDTO = new RouteDTO("routeName", hashtags, "imageThumbnail", startPosition, endPosition);
+        RouteDTO routeDTO = new RouteDTO("routeName", hashtags, "imageThumbnail", startPosition, new ArrayList<>(), endPosition, "user1");
         when(idService.generateId()).thenReturn("1");
-        when(routesService.getRoutes(any(), any())).thenReturn(null);
+        when(routesService.getRoutes(any(),any(), any())).thenReturn(null);
         when(routeRepository.save(any())).thenReturn(
                 Route.builder()
                         .id("1")
@@ -43,9 +43,11 @@ class RouteServiceTest {
                         .hashtags(routeDTO.getHashtags())
                         .imageThumbnail(routeDTO.getImageThumbnail())
                         .startPosition(routeDTO.getStartPosition())
+                        .betweenPositions(routeDTO.getBetweenPositions())
                         .endPosition(routeDTO.getEndPosition())
                         .routes(null)
                         .position(new GeoJsonPoint(2.2, 1.1))
+                        .createdBy(routeDTO.getCreatedBy())
                         .build()
         );
         // WHEN
@@ -58,10 +60,12 @@ class RouteServiceTest {
                 .hashtags(routeDTO.getHashtags())
                 .imageThumbnail(routeDTO.getImageThumbnail())
                 .startPosition(routeDTO.getStartPosition())
+                .betweenPositions(routeDTO.getBetweenPositions())
                 .endPosition(routeDTO.getEndPosition())
                 .routes(null)
                 .photos(new ArrayList<>())
                 .position(new GeoJsonPoint(2.2, 1.1))
+                .createdBy(routeDTO.getCreatedBy())
                 .build();
         assertEquals(expected, actual);
     }
@@ -75,7 +79,7 @@ class RouteServiceTest {
         EndPosition endPosition = new EndPosition(2.3, 1.12);
 
         Route dummyRoute = new Route("1", "routeName", hashtags, "imageThumbnail", startPosition,
-                endPosition, null, null, new GeoJsonPoint(2.2, 1.1));
+                new ArrayList<>(),endPosition, null, null, new GeoJsonPoint(2.2, 1.1), "user1");
 
         when(routeRepository.findAll()).thenReturn(List.of(dummyRoute));
 

@@ -49,12 +49,14 @@ public class RouteService {
                 .routeName(routeDTO.getRouteName())
                 .hashtags(routeDTO.getHashtags())
                 .startPosition(routeDTO.getStartPosition())
+                .betweenPositions(routeDTO.getBetweenPositions())
                 .endPosition(routeDTO.getEndPosition())
-                .routes(routesService.getRoutes(routeDTO.getStartPosition(), routeDTO.getEndPosition()))
+                .routes(routesService.getRoutes(routeDTO.getStartPosition(), routeDTO.getBetweenPositions(), routeDTO.getEndPosition()))
                 .photos(new ArrayList<>())
                 .imageThumbnail(routeDTO.getImageThumbnail())
                 .position(new GeoJsonPoint(routeDTO.getStartPosition().getLat(),
                         routeDTO.getStartPosition().getLon()))
+                .createdBy(routeDTO.getCreatedBy())
                 .build();
         routeRepository.save(newRoute);
         return newRoute;
@@ -74,5 +76,9 @@ public class RouteService {
 
     public List<Route> getAllRoutesInRepo() {
         return routeRepository.findAll();
+    }
+
+    public void deleteRouteById(String id) {
+        routeRepository.deleteById(id);
     }
 }

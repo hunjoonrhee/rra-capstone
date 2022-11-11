@@ -28,10 +28,10 @@ export default function MainPage(props:MainPageProps){
             <div className={"div-dropdown-main"}>
                 <DropDownMenu me={props.me} handleLogout={props.handleLogout}/>
             </div>
-            <section className={"sec-title"}>
+            {/*<section className={"sec-title"}>*/}
                 <h2 id={"title"}>Running Route Advisor</h2>
-            </section>
-            <section className={"sec-search"}>
+            {/*</section>*/}
+            {/*<section className={"sec-search"}>*/}
                 <div className={"form-searchField"}>
                     <label className={"form-input"}>
                         <input type="text" className="form-control" placeholder="Where do you want to run?" name = "location"
@@ -42,7 +42,7 @@ export default function MainPage(props:MainPageProps){
                         <button className="btn btn-outline-secondary-main" type="submit" id="button-addon2">Search</button>
                     </Link>
                 </div>
-            </section>
+            {/*</section>*/}
         </div>
     )
 }

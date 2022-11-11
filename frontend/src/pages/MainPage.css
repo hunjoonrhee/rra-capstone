@@ -2,19 +2,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     width: 100vw;
     height: 100vh;
     background-image: url("https://www.freevector.com/uploads/vector/preview/25131/Free_Sprint_Vector.png");
-    background-position-y: 95px;
+    background-position-y: 140px;
     background-repeat: no-repeat;
+    background-position:center;
 }
 
-.sec-title{
-    width: 100%;
-}
 #title{
     text-align: center;
-    margin-top: 35%;
+    margin-top: 50%;
     font-family: monospace;
     font-weight: bold;
     font-size: 35px;
@@ -28,6 +27,9 @@
 }
 
 .form-searchField{
+    width:100%;
+    position:absolute;
+    top:500px;
     align-content: center;
     display:flex;
     flex-direction: row;

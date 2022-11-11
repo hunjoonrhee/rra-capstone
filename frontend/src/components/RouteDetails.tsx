@@ -9,7 +9,6 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import PhotoCard from "./PhotoCard";
 import DropDownMenu from "./DropDownMenu";
-import 'react-comments-section/dist/index.css'
 
 type RouteDetailsProps = {
     me:string
@@ -116,7 +115,7 @@ export default function RouteDetails(props:RouteDetailsProps){
                             url="https://api.maptiler.com/maps/openstreetmap/256/{z}/{x}/{y}.jpg?key=Kbj8H7YVAHDxxoLRTnz3"
                         />
                         <MakeRoute id={route.id} routes={route.routes} routeName={route.routeName} imageThumbnail={route.imageThumbnail}
-                                   hashtags={route.hashtags} startPosition={route.startPosition} endPosition={route.endPosition} photos={route.photos}/>
+                                   hashtags={route.hashtags} startPosition={route.startPosition} betweenPositions={route.betweenPositions} endPosition={route.endPosition} photos={route.photos} createdBy={route.createdBy}/>
                         <Marker position={locationStart} icon={iconStart}>
                             <Popup>
                                 You can start here!
