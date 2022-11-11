@@ -65,6 +65,7 @@ class RouteServiceTest {
                 .routes(null)
                 .photos(new ArrayList<>())
                 .position(new GeoJsonPoint(2.2, 1.1))
+                .createdBy(routeDTO.getCreatedBy())
                 .build();
         assertEquals(expected, actual);
     }
