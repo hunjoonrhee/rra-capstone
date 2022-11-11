@@ -33,6 +33,11 @@ public class RouteController {
         return routeService.findByRoutesNear(address);
     }
 
+    @DeleteMapping("{id}")
+    public void deleteRouteById(@PathVariable String id){
+        routeService.deleteRouteById(id);
+    }
+
 }
 
 

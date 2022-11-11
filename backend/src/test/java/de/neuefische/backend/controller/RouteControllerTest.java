@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -46,8 +47,6 @@ class RouteControllerTest {
     private LocationService locationService;
     @MockBean
     private RoutesService routesService;
-    @MockBean
-    private PhotoService photoService;
 
 
 
@@ -127,7 +126,7 @@ class RouteControllerTest {
         // GIVEN
         when(idService.generateId()).thenReturn("1");
         when(geoJsonPointService.createGeoJsonPoint(anyDouble(), anyDouble())).thenReturn(new GeoJsonPoint(49.4543507, 11.0873597));
-        when(routesService.getRoutes(any(), any())).thenReturn(null);
+        when(routesService.getRoutes(any(), any(), any())).thenReturn(null);
         String requestBody = """
                         {
                           "routeName": "Jogging by Wöhrder See",
@@ -140,10 +139,21 @@ class RouteControllerTest {
                             "lat": 49.4543507,
                             "lon": 11.0873597
                           },
-                          "endPosition": {
+                          "betweenPositions":[
+                            {
+                            "lat": 49.4543507,
+                            "lon": 11.0873597
+                          },
+                          {
                             "lat": 49.4543507,
                             "lon": 11.0873597
                           }
+                          ],
+                          "endPosition": {
+                            "lat": 49.4543507,
+                            "lon": 11.0873597
+                          },
+                          "createdBy":"user1"
                         }
                 """;
 
@@ -160,6 +170,16 @@ class RouteControllerTest {
                                 "lat": 49.4543507,
                                 "lon": 11.0873597
                             },
+                            "betweenPositions":[
+                                {
+                                "lat": 49.4543507,
+                                "lon": 11.0873597
+                              },
+                              {
+                                "lat": 49.4543507,
+                                "lon": 11.0873597
+                              }
+                            ],
                             "endPosition": {
                                 "lat": 49.4543507,
                                 "lon": 11.0873597
@@ -173,7 +193,8 @@ class RouteControllerTest {
                                     49.4543507,
                                     11.0873597
                                 ]
-                            }
+                            },
+                            "createdBy":"user1"
                         }
                 
                 """;
@@ -195,7 +216,7 @@ class RouteControllerTest {
         StartPosition startPosition = new StartPosition(2.2, 1.1);
         EndPosition endPosition = new EndPosition(2.3, 1.12);
         Route dummyRoute = new Route("1", "Jogging by Wöhrder See", hashtags, "https://mapio.net/images-p/10982408.jpg", startPosition,
-                endPosition, null, null, new GeoJsonPoint(2.2, 1.1));
+                new ArrayList<>(), endPosition, null, null, new GeoJsonPoint(2.2, 1.1), "user1");
         when(routeRepository.findAll()).thenReturn(List.of(dummyRoute));
 
         String expectedJSON = """
@@ -211,6 +232,10 @@ class RouteControllerTest {
                                 "lat": 2.2,
                                 "lon": 1.1
                             },
+                            
+                            "betweenPositions":[
+                                
+                            ],
                             "endPosition": {
                                 "lat": 2.3,
                                 "lon": 1.12
@@ -225,7 +250,8 @@ class RouteControllerTest {
                                     2.2,
                                     1.1
                                 ]
-                            }
+                            },
+                            "createdBy": "user1"
                         }
                     ]
                 """;

@@ -2,10 +2,15 @@
     position:absolute;
     top:25%;
     width: 90%;
-    height: 60%;
+    max-height: 65%;
     text-align: center;
     display:flex;
     flex-direction: row;
     flex-wrap:wrap;
     justify-content: space-evenly;
+    /*max-height: 700px;*/
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overflow-x:scroll;
+    white-space: nowrap;
 }

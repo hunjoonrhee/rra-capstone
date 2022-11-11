@@ -31,7 +31,7 @@ function App() {
                                                       setUserName={setUserName} setUserPassword={setUserPassword}/>}/>
                 <Route path = {"/sign-up"} element = {<SignUpPage me={me} register={register} handleLogout={handleLogout}/>}/>
                 <Route path = {"/routes/:id"} element = {<RoutesPage me={me} saveFoundRoutes={saveFoundRoutes}
-                                                                     setRequest={setRequest} handleLogout={handleLogout}/>}/>
+                                                                     location={location} setRequest={setRequest} handleLogout={handleLogout}/>}/>
                 <Route path = {"/route/:id/details"} element = {<RouteDetailsPage me={me} routes={routes} handleLogout={handleLogout} location={location}/>}/>
             </Routes>
         </HashRouter>

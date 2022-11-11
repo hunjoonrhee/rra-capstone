@@ -5,13 +5,14 @@ import RoutesOverview from "../components/RoutesOverview";
 import useMyRoutes from "../hooks/useMyRoutes";
 import DropDownMenu from "../components/DropDownMenu";
 import AddNewRouteModal from "../components/AddNewRouteModal";
-import L, {LatLngExpression} from "leaflet";
+import L from "leaflet";
 
 type RoutesPageProps={
     me:string
     saveFoundRoutes:(locationRequest:string)=>void
     setRequest:(locationRequest:string)=>void
     handleLogout:()=>void
+    location:string
 
 }
 
@@ -81,23 +82,23 @@ export default function RoutesPage(props:RoutesPageProps){
             </div>
             <section className={"sec-search-2"}>
                         <Link to={"/"}>
-                            <button className="btn btn-outline-secondary-rp"><i className="bi bi-caret-left-fill"></i> Back </button>
+                            <button className="btn btn-outline-secondary" style={{fontSize: 10}}><i className="bi bi-caret-left-fill"></i> Back </button>
                         </Link>
 
                             { isClicked ?
-                                <input type="text" className="form-control-2" placeholder="Where do you want to run?" name = "location"
+                                <input type="text" className="form-control-2" placeholder={props.location} name = "location"
                                        aria-label="Recipient's username" aria-describedby="button-addon2" value={curAddress}
                                        onChange={handleLocationChange}/>
                                 :
-                                <input type="text" className="form-control-2" placeholder="Where do you want to run?" name = "location"
+                                <input type="text" className="form-control-2" placeholder={props.location} name = "location"
                                        aria-label="Recipient's username" aria-describedby="button-addon2" value={location}
                                        onChange={handleLocationChange}/>
                             }
                             <button className={"btn-current-loc"} onClick={handleOnClick}><i className="bi bi-globe"></i></button>
 
                         <Link onClick={handleLinkClick} to={`/routes/${location}`}>
-                            <button className="btn btn-outline-secondary-rp"
-                                    type="submit">Search</button>
+                            <button className="btn btn-outline-secondary"
+                                    type="submit" style={{fontSize: 10}}>Search</button>
                         </Link>
             </section>
             <div className={"hashtag-band"}>
@@ -111,7 +112,7 @@ export default function RoutesPage(props:RoutesPageProps){
                 {
                     !isDisplay &&
                         <div>
-                            <AddNewRouteModal show={addNewRouteModalOn} onHide={resetOnHide} icon={icon} currentLocation={currentLocation}/>
+                            <AddNewRouteModal me={props.me} show={addNewRouteModalOn} onHide={resetOnHide} icon={icon} currentLocation={currentLocation}/>
                         </div>
                 }
             </div>

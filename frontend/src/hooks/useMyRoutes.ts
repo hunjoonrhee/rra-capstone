@@ -3,6 +3,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import useGeoLocation from "./useGeoLocation";
 import {LocationReturn} from "../model/LocationReturn";
+import {Route} from "../model/Route";
 
 export default function useMyRoutes(){
 
@@ -109,8 +110,14 @@ export default function useMyRoutes(){
             .catch((err)=>console.log((err)))
     }
 
+    function addANewRoute(newRoute:Route){
+        axios.post("/api/route", newRoute)
+            .then((response)=>console.log(response))
+            .then(()=>toast.success("Your route is added successfully!"))
+            .then(getAllFoundRoutes)
+    }
 
 
     return {setRequest, foundRoutes, saveFoundRoutes, getCurrentLocation, allFoundRoutes, isClicked, setIsClicked, currentLocation,
-    location, filterTag, setFilterTag, allFilter, setAllFilter, handleLocationChange,currentAddress, routes, setRoutes}
+    location, filterTag, setFilterTag, allFilter, setAllFilter, handleLocationChange,currentAddress, routes, setRoutes, addANewRoute}
 }
