@@ -1,25 +1,34 @@
 import {Link} from "react-router-dom";
-import React, {useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import "./RoutePage.css"
 import RoutesOverview from "../components/RoutesOverview";
-import useMyRoutes from "../hooks/useMyRoutes";
 import DropDownMenu from "../components/DropDownMenu";
 import AddNewRouteModal from "../components/AddNewRouteModal";
 import L from "leaflet";
+import useGeoLocation from "../hooks/useGeoLocation";
+import {LocationReturn} from "../model/LocationReturn";
+import {Route} from "../model/Route";
 
 type RoutesPageProps={
     me:string
-    saveFoundRoutes:(locationRequest:string)=>void
-    setRequest:(locationRequest:string)=>void
     handleLogout:()=>void
+    setFilterTag:(hashtag:string)=>void
+    setAllFilter:(a:boolean)=>void
+    getCurrentLocation:(lat:number, lon:number)=>void
+    currentAddress:LocationReturn
+    getRoutesNearByLocationRequest:(locationRequest:string)=>void
+    filterTag:string
+    foundRoutes:Route[];
+    deleteARoute:(routeId:string, location:string)=>void
+    allFilter:boolean
+    setLocation:(location:string)=>void
     location:string
-
+    getPhotosOfRoute:(routeId:string | undefined)=>void
 }
 
 export default function RoutesPage(props:RoutesPageProps){
 
-    const {getCurrentLocation, allFoundRoutes, isClicked, setIsClicked, currentLocation,
-        location, filterTag, setFilterTag, allFilter, setAllFilter, handleLocationChange, currentAddress} = useMyRoutes();
+    const currentLocation = useGeoLocation();
 
     const [isDisplay, setIsDisplay] = useState(true);
     const [addNewRouteModalOn, setAddNewRouteModalOn] = useState(false);
@@ -32,46 +41,57 @@ export default function RoutesPage(props:RoutesPageProps){
         setAddNewRouteModalOn(false);
         setIsDisplay(!isDisplay);
     }
+
+    const [isClicked, setIsClicked] = useState(false);
+
+
+    function currentLocationOnClick() {
+
+        setIsClicked(!isClicked)
+        props.getCurrentLocation(Number(currentLocation.coordinates.lat), Number(currentLocation.coordinates.lon))
+    }
+
+    let curAddress = props.currentAddress.address?.road + ", " + props.currentAddress.address?.house_number + ", " +
+        props.currentAddress.address?.postcode + ", " + props.currentAddress.address?.city;
+
+
     const handleLinkClick = () =>{
         if(isClicked){
-            props.setRequest(curAddress);
-            saveFoundRoutes(curAddress);
+            props.getRoutesNearByLocationRequest(curAddress);
         }else{
-            props.setRequest(location);
-            saveFoundRoutes(location);
+            console.log(props.location)
+            props.getRoutesNearByLocationRequest(props.location);
         }
 
     }
+    function handleLocationChange(event:ChangeEvent<HTMLInputElement>) {
 
-    function saveFoundRoutes(location:string){
-        props.saveFoundRoutes(location);
-
+        const inputFieldValue = event.target.value;
+        if(isClicked){
+            props.getRoutesNearByLocationRequest(curAddress);
+        }else{
+            props.setLocation(inputFieldValue);
+        }
     }
+
+
 
     const hashtags: string[] = ["all", "city", "river", "street", "tree", "park"];
     function onClickHashtag(hashtag:string) {
-        setFilterTag(hashtag);
+        props.setFilterTag(hashtag);
         if(hashtag==="all"){
-            setAllFilter(true);
+            props.setAllFilter(true);
         }else{
-            setAllFilter(false)
+            props.setAllFilter(false)
         }
     }
 
-    function handleOnClick() {
 
-        setIsClicked(!isClicked)
-        getCurrentLocation(Number(currentLocation.coordinates.lat), Number(currentLocation.coordinates.lon))
-    }
-
-    let curAddress = currentAddress.address?.road + ", " + currentAddress.address?.house_number + ", " +
-        currentAddress.address?.postcode + ", " + currentAddress.address?.city;
 
     const icon = L.icon({
         iconUrl:"./placeholder.png",
         iconSize: [15,15]
     })
-
 
 
     return (
@@ -88,23 +108,26 @@ export default function RoutesPage(props:RoutesPageProps){
                             { isClicked ?
                                 <input type="text" className="form-control-2" placeholder={props.location} name = "location"
                                        aria-label="Recipient's username" aria-describedby="button-addon2" value={curAddress}
-                                       onChange={handleLocationChange}/>
+                                       />
                                 :
                                 <input type="text" className="form-control-2" placeholder={props.location} name = "location"
-                                       aria-label="Recipient's username" aria-describedby="button-addon2" value={location}
+                                       aria-label="Recipient's username" aria-describedby="button-addon2" value={props.location}
                                        onChange={handleLocationChange}/>
                             }
-                            <button className={"btn-current-loc"} onClick={handleOnClick}><i className="bi bi-globe"></i></button>
+                            <button className={"btn-current-loc"} onClick={currentLocationOnClick}><i className="bi bi-globe"></i></button>
 
-                        <Link onClick={handleLinkClick} to={`/routes/${location}`}>
+                        <Link onClick={handleLinkClick} to={`/routes/${props.location}`}>
                             <button className="btn btn-outline-secondary"
-                                    type="submit" style={{fontSize: 10}}>Search</button>
+                                    type="button" style={{fontSize: 10}}>Search</button>
                         </Link>
             </section>
             <div className={"hashtag-band"}>
                 {hashtags.map((hashtag)=> <button className={"btn-hashtag"} onClick={()=>onClickHashtag(hashtag)} key={hashtag}> {hashtag}</button>)}
             </div>
-            <RoutesOverview key={allFoundRoutes.at(0)} allFoundRoutes={allFoundRoutes} filterTag={filterTag} allFilter={allFilter}/>
+            <RoutesOverview me={props.me} foundRoutes={props.foundRoutes}
+                            filterTag={props.filterTag} allFilter={props.allFilter}
+                            deleteARoute={props.deleteARoute} location={props.location}
+                            getPhotosOfRoute={props.getPhotosOfRoute}/>
             <div className={"add-route"}>
                 <button onClick={addANewRoute}> Add a new route</button>
             </div>
@@ -112,7 +135,7 @@ export default function RoutesPage(props:RoutesPageProps){
                 {
                     !isDisplay &&
                         <div>
-                            <AddNewRouteModal me={props.me} show={addNewRouteModalOn} onHide={resetOnHide} icon={icon} currentLocation={currentLocation}/>
+                            <AddNewRouteModal me={props.me} location={props.location} show={addNewRouteModalOn} onHide={resetOnHide} icon={icon} currentLocation={currentLocation}/>
                         </div>
                 }
             </div>

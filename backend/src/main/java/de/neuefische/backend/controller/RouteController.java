@@ -33,10 +33,20 @@ public class RouteController {
         return routeService.findByRoutesNear(address);
     }
 
-    @DeleteMapping("{id}")
-    public void deleteRouteById(@PathVariable String id){
-        routeService.deleteRouteById(id);
+    @DeleteMapping("/{id}")
+    public void deleteRouteById(@PathVariable String id, @RequestParam String address){
+        routeService.deleteRouteById(id, address);
     }
+
+    @GetMapping("/photos/{id}")
+    public List<Photo> getPhotosOfRoute(@PathVariable String id){
+        return routeService.getPhotosOfRoute(id);
+    }
+    @PostMapping("/photos/{id}")
+    public Photo addANewPhotoForRoute(@PathVariable String id, @RequestParam String name){
+        return routeService.addANewPhotoForRoute(id, name);
+    }
+
 
 }
 

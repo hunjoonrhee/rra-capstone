@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./AddNewRouteModal.css"
 import React, {FormEvent, useState} from "react";
 import {MapContainer, Marker, TileLayer, useMapEvents} from "react-leaflet";
-import L, {DomEvent, LatLngExpression} from "leaflet";
+import L, {LatLngExpression} from "leaflet";
 import "./AddNewRouteModal.css"
 import axios from "axios";
 import {Route} from "../model/Route";
@@ -16,6 +16,7 @@ type AddNewRouteModalProps = {
     onHide:()=>void;
     icon:L.Icon<L.IconOptions>
     currentLocation: {loaded: boolean, coordinates: {lat: string, lon: string}}
+    location:string;
 }
 export default function AddNewRouteModal(props:AddNewRouteModalProps) {
 

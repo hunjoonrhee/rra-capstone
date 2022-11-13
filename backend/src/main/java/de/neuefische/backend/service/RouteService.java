@@ -1,6 +1,7 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.*;
+import de.neuefische.backend.repository.FoundRouteRepository;
 import de.neuefische.backend.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class RouteService {
@@ -25,19 +28,23 @@ public class RouteService {
 
     private final RoutesService routesService;
 
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, RoutesService routesService) {
+    private final FoundRouteRepository foundRouteRepository;
+
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, RoutesService routesService, FoundRouteRepository foundRouteRepository) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
         this.routesService = routesService;
+        this.foundRouteRepository = foundRouteRepository;
     }
     @Autowired
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template, RoutesService routesService) {
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template, RoutesService routesService, FoundRouteRepository foundRouteRepository) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
         this.template = template;
         this.routesService = routesService;
+        this.foundRouteRepository = foundRouteRepository;
     }
 
 
@@ -71,14 +78,55 @@ public class RouteService {
                 .indexOps(Route.class)
                 .ensureIndex(new GeospatialIndex("position").typed(GeoSpatialIndexType.GEO_2DSPHERE));
 
-        return routeRepository.findByPositionNear(searchPoint, new Distance(2, Metrics.KILOMETERS));
+        List<Route> routes = routeRepository.findByPositionNear(searchPoint, new Distance(2, Metrics.KILOMETERS));
+        FoundRoutes foundRoutes = FoundRoutes.builder()
+                .id(address).routes(routes).build();
+        foundRouteRepository.save(foundRoutes);
+
+        return routes;
     }
 
     public List<Route> getAllRoutesInRepo() {
         return routeRepository.findAll();
     }
 
-    public void deleteRouteById(String id) {
+    public void deleteRouteById(String id, String address) {
         routeRepository.deleteById(id);
+        Optional<FoundRoutes> foundRoutesOptional = foundRouteRepository.findById(address);
+        if(foundRoutesOptional.isPresent()){
+            FoundRoutes foundRoutes = foundRoutesOptional.get();
+            List<Route> routes = foundRoutes.getRoutes();
+            routes.removeIf(route -> route.getId().equals(id));
+            foundRoutes.setRoutes(routes);
+            foundRouteRepository.save(foundRoutes);
+        } else{
+            throw new NoSuchElementException("No Routes with address " + address + " was found!");
+        }
+
+
+    }
+
+    public List<Photo> getPhotosOfRoute(String id) {
+        Optional<Route> routeOptional = routeRepository.findById(id);
+        if(routeOptional.isPresent()){
+            return routeOptional.get().getPhotos();
+        }else{
+            throw new NoSuchElementException("No Route with id " + id + " was found!");
+        }
+    }
+
+    public Photo addANewPhotoForRoute(String id, String name) {
+        Optional<Route> routeOptional = routeRepository.findById(id);
+        if(routeOptional.isPresent()){
+            Route route = routeOptional.get();
+            Photo newPhoto = Photo.builder().id(idService.generateId()).name(name).build();
+            List<Photo> photos = route.getPhotos();
+            photos.add(newPhoto);
+            route.setPhotos(photos);
+            routeRepository.save(route);
+            return newPhoto;
+        }else{
+            throw new NoSuchElementException("No Route with id " + id + " was found!");
+        }
     }
 }

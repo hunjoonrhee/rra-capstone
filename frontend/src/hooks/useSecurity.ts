@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {AppUser} from "../model/AppUser";
@@ -18,7 +18,7 @@ export default function useSecurity(){
             .then(()=>toast.success("Hi!👋 You are logged in!"))
             .then(()=>setUsername(""))
             .then(()=>setPassword(""))
-            .catch((error)=>toast.error(error.message+ ": Username or password is wrong!"))
+            .catch(()=>toast.error("Username or password is wrong!"))
     }
 
     function setUserName(user:string){
@@ -27,6 +27,16 @@ export default function useSecurity(){
     function setUserPassword(password:string){
         setPassword(password);
     }
+
+    useEffect(()=>{
+        const me = JSON.parse(localStorage.getItem('current-user')!)
+        if(me){
+            setMe(me);
+        }
+    }, [])
+    useEffect(()=>{
+        localStorage.setItem('current-user', JSON.stringify(me))
+    }, [me])
 
     function register(newUser:AppUser){
         axios.post("api/user/register", {username:newUser.username, password:newUser.password})

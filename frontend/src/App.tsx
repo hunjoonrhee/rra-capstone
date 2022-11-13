@@ -12,7 +12,10 @@ import useSecurity from "./hooks/useSecurity";
 
 function App() {
 
-    const {setRequest, saveFoundRoutes, routes, handleLocationChange, location} = useMyRoutes()
+    const {location, setLocation, getRoutesNearByLocationRequest,
+    setFilterTag, getCurrentLocation, currentAddress,
+        filterTag, allFilter, deleteARoute, setAllFilter, foundRoutes,
+        getPhotosOfRoute, photos} = useMyRoutes()
     const {me, handleLogin, setUserName, setUserPassword, register, handleLogout} = useSecurity()
 
 
@@ -24,15 +27,33 @@ function App() {
         </div>
         <HashRouter>
             <Routes>
-                <Route path = {"/"} element = {<MainPage me={me} saveFoundRoutes={saveFoundRoutes}
-                                                         setRequest={setRequest} handleLogout={handleLogout}
-                                                         location={location} handleLocationChange={handleLocationChange}/>}/>
+                <Route path = {"/"} element = {<MainPage me={me}
+                                                         getRoutesNearByLocationRequest={getRoutesNearByLocationRequest}
+                                                         handleLogout={handleLogout}
+                                                         setLocation={setLocation}
+                                                         location={location}/>}/>
                 <Route path = {"/sign-in"} element = {<SignInPage me={me} handleLogin={handleLogin} handleLogout={handleLogout}
                                                       setUserName={setUserName} setUserPassword={setUserPassword}/>}/>
                 <Route path = {"/sign-up"} element = {<SignUpPage me={me} register={register} handleLogout={handleLogout}/>}/>
-                <Route path = {"/routes/:id"} element = {<RoutesPage me={me} saveFoundRoutes={saveFoundRoutes}
-                                                                     location={location} setRequest={setRequest} handleLogout={handleLogout}/>}/>
-                <Route path = {"/route/:id/details"} element = {<RouteDetailsPage me={me} routes={routes} handleLogout={handleLogout} location={location}/>}/>
+                <Route path = {`/routes/:id`} element = {<RoutesPage me={me}
+                                                                     handleLogout={handleLogout}
+                                                                     setFilterTag={setFilterTag}
+                                                                     setAllFilter={setAllFilter}
+                                                                     getCurrentLocation={getCurrentLocation}
+                                                                     currentAddress={currentAddress}
+                                                                     getRoutesNearByLocationRequest={getRoutesNearByLocationRequest}
+                                                                     filterTag={filterTag} foundRoutes={foundRoutes}
+                                                                     deleteARoute={deleteARoute}
+                                                                     allFilter={allFilter}
+                                                                     setLocation={setLocation}
+                                                                     location={location}
+                                                                     getPhotosOfRoute={getPhotosOfRoute}/>}/>
+                <Route path = {"/route/:id/details"} element = {<RouteDetailsPage me={me}
+                                                                                  routes={foundRoutes}
+                                                                                  handleLogout={handleLogout}
+                                                                                  location={location}
+                                                                                  getPhotosOfRoute={getPhotosOfRoute}
+                                                                                  photos={photos}/>}/>
             </Routes>
         </HashRouter>
 
