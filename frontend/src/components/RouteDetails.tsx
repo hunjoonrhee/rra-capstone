@@ -9,15 +9,19 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import PhotoCard from "./PhotoCard";
 import DropDownMenu from "./DropDownMenu";
+import {Photo} from "../model/Photo";
 
 type RouteDetailsProps = {
     me:string
     routes:Route[];
     handleLogout:()=>void
     location:string
+    getPhotosOfRoute:(routeId: string | undefined)=>void
+    photos:Photo[];
 }
 
 export default function RouteDetails(props:RouteDetailsProps){
+    console.log(props.routes)
 
     const navigate = useNavigate();
 
@@ -72,12 +76,11 @@ export default function RouteDetails(props:RouteDetailsProps){
             formData.append("file", imageSelected!)
             formData.append("public_id", imgName!);
             formData.append("upload_preset", "mo1ocdza")
-
             axios.post("https://api.cloudinary.com/v1_1/dckpphdfa/image/upload", formData)
                 .then((response)=>console.log(response))
-            axios.post("/api/photo/add/"+route!.id+"?name="+imgName)
+            axios.post("/api/route/photos/"+route!.id + "?name="+imgName)
                 .then(()=>toast.success("Your photo uploaded successfully!"))
-                .then(()=>{setTimeout(()=>{window.location.reload();}, 3000)})
+                .then(()=>props.getPhotosOfRoute(route!.id))
         }else{
             toast('🦄 You have to log in for uploading photos!', {
                 position: "top-center",
@@ -141,8 +144,8 @@ export default function RouteDetails(props:RouteDetailsProps){
                 <div className={"div-images"}>
 
                     {
-                        route.photos &&
-                        route.photos.map((photo)=>{
+                        props.photos &&
+                        props.photos.map((photo)=>{
                             return <PhotoCard key={photo.id} photo={photo}/>
                         })
                     }

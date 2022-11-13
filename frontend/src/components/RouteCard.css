@@ -5,25 +5,40 @@
     object-fit: cover;
     margin-top: 5px;
 }
+.title-routecard{
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width:100%;
+}
+.btn-trash{
+    margin-left: 8%;
+    background-color: transparent;
+    border-color: transparent;
+}
 .route-card{
     font-size:60%;
     width: 160px;
     height: 160px;
     border-radius: 12px;
-    border: 2px solid darkblue;
+    border: 2px solid #9e00ff;
     margin-top: 10%;
     margin-left: 2%;
     margin-right: 2%;
 }
 .route-routename{
-    margin: 0 0 0 0;
-    color: #00FFFF;
+    margin-left: 10px;
+    margin-bottom:0;
+    color: rgba(1, 25, 147, 0.65);
     padding: 2px;
+    font-weight: bolder;
+
 }
 .hashtag{
     width:30%;
     display: inline-flex;
     flex-direction: row;
     justify-content: center;
-    color:#FF00FF;
+    color: rgba(1, 25, 147, 0.65);
+    font-weight: bold;
 }
