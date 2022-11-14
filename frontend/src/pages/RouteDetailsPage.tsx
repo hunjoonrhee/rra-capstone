@@ -8,8 +8,11 @@ type RouteDetailsPageProps={
     routes:Route[];
     handleLogout:()=>void
     location:string
-    getPhotosOfRoute:(routeId:string | undefined)=>void
+    deleteAPhotoOfRoute:(routeId:string, photoName:string)=>void
+    getAllFoundRoutes:()=>void
+    getAllPhotos:()=>void
     photos:Photo[];
+
 }
 
 export default function RouteDetailsPage(props:RouteDetailsPageProps){
@@ -21,7 +24,9 @@ export default function RouteDetailsPage(props:RouteDetailsPageProps){
                           routes={props.routes}
                           handleLogout={props.handleLogout}
                           location={props.location}
-                          getPhotosOfRoute={props.getPhotosOfRoute}
+                          deleteAPhotoOfRoute={props.deleteAPhotoOfRoute}
+                          getAllFoundRoutes={props.getAllFoundRoutes}
+                          getAllPhotos={props.getAllPhotos}
                           photos={props.photos}/>
         </div>
     )

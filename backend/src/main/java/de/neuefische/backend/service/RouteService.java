@@ -2,6 +2,7 @@ package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.*;
 import de.neuefische.backend.repository.FoundRouteRepository;
+import de.neuefische.backend.repository.PhotoRepository;
 import de.neuefische.backend.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
@@ -30,21 +31,25 @@ public class RouteService {
 
     private final FoundRouteRepository foundRouteRepository;
 
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, RoutesService routesService, FoundRouteRepository foundRouteRepository) {
+    private final PhotoRepository photoRepository;
+
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, RoutesService routesService, FoundRouteRepository foundRouteRepository, PhotoRepository photoRepository) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
         this.routesService = routesService;
         this.foundRouteRepository = foundRouteRepository;
+        this.photoRepository = photoRepository;
     }
     @Autowired
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template, RoutesService routesService, FoundRouteRepository foundRouteRepository) {
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template, RoutesService routesService, FoundRouteRepository foundRouteRepository, PhotoRepository photoRepository) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
         this.template = template;
         this.routesService = routesService;
         this.foundRouteRepository = foundRouteRepository;
+        this.photoRepository = photoRepository;
     }
 
 
@@ -115,18 +120,37 @@ public class RouteService {
         }
     }
 
-    public Photo addANewPhotoForRoute(String id, String name) {
+    public Photo addANewPhotoForRoute(String id, PhotoDTO photoDTO) {
         Optional<Route> routeOptional = routeRepository.findById(id);
         if(routeOptional.isPresent()){
             Route route = routeOptional.get();
-            Photo newPhoto = Photo.builder().id(idService.generateId()).name(name).build();
+            Photo newPhoto = Photo.builder()
+                    .id(idService.generateId())
+                    .name(photoDTO.getName())
+                    .uploadedBy(photoDTO.getUploadedBy())
+                    .routeId(id)
+                    .build();
             List<Photo> photos = route.getPhotos();
             photos.add(newPhoto);
             route.setPhotos(photos);
             routeRepository.save(route);
+            photoRepository.save(newPhoto);
             return newPhoto;
         }else{
             throw new NoSuchElementException("No Route with id " + id + " was found!");
         }
+    }
+
+    public void deletePhotoOfRoute(String id, String photoId) {
+        Optional<Route> routeOptional = routeRepository.findById(id);
+        if(routeOptional.isPresent()){
+            Route route = routeOptional.get();
+            route.getPhotos().removeIf(photo -> photo.getId().equals(photoId));
+            routeRepository.save(route);
+            photoRepository.deletePhotoByRouteIdAndId(id, photoId);
+        }else{
+            throw new NoSuchElementException("No Route with id " + id + " was found!");
+        }
+
     }
 }

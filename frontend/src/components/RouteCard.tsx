@@ -13,7 +13,6 @@ type RouteCardProps = {
     route:Route;
     deleteARoute:(routeId:string, location:string) => void
     location:string
-    getPhotosOfRoute:(routeId:string | undefined)=>void
 }
 
 export default function RouteCard(props:RouteCardProps){
@@ -24,13 +23,7 @@ export default function RouteCard(props:RouteCardProps){
         .roundCorners(byRadius(20))
 
     function handleOnClick() {
-        console.log(props.location)
-        console.log(props.route.id)
         props.deleteARoute(props.route.id!, props.location)
-    }
-
-    function onClickToDetailPage() {
-        props.getPhotosOfRoute(props.route.id)
     }
 
     return(
@@ -53,7 +46,7 @@ export default function RouteCard(props:RouteCardProps){
             }
 
             <div>
-                <Link onClick={onClickToDetailPage} to={`/route/${props.route.id}/details`}>
+                <Link to={`/route/${props.route.id}/details`}>
                     <AdvancedImage cldImg={myImage} />
                 </Link>
 

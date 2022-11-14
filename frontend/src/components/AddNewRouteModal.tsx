@@ -55,6 +55,7 @@ export default function AddNewRouteModal(props:AddNewRouteModalProps) {
 
             axios.post("https://api.cloudinary.com/v1_1/dckpphdfa/image/upload", formData)
                 .then((response) => console.log(response))
+                .then(()=>toast.success("🏃‍♂️🏃‍♀️Thumbnail uploaded successfully!📷"))
         }
         else {
             toast('🦄 You have to log in for uploading photos!', {
@@ -278,7 +279,7 @@ export default function AddNewRouteModal(props:AddNewRouteModalProps) {
                                 <label className="custom-file-label" htmlFor="inputGroupFile03">Choose your thumbnail</label>
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-primary">Submit</button>
+                        <button type="submit" className="btn btn-primary" id={"btn-submit-add-route"}>Submit</button>
                     </form>
 
             </Modal.Body>

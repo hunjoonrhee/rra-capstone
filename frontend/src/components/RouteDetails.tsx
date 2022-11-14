@@ -16,13 +16,13 @@ type RouteDetailsProps = {
     routes:Route[];
     handleLogout:()=>void
     location:string
-    getPhotosOfRoute:(routeId: string | undefined)=>void
+    deleteAPhotoOfRoute:(routeId:string, photoName:string)=>void
+    getAllFoundRoutes:()=>void
+    getAllPhotos:()=>void
     photos:Photo[];
 }
 
 export default function RouteDetails(props:RouteDetailsProps){
-    console.log(props.routes)
-
     const navigate = useNavigate();
 
     const [imageSelected, setImageSelected] = useState<File>()
@@ -36,7 +36,7 @@ export default function RouteDetails(props:RouteDetailsProps){
     const route = props.routes.find(route=>route.id===id);
 
     if(route=== undefined){
-        return <>Route was not found!</>
+        return <></>
     }
 
     function MakeRoute(route:Route){
@@ -78,9 +78,17 @@ export default function RouteDetails(props:RouteDetailsProps){
             formData.append("upload_preset", "mo1ocdza")
             axios.post("https://api.cloudinary.com/v1_1/dckpphdfa/image/upload", formData)
                 .then((response)=>console.log(response))
-            axios.post("/api/route/photos/"+route!.id + "?name="+imgName)
+
+            const newPhoto:Photo = {
+                id:"",
+                name:imgName,
+                uploadedBy:props.me,
+                routeId:route!.id
+            }
+
+            axios.post("/api/route/photos/"+route!.id, newPhoto)
                 .then(()=>toast.success("Your photo uploaded successfully!"))
-                .then(()=>props.getPhotosOfRoute(route!.id))
+                .then(()=>props.getAllPhotos())
         }else{
             toast('🦄 You have to log in for uploading photos!', {
                 position: "top-center",
@@ -96,6 +104,7 @@ export default function RouteDetails(props:RouteDetailsProps){
 
     }
 
+    console.log(props.photos)
 
     return(
         <div className={"detailPage"}>
@@ -134,41 +143,35 @@ export default function RouteDetails(props:RouteDetailsProps){
                     </MapContainer>
 
                 </div>
-                <div className={"div-share"}>
-
-                </div>
                 <div className={"photos-share"}>
                     <p className={"text-photos-share"}>Share some photos for this route!</p>
                 </div>
 
                 <div className={"div-images"}>
-
                     {
                         props.photos &&
                         props.photos.map((photo)=>{
-                            return <PhotoCard key={photo.id} photo={photo}/>
+                            return <PhotoCard key={photo.id} me={props.me} route={route} photo={photo} deleteAPhotoOfRoute={props.deleteAPhotoOfRoute}/>
                         })
                     }
                 </div>
 
-
-
-                <div className="input-group mb-3">
-                    <div className="input-group-prepend">
-                        <button className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon03"
-                                onClick={uploadImage}>Upload
-                        </button>
-                    </div>
-                    <div className="custom-file">
-                        <input type="file" className="custom-file-input" id="inputGroupFile03"
-                               aria-describedby="inputGroupFileAddon03"
-                               onChange={(event)=>setImageSelected(event.target.files![0])}/>
-
-                        <label className="custom-file-label" htmlFor="inputGroupFile03">Choose file</label>
-                    </div>
-                </div>
-
             </section>
+            <div className="input-group mb-3" id={"input-in-detail"}>
+                <div className="input-group-prepend">
+                    <button className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon03"
+                            style={{color:"white"}}
+                            onClick={uploadImage}>Upload
+                    </button>
+                </div>
+                <div className="custom-file">
+                    <input type="file" className="custom-file-input" id="inputGroupFile03"
+                           aria-describedby="inputGroupFileAddon03"
+                           onChange={(event)=>setImageSelected(event.target.files![0])}/>
+
+                    <label className="custom-file-label" htmlFor="inputGroupFile03">Choose file</label>
+                </div>
+            </div>
             <section className={"sec-comments"}>
 
             </section>

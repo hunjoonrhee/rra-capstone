@@ -5,7 +5,7 @@ import DropDownMenu from "../components/DropDownMenu";
 
 type MainPageProps={
     me:string
-    getRoutesNearByLocationRequest:(locationRequest:string)=>void
+    getAllFoundRoutes:()=>void
     handleLogout:()=>void
     setLocation:(location:string)=>void
     location:string
@@ -14,7 +14,7 @@ type MainPageProps={
 export default function MainPage(props:MainPageProps){
 
     const handleLinkClick = () =>{
-        props.getRoutesNearByLocationRequest(props.location);
+        props.getAllFoundRoutes();
     }
     function handleLocationChange(event:ChangeEvent<HTMLInputElement>) {
         const inputFieldValue = event.target.value;
