@@ -4,7 +4,6 @@ import de.neuefische.backend.model.EndPosition;
 import de.neuefische.backend.model.FoundRoutes;
 import de.neuefische.backend.model.Route;
 import de.neuefische.backend.model.StartPosition;
-import de.neuefische.backend.repository.FoundRouteRepository;
 import de.neuefische.backend.service.FoundRouteService;
 import de.neuefische.backend.service.RouteService;
 import org.junit.jupiter.api.Test;
@@ -36,8 +35,6 @@ class FoundRouteControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private FoundRouteRepository foundRouteRepository;
     @MockBean
     private RouteService routeService;
     @MockBean
@@ -266,7 +263,7 @@ class FoundRouteControllerTest {
                 """;
         // WHEN & THEN
         mockMvc.perform(
-                        get("/api/found-routes/test"))
+                        get("/api/found-routes/routes?id=test"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJSON));
 
