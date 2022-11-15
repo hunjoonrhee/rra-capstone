@@ -29,10 +29,9 @@
 
 
 .title-route-detail{
-    position:absolute;
+    position:relative;
     width: 90%;
     height: 12%;
-    top:6%;
     /*background-color: #b1e078;*/
     /*background-image: linear-gradient(to bottom right, #ffdd76, #b1e078,#ffdd76);*/
     display:flex;
@@ -65,8 +64,7 @@
     margin : 0;
 }
 .sec-route-detail{
-    position:absolute;
-    top:12%;
+    position:relative;
     width: 90%;
     height: 65%;
     text-align: center;
@@ -80,15 +78,15 @@
     border-radius: 10%;
     display:flex;
     width: 95%;
-    height: 40%;
+    height: 70%;
     justify-content: center;
     align-items: center;
 }
 
 .map{
-    position:absolute;
+    position:relative;
     width: 85%;
-    height: 35%;
+    height: 85%;
     border-radius: 12px;
 }
 .photos-share{
@@ -101,7 +99,7 @@
     /*margin-bottom: -5%;*/
     /*padding: 1% 2%;*/
     width: 95%;
-    position:absolute;
+    position:relative;
 }
 .text-photos-share{
     margin:0 auto;
@@ -118,12 +116,8 @@
     justify-content: center;
     margin-bottom: 20%;
 }
-.custom-file{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
+
+
 
 .custom-file-find{
     border: 1px solid #282828;
@@ -164,8 +158,8 @@
     height: 36px;
 }
 #input-in-detail{
-    position:absolute;
-    top:65%;
+    position:relative;
+    margin-top:-100px;
 }
 .mb-3{
     width: 90%;

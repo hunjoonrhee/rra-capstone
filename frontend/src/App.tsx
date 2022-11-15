@@ -22,6 +22,10 @@ function App() {
         getAllRoutes();
     }, [])
 
+    useEffect(()=>{
+        getAllPhotos();
+    }, [])
+
 
     return (
     <div className="App">

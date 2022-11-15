@@ -1,14 +1,12 @@
 .sec-routes-overview{
-    position:absolute;
-    top:25%;
+    position:relative;
     width: 90%;
-    max-height: 65%;
+    max-height: 85%;
     text-align: center;
     display:flex;
     flex-direction: row;
     flex-wrap:wrap;
     justify-content: space-evenly;
-    /*max-height: 700px;*/
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     overflow-x:scroll;

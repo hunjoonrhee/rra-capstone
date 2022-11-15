@@ -114,11 +114,11 @@ export default function RouteDetails(props:RouteDetailsProps){
                 <DropDownMenu me={props.me} handleLogout={props.handleLogout}/>
 
             </div>
-            <section className={"title-route-detail"}>
+            <div className={"title-route-detail"}>
                 <div className={"title-border"}>
-                    <p className={"title-routeName"}>{route.routeName}</p>
+                    <h1 className={"title-routeName"}>{route.routeName}</h1>
                 </div>
-            </section>
+            </div>
             <section className={"sec-route-detail"}>
                 <div className={"div-map"}>
                     <MapContainer className={"map"} center={locationStart} zoom={13}>

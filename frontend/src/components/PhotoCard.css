@@ -20,7 +20,6 @@
 .btn-trash-photo{
     background-color: transparent;
     border-color: transparent;
-    z-index: revert;
     position: relative;
     color: white;
     width: 30px;
@@ -28,10 +27,10 @@
 }
 .span-btn-trash-photo{
     position: relative;
-    top:35px;
     width: 100px;
     height: 30px;
     display:flex;
     flex-direction: row;
     justify-content: flex-end;
+    margin-bottom: -30px;
 }
