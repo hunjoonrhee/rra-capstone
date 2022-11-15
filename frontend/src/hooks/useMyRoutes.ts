@@ -17,17 +17,42 @@ export default function useMyRoutes(){
     useEffect(()=>{
         localStorage.setItem('location', JSON.stringify(location))
     }, [location])
+    const [routes, setRoutes] = useState([]);
+
+
+    function getAllRoutes(){
+        axios.get("/api/route")
+            .then((response)=>{return response.data})
+            .then((data)=>setRoutes(data))
+            .catch((err)=>console.log(err))
+    }
+    useEffect(()=>{
+        getAllRoutes();
+    }, [])
 
 
 
     const [foundRoutes, setFoundRoutes] = useState([]);
 
-    function getRoutesNearByLocationRequest(locationRequest:string){
+    function findByRoutesNear(locationRequest:string){
         axios.get("/api/route/routes?address="+locationRequest)
             .then((response)=> response.data)
-            .then((data)=> {setFoundRoutes(data)})
             .catch((err)=>console.log((err)))
     }
+    function getAllFoundRoutes(){
+        if(location!==""){
+            findByRoutesNear(location)
+        }
+        axios.get("/api/found-routes")
+            .then((response)=>{return response.data})
+            .then((data)=>setFoundRoutes(data))
+            .catch((err)=>console.log(err))
+    }
+
+    useEffect(()=>{
+        getAllFoundRoutes()
+    }, [])
+
 
     const [isClicked, setIsClicked] = useState(false);
 
@@ -66,31 +91,35 @@ export default function useMyRoutes(){
             .then((response)=>console.log(response))
             .then(()=>toast.success("Your route is added successfully!"))
             .then(()=>console.log(location))
-            .then(()=>getRoutesNearByLocationRequest(location))
+            .then(()=>getAllFoundRoutes())
     }
 
     function deleteARoute(routeId:string, location:string){
-        console.log(location)
-
         axios.delete("/api/route/"+routeId + "?address="+location)
             .then((response)=>console.log(response))
             .then(()=>toast.success("The route is deleted successfully!"))
-            .then(()=>console.log(location))
-            .then(()=>getRoutesNearByLocationRequest(location))
+            .then(()=>getAllPhotos())
     }
+
+    function deleteAPhotoOfRoute(routeId:string, photoId:string){
+        axios.delete("/api/route/photos/"+routeId+"?photoId="+photoId)
+            .then(()=>toast.success("The route is deleted successfully!"))
+            .then(()=>getAllPhotos())
+    }
+
     const [photos, setPhotos] = useState([]);
-    function getPhotosOfRoute(routeId:string | undefined){
-        axios.get("/api/route/photos/"+routeId)
-            .then((response)=>response.data)
+    function getAllPhotos(){
+        axios.get("/api/photo/")
+            .then(response=>response.data)
             .then(data=>setPhotos(data))
-            .then(err=>console.log(err))
-
+            .catch(err=>console.log(err));
     }
 
 
-    return {foundRoutes, getCurrentLocation,getRoutesNearByLocationRequest,
-        isClicked, setIsClicked, currentLocation,
+
+    return {foundRoutes, getCurrentLocation,getAllFoundRoutes,getAllRoutes,
+        isClicked, setIsClicked, currentLocation, routes,
         location, setLocation, filterTag, setFilterTag, allFilter, setAllFilter,
-        currentAddress, addANewRoute,
-        deleteARoute, getPhotosOfRoute, photos}
+        currentAddress, addANewRoute,getAllPhotos, photos,
+        deleteARoute, deleteAPhotoOfRoute}
 }

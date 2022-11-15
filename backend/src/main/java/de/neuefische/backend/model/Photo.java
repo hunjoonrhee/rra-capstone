@@ -16,4 +16,6 @@ public class Photo {
     @Id
     private String id;
     private String name;
+    private String uploadedBy;
+    private String routeId;
 }

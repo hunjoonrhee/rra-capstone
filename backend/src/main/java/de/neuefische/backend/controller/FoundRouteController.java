@@ -29,8 +29,8 @@ public class FoundRouteController {
         return foundRouteService.saveFoundRoutes(address);
     }
 
-    @GetMapping("/{id}")
-    public List<Route> getFoundRoutesByAddress(@PathVariable String id){
+    @GetMapping("/routes")
+    public List<Route> getFoundRoutesByAddress(@RequestParam String id){
         return foundRouteService.getFoundRoutesByAddress(id);
     }
 }

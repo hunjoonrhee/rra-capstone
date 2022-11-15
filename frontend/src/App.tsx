@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {HashRouter, Route, Routes} from "react-router-dom";
 import MainPage from "./pages/MainPage";
@@ -12,12 +12,14 @@ import useSecurity from "./hooks/useSecurity";
 
 function App() {
 
-    const {location, setLocation, getRoutesNearByLocationRequest,
-    setFilterTag, getCurrentLocation, currentAddress,
-        filterTag, allFilter, deleteARoute, setAllFilter, foundRoutes,
-        getPhotosOfRoute, photos} = useMyRoutes()
+    const {location, setLocation, getAllFoundRoutes,getAllRoutes,getAllPhotos, photos,
+    setFilterTag, getCurrentLocation, currentAddress, routes,deleteAPhotoOfRoute,
+        filterTag, allFilter, deleteARoute, setAllFilter, foundRoutes} = useMyRoutes()
     const {me, handleLogin, setUserName, setUserPassword, register, handleLogout} = useSecurity()
 
+    useEffect(()=>{
+        getAllRoutes();
+    }, [])
 
 
     return (
@@ -28,7 +30,7 @@ function App() {
         <HashRouter>
             <Routes>
                 <Route path = {"/"} element = {<MainPage me={me}
-                                                         getRoutesNearByLocationRequest={getRoutesNearByLocationRequest}
+                                                         getAllFoundRoutes={getAllFoundRoutes}
                                                          handleLogout={handleLogout}
                                                          setLocation={setLocation}
                                                          location={location}/>}/>
@@ -41,18 +43,20 @@ function App() {
                                                                      setAllFilter={setAllFilter}
                                                                      getCurrentLocation={getCurrentLocation}
                                                                      currentAddress={currentAddress}
-                                                                     getRoutesNearByLocationRequest={getRoutesNearByLocationRequest}
+                                                                     getAllFoundRoutes={getAllFoundRoutes}
                                                                      filterTag={filterTag} foundRoutes={foundRoutes}
                                                                      deleteARoute={deleteARoute}
                                                                      allFilter={allFilter}
                                                                      setLocation={setLocation}
                                                                      location={location}
-                                                                     getPhotosOfRoute={getPhotosOfRoute}/>}/>
+                                                                     />}/>
                 <Route path = {"/route/:id/details"} element = {<RouteDetailsPage me={me}
-                                                                                  routes={foundRoutes}
+                                                                                  routes={routes}
                                                                                   handleLogout={handleLogout}
                                                                                   location={location}
-                                                                                  getPhotosOfRoute={getPhotosOfRoute}
+                                                                                  deleteAPhotoOfRoute={deleteAPhotoOfRoute}
+                                                                                  getAllFoundRoutes={getAllFoundRoutes}
+                                                                                  getAllPhotos={getAllPhotos}
                                                                                   photos={photos}/>}/>
             </Routes>
         </HashRouter>

@@ -7,7 +7,7 @@ import AddNewRouteModal from "../components/AddNewRouteModal";
 import L from "leaflet";
 import useGeoLocation from "../hooks/useGeoLocation";
 import {LocationReturn} from "../model/LocationReturn";
-import {Route} from "../model/Route";
+import {FoundRoutes} from "../model/FoundRoutes";
 
 type RoutesPageProps={
     me:string
@@ -16,18 +16,16 @@ type RoutesPageProps={
     setAllFilter:(a:boolean)=>void
     getCurrentLocation:(lat:number, lon:number)=>void
     currentAddress:LocationReturn
-    getRoutesNearByLocationRequest:(locationRequest:string)=>void
+    getAllFoundRoutes:()=>void
     filterTag:string
-    foundRoutes:Route[];
+    foundRoutes:FoundRoutes[];
     deleteARoute:(routeId:string, location:string)=>void
     allFilter:boolean
     setLocation:(location:string)=>void
     location:string
-    getPhotosOfRoute:(routeId:string | undefined)=>void
 }
 
 export default function RoutesPage(props:RoutesPageProps){
-
     const currentLocation = useGeoLocation();
 
     const [isDisplay, setIsDisplay] = useState(true);
@@ -51,16 +49,17 @@ export default function RoutesPage(props:RoutesPageProps){
         props.getCurrentLocation(Number(currentLocation.coordinates.lat), Number(currentLocation.coordinates.lon))
     }
 
-    let curAddress = props.currentAddress.address?.road + ", " + props.currentAddress.address?.house_number + ", " +
-        props.currentAddress.address?.postcode + ", " + props.currentAddress.address?.city;
+    let curAddress = props.currentAddress.address?.road + " " + props.currentAddress.address?.house_number + ", " +
+        props.currentAddress.address?.postcode + " " + props.currentAddress.address?.city;
 
 
     const handleLinkClick = () =>{
         if(isClicked){
-            props.getRoutesNearByLocationRequest(curAddress);
+            props.setLocation(curAddress)
+            props.getAllFoundRoutes();
         }else{
-            console.log(props.location)
-            props.getRoutesNearByLocationRequest(props.location);
+            props.setLocation(props.location)
+            props.getAllFoundRoutes();
         }
 
     }
@@ -68,7 +67,7 @@ export default function RoutesPage(props:RoutesPageProps){
 
         const inputFieldValue = event.target.value;
         if(isClicked){
-            props.getRoutesNearByLocationRequest(curAddress);
+            props.setLocation(curAddress);
         }else{
             props.setLocation(inputFieldValue);
         }
@@ -93,7 +92,7 @@ export default function RoutesPage(props:RoutesPageProps){
         iconSize: [15,15]
     })
 
-
+    console.log(props.foundRoutes)
     return (
 
         <div className={"routesPage"}>
@@ -108,7 +107,7 @@ export default function RoutesPage(props:RoutesPageProps){
                             { isClicked ?
                                 <input type="text" className="form-control-2" placeholder={props.location} name = "location"
                                        aria-label="Recipient's username" aria-describedby="button-addon2" value={curAddress}
-                                       />
+                                       onChange={handleLocationChange}/>
                                 :
                                 <input type="text" className="form-control-2" placeholder={props.location} name = "location"
                                        aria-label="Recipient's username" aria-describedby="button-addon2" value={props.location}
@@ -127,9 +126,9 @@ export default function RoutesPage(props:RoutesPageProps){
             <RoutesOverview me={props.me} foundRoutes={props.foundRoutes}
                             filterTag={props.filterTag} allFilter={props.allFilter}
                             deleteARoute={props.deleteARoute} location={props.location}
-                            getPhotosOfRoute={props.getPhotosOfRoute}/>
+                            />
             <div className={"add-route"}>
-                <button onClick={addANewRoute}> Add a new route</button>
+                <button className={"btn-add-route"} onClick={addANewRoute}> Add a new route</button>
             </div>
             <div>
                 {

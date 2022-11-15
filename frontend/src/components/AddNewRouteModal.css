@@ -13,7 +13,8 @@
     /*height: 36px*/
 }
 .modal-content{
-    background-color: #0d0f44;
+    background-color: #a878e0;
+    background-image: linear-gradient(to bottom right, #9900ff, #a878e0);
     color: snow;
     width:100%;
     max-height: 700px;
@@ -50,4 +51,30 @@
 }
 .input-group-prepend{
     font-size: 12px;
+}
+
+#btn-submit-add-route{
+    display: inline-block;
+    width:200px;
+    height:25px;
+    font-size: 100%;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #9900ff;
+    background-image: linear-gradient(to bottom right, #9900ff, #a878e0);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 3px #a878e0;
+    padding: 0 0 0 0;
+    margin: 2% auto 0;
+
+}
+#btn-submit-add-route:hover {background-color:  #a878e0}
+#btn-submit-add-route:active {
+    background-color: darkblue;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }

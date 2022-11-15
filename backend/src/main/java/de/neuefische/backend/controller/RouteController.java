@@ -43,8 +43,12 @@ public class RouteController {
         return routeService.getPhotosOfRoute(id);
     }
     @PostMapping("/photos/{id}")
-    public Photo addANewPhotoForRoute(@PathVariable String id, @RequestParam String name){
-        return routeService.addANewPhotoForRoute(id, name);
+    public Photo addANewPhotoForRoute(@PathVariable String id, @RequestBody PhotoDTO photoDTO){
+        return routeService.addANewPhotoForRoute(id, photoDTO);
+    }
+    @DeleteMapping("/photos/{id}")
+    public void deletePhotoOfRoute(@PathVariable String id, @RequestParam String photoId){
+        routeService.deletePhotoOfRoute(id, photoId);
     }
 
 

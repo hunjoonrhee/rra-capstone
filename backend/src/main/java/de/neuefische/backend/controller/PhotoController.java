@@ -16,14 +16,9 @@ public class PhotoController {
         this.photoService = photoService;
     }
 
-    @PostMapping("/add/{routeId}")
-    public String uploadNewPhoto(@PathVariable String routeId, @RequestParam("name") String name)  {
-        return photoService.uploadNewPhoto(routeId, name);
-    }
-
-    @GetMapping("/{routeId}")
-    public List<Photo> getPhotosByRouteId(@PathVariable String routeId){
-        return photoService.getPhotosByRouteId(routeId);
+    @GetMapping("")
+    public List<Photo> getAllPhotos(){
+        return photoService.getAllPhotos();
     }
 
 }

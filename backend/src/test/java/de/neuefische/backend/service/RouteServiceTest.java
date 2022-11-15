@@ -2,6 +2,7 @@ package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.*;
 import de.neuefische.backend.repository.FoundRouteRepository;
+import de.neuefische.backend.repository.PhotoRepository;
 import de.neuefische.backend.repository.RouteRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,8 +27,10 @@ class RouteServiceTest {
 
     private final FoundRouteRepository foundRouteRepository = mock(FoundRouteRepository.class);
 
+    private final PhotoRepository photoRepository = mock(PhotoRepository.class);
+
     private final RouteService routeService = new RouteService(routeRepository,
-            idService, locationService, routesService, foundRouteRepository);
+            idService, locationService, routesService, foundRouteRepository, photoRepository);
 
     @Test
     void addNewRoute_ShouldReturn_AddedRoute(){
