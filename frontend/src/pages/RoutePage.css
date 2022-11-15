@@ -10,19 +10,19 @@
     background-repeat: no-repeat;
 }
 .div-dropdown-1{
-    width: 100%;
+    width: 95%;
     float:right
 }
 
 .sec-search-2{
-    position:absolute;
-    top:85px;
-    width: 98%;
+    position:relative;
+    width: 95%;
     height: 42px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
+    margin-top:2%;
     margin-right:2%;
     margin-left: 2%;
     flex-wrap: wrap;
@@ -79,16 +79,15 @@
 }
 
 .add-route{
-    position: absolute;
-    top:780px;
+    position: relative;
     width:100%;
-    height: 15%;
+    top:450px;
     /*background-color: blueviolet;*/
     /*background-image: linear-gradient(to bottom right, #4650ff, #a878e0, blueviolet);*/
 }
 .hashtag-band{
-    position:absolute;
-    top:140px;
+    position:relative;
+    margin-top:2%;
     width:90%;
     height:8%;
     display: flex;

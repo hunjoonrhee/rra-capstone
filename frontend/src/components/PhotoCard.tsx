@@ -29,14 +29,14 @@ export default function PhotoCard (props:PhotoCardProps){
                 <>
                     {
                         props.me==="admin" || props.me === props.photo.uploadedBy ?
-                            <div>
+                            <div style={{display: "flex", flexDirection:"column"}}>
                                 <div className={"span-btn-trash-photo"}>
                                     <button className={"btn-trash-photo"} onClick={handleOnClick}><i className="bi bi-trash"></i></button>
                                 </div>
                                 <AdvancedImage cldImg={myImage}/>
                             </div>
                             :
-                            <div>
+                            <div style={{display: "flex", flexDirection:"column"}}>
                                 <div className={"span-btn-trash-photo"}>
                                 </div>
                                 <AdvancedImage cldImg={myImage}/>
