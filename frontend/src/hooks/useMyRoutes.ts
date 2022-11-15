@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
@@ -26,11 +27,6 @@ export default function useMyRoutes(){
             .then((data)=>setRoutes(data))
             .catch((err)=>console.log(err))
     }
-    useEffect(()=>{
-        getAllRoutes();
-    }, [])
-
-
 
     const [foundRoutes, setFoundRoutes] = useState([]);
 
