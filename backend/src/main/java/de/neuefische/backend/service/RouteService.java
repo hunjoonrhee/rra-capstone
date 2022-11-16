@@ -74,6 +74,7 @@ public class RouteService {
                 .position(new GeoJsonPoint(routeDTO.getStartPosition().getLat(),
                         routeDTO.getStartPosition().getLon()))
                 .createdBy(routeDTO.getCreatedBy())
+                .commentaries(new ArrayList<>())
                 .build();
         routeRepository.save(newRoute);
         return newRoute;

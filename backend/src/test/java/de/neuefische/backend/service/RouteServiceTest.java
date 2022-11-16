@@ -42,7 +42,7 @@ class RouteServiceTest {
         hashtags[0] = "tree";
         StartPosition startPosition = new StartPosition(2.2, 1.1);
         EndPosition endPosition = new EndPosition(2.3, 1.12);
-        RouteDTO routeDTO = new RouteDTO("routeName", hashtags, "imageThumbnail", startPosition, new ArrayList<>(), endPosition, "user1", new ArrayList<>());
+        RouteDTO routeDTO = new RouteDTO("routeName", hashtags, "imageThumbnail", startPosition, new ArrayList<>(), endPosition, "user1");
         when(idService.generateId()).thenReturn("1");
         when(routesService.getRoutes(any(),any(), any())).thenReturn(null);
         when(routeRepository.save(any())).thenReturn(
@@ -55,9 +55,10 @@ class RouteServiceTest {
                         .betweenPositions(routeDTO.getBetweenPositions())
                         .endPosition(routeDTO.getEndPosition())
                         .routes(null)
+                        .photos(new ArrayList<>())
                         .position(new GeoJsonPoint(2.2, 1.1))
                         .createdBy(routeDTO.getCreatedBy())
-                        .commentaries(routeDTO.getCommentaries())
+                        .commentaries(new ArrayList<>())
                         .build()
         );
         // WHEN
@@ -76,7 +77,7 @@ class RouteServiceTest {
                 .photos(new ArrayList<>())
                 .position(new GeoJsonPoint(2.2, 1.1))
                 .createdBy(routeDTO.getCreatedBy())
-                .commentaries(routeDTO.getCommentaries())
+                .commentaries(new ArrayList<>())
                 .build();
         assertEquals(expected, actual);
     }

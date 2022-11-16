@@ -26,10 +26,11 @@ public class     SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/api/route/**").permitAll()
-                .antMatchers("/api/found-routes/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/route/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/found-routes/**").permitAll()
                 .antMatchers("/api/user/**").permitAll()
-                .antMatchers("/api/photo/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/photo/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/route").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/route/photos/*").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/api/route/photos/*").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/route/comments/*").authenticated()

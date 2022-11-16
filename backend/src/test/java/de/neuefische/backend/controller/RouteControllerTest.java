@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -122,6 +123,7 @@ class RouteControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "hrhee", password = "ABC123")
     void addNewRoute_ShouldReturn_AddedRouteInJsonBody() throws Exception {
         // GIVEN
         when(idService.generateId()).thenReturn("1");
