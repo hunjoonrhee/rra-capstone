@@ -51,6 +51,16 @@ public class RouteController {
         routeService.deletePhotoOfRoute(id, photoId);
     }
 
+    @GetMapping("/comments/{id}")
+    public List<Commentary> getAllCommentariesOfRoute(@PathVariable String id){
+        return routeService.getAllCommentariesOfRoute(id);
+    }
+
+    @DeleteMapping("/comments/{id}")
+    public void deleteCommentaryOfRoute(@PathVariable String id, @RequestParam String commentaryId){
+        routeService.deleteCommentaryOfRoute(id, commentaryId);
+    }
+
 
 }
 

@@ -3,9 +3,10 @@ import React from "react";
 import {useParams} from "react-router-dom";
 import "./RoutesOverview.css"
 import {FoundRoutes} from "../model/FoundRoutes";
+import {AppUser} from "../model/AppUser";
 
 type RoutesOverviewProps = {
-    me:string;
+    me:AppUser | undefined
     foundRoutes:FoundRoutes[];
     filterTag:string;
     allFilter:boolean;

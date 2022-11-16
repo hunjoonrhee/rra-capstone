@@ -1,6 +1,7 @@
 .sec-routes-overview{
     position:relative;
     width: 90%;
+    height:450px;
     max-height: 85%;
     text-align: center;
     display:flex;

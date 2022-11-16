@@ -14,7 +14,8 @@ export default function SignUp (props:SignUpProps){
 
     const emptyAppUserPlaceholder: AppUser = {
         username:"",
-        password: ""
+        password: "",
+        roles:[]
     }
     const [user, setUser] = useState(emptyAppUserPlaceholder);
 

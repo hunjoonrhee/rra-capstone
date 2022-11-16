@@ -216,7 +216,7 @@ class RouteControllerTest {
         StartPosition startPosition = new StartPosition(2.2, 1.1);
         EndPosition endPosition = new EndPosition(2.3, 1.12);
         Route dummyRoute = new Route("1", "Jogging by Wöhrder See", hashtags, "https://mapio.net/images-p/10982408.jpg", startPosition,
-                new ArrayList<>(), endPosition, null, null, new GeoJsonPoint(2.2, 1.1), "user1");
+                new ArrayList<>(), endPosition, null, null, new GeoJsonPoint(2.2, 1.1), "user1", new ArrayList<>());
         when(routeRepository.findAll()).thenReturn(List.of(dummyRoute));
 
         String expectedJSON = """
@@ -251,7 +251,8 @@ class RouteControllerTest {
                                     1.1
                                 ]
                             },
-                            "createdBy": "user1"
+                            "createdBy": "user1",
+                            "commentaries": []
                         }
                     ]
                 """;

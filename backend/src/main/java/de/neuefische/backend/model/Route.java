@@ -29,6 +29,7 @@ public class Route {
     private List<Photo> photos = new ArrayList<>();
     private GeoJsonPoint position;
     private String createdBy;
+    private List<Commentary> commentaries= new ArrayList<>();
 
     public Route(String id, String routeName, String[] hashtags,
                  String imageThumbnail, double x, double y) {

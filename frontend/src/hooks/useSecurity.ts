@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {AppUser} from "../model/AppUser";
+import {useLocation} from "react-router-dom";
 
 export default function useSecurity(){
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [me, setMe] = useState("")
+    const [me, setMe] = useState<AppUser | undefined>()
     const [isLoggedOut, setIsLoggedOut] = useState(false);
 
 
@@ -28,15 +30,19 @@ export default function useSecurity(){
         setPassword(password);
     }
 
-    useEffect(()=>{
-        const me = JSON.parse(localStorage.getItem('current-user')!)
-        if(me){
-            setMe(me);
-        }
+    const location = useLocation()
+    useEffect(() => {
+
+        if (location.pathname !== "/")
+            handleMe()
+
     }, [])
-    useEffect(()=>{
-        localStorage.setItem('current-user', JSON.stringify(me))
-    }, [me])
+
+    function handleMe(){
+        axios.get("api/user/me")
+            .then(response => response.data)
+            .then((data) => setMe(data))
+    }
 
     function register(newUser:AppUser){
         axios.post("api/user/register", {username:newUser.username, password:newUser.password})
@@ -45,7 +51,7 @@ export default function useSecurity(){
     }
     function handleLogout() {
         axios.get("api/user/logout")
-            .then(()=>setMe(""))
+            .then(()=>setMe(undefined))
             .then(()=>setIsLoggedOut(true))
             .then(()=>toast.success("Good bye 👋 You are logged out."))
     }

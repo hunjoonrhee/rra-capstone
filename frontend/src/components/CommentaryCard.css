@@ -1,0 +1,30 @@
+#btn-trash-comment{
+    float:right;
+    background-color: transparent;
+    color: grey;
+    border-color: transparent;
+}
+.card-body{
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.comment{
+    font-size: 13px;
+    text-align: center;
+}
+.comment-user{
+    font-size: 11px;
+}
+.mb-4-1{
+    margin-bottom:5px;
+}
+.card-body #btn-trash-comment{
+    visibility: hidden;
+}
+.card-body:hover #btn-trash-comment{
+    visibility: visible;
+    transition: 100ms ease-in-out;
+}

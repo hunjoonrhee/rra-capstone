@@ -1,6 +1,7 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.*;
+import de.neuefische.backend.repository.CommentaryRepository;
 import de.neuefische.backend.repository.FoundRouteRepository;
 import de.neuefische.backend.repository.PhotoRepository;
 import de.neuefische.backend.repository.RouteRepository;
@@ -29,8 +30,10 @@ class RouteServiceTest {
 
     private final PhotoRepository photoRepository = mock(PhotoRepository.class);
 
+    private final CommentaryRepository commentaryRepository = mock(CommentaryRepository.class);
+
     private final RouteService routeService = new RouteService(routeRepository,
-            idService, locationService, routesService, foundRouteRepository, photoRepository);
+            idService, locationService, routesService, foundRouteRepository, photoRepository, commentaryRepository);
 
     @Test
     void addNewRoute_ShouldReturn_AddedRoute(){
@@ -39,7 +42,7 @@ class RouteServiceTest {
         hashtags[0] = "tree";
         StartPosition startPosition = new StartPosition(2.2, 1.1);
         EndPosition endPosition = new EndPosition(2.3, 1.12);
-        RouteDTO routeDTO = new RouteDTO("routeName", hashtags, "imageThumbnail", startPosition, new ArrayList<>(), endPosition, "user1");
+        RouteDTO routeDTO = new RouteDTO("routeName", hashtags, "imageThumbnail", startPosition, new ArrayList<>(), endPosition, "user1", new ArrayList<>());
         when(idService.generateId()).thenReturn("1");
         when(routesService.getRoutes(any(),any(), any())).thenReturn(null);
         when(routeRepository.save(any())).thenReturn(
@@ -54,6 +57,7 @@ class RouteServiceTest {
                         .routes(null)
                         .position(new GeoJsonPoint(2.2, 1.1))
                         .createdBy(routeDTO.getCreatedBy())
+                        .commentaries(routeDTO.getCommentaries())
                         .build()
         );
         // WHEN
@@ -72,6 +76,7 @@ class RouteServiceTest {
                 .photos(new ArrayList<>())
                 .position(new GeoJsonPoint(2.2, 1.1))
                 .createdBy(routeDTO.getCreatedBy())
+                .commentaries(routeDTO.getCommentaries())
                 .build();
         assertEquals(expected, actual);
     }
@@ -85,7 +90,7 @@ class RouteServiceTest {
         EndPosition endPosition = new EndPosition(2.3, 1.12);
 
         Route dummyRoute = new Route("1", "routeName", hashtags, "imageThumbnail", startPosition,
-                new ArrayList<>(),endPosition, null, null, new GeoJsonPoint(2.2, 1.1), "user1");
+                new ArrayList<>(),endPosition, null, null, new GeoJsonPoint(2.2, 1.1), "user1",  new ArrayList<>());
 
         when(routeRepository.findAll()).thenReturn(List.of(dummyRoute));
 

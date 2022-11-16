@@ -3,6 +3,7 @@ package de.neuefische.backend.security;
 import de.neuefische.backend.service.AppUserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,10 +26,14 @@ public class     SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/api/route/*").permitAll()
-                .antMatchers("/api/found-routes/*").permitAll()
-                .antMatchers("/api/user/*").permitAll()
-                .antMatchers("/api/photo/**").authenticated()
+                .antMatchers("/api/route/**").permitAll()
+                .antMatchers("/api/found-routes/**").permitAll()
+                .antMatchers("/api/user/**").permitAll()
+                .antMatchers("/api/photo/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/route/photos/*").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/route/photos/*").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/route/comments/*").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/route/comments/*").authenticated()
 //                .antMatchers("/api/**").hasRole("ADMIN")
                 .and().httpBasic().and().csrf().disable();
     }

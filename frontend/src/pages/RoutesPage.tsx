@@ -8,9 +8,10 @@ import L from "leaflet";
 import useGeoLocation from "../hooks/useGeoLocation";
 import {LocationReturn} from "../model/LocationReturn";
 import {FoundRoutes} from "../model/FoundRoutes";
+import {AppUser} from "../model/AppUser";
 
 type RoutesPageProps={
-    me:string
+    me:AppUser | undefined
     handleLogout:()=>void
     setFilterTag:(hashtag:string)=>void
     setAllFilter:(a:boolean)=>void
@@ -93,6 +94,8 @@ export default function RoutesPage(props:RoutesPageProps){
     })
 
     console.log(props.foundRoutes)
+
+
     return (
 
         <div className={"routesPage"}>
@@ -117,7 +120,7 @@ export default function RoutesPage(props:RoutesPageProps){
 
                         <Link onClick={handleLinkClick} to={`/routes/${props.location}`}>
                             <button className="btn btn-outline-secondary"
-                                    type="button" style={{fontSize: 10}}>Search</button>
+                                    type="button" style={{fontSize: 10, marginRight: 5, marginLeft:5}}>Search</button>
                         </Link>
             </section>
             <div className={"hashtag-band"}>

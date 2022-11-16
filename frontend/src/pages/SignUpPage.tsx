@@ -1,5 +1,4 @@
 import React from "react";
-import "./SignInPage.css"
 import "./SignUpPage.css"
 import SignUp from "../components/SignUp";
 import {AppUser} from "../model/AppUser";
@@ -7,7 +6,7 @@ import DropDownMenu from "../components/DropDownMenu";
 import {useNavigate} from "react-router-dom";
 
 type SignUpPageProps = {
-    me:string
+    me:AppUser | undefined
     register:(newUser:AppUser)=>void
     handleLogout:()=>void
 }

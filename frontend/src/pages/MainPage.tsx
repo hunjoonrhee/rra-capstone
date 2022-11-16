@@ -2,9 +2,10 @@ import React, {ChangeEvent} from "react";
 import {Link} from "react-router-dom";
 import "./MainPage.css"
 import DropDownMenu from "../components/DropDownMenu";
+import {AppUser} from "../model/AppUser";
 
 type MainPageProps={
-    me:string
+    me:AppUser | undefined
     getAllFoundRoutes:()=>void
     handleLogout:()=>void
     setLocation:(location:string)=>void
