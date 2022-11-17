@@ -69,5 +69,8 @@
     "@cld-apis/types": "^0.1.6",
     "@types/leaflet": "^1.9.0",
     "@types/leaflet-routing-machine": "^3.2.4"
+  },
+  "overrides": {
+    "autoprefixer": "10.4.5"
   }
 }
