@@ -1,9 +1,10 @@
 import {Link} from "react-router-dom";
 import React from "react";
+import {AppUser} from "../model/AppUser";
 
 
 type SignInProps = {
-    me:string
+    me:AppUser | undefined
     handleLogin: ()=> void
     setUserName: (user:string)=> void
     setUserPassword: (password:string)=>void
@@ -16,7 +17,7 @@ export default function SignIn(props:SignInProps){
     return(
         <>
             {
-                !props.me &&
+                !props.me?.username &&
                     <div className={"form-login"}>
                         <form>
                             <div className="form-group">

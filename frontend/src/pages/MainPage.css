@@ -6,14 +6,14 @@
     width: 100%;
     height: 100vh;
     background-image: url("https://www.freevector.com/uploads/vector/preview/25131/Free_Sprint_Vector.png");
-    background-position-y: 140px;
     background-repeat: no-repeat;
     background-position:center;
+    background-position-y: 214px;
 }
 
 #title{
     text-align: center;
-    margin-top: 260px;
+    margin-top: 200px;
     font-family: monospace;
     font-weight: bold;
     font-size: 35px;
@@ -27,22 +27,22 @@
     align-content: center;
     display:flex;
     flex-direction: row;
-    justify-content: space-around;
-    margin: 40% 0 0;
+    justify-content: space-evenly;
+    margin: 20% 0 0;
 }
 .form-control{
     width:100%;
     height:32px;
 }
 .form-input{
-    width: 260px;
+    width: 400px;
 
 }
 .form-control::placeholder{
     font-size: 12px;
 }
 .div-dropdown-main{
-    width: 100%;
+    width: 95%;
     float: right;
 }
 

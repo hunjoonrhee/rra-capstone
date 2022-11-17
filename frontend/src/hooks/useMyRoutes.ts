@@ -5,6 +5,7 @@ import {toast} from "react-toastify";
 import useGeoLocation from "./useGeoLocation";
 import {LocationReturn} from "../model/LocationReturn";
 import {Route} from "../model/Route";
+import {Commentary} from "../model/Commentary";
 
 export default function useMyRoutes(){
 
@@ -111,11 +112,32 @@ export default function useMyRoutes(){
             .catch(err=>console.log(err));
     }
 
+    const [comments, setComments] = useState([]);
+    function getAllCommentariesOfRoute(){
+        axios.get("/api/comments")
+            .then(response=>response.data)
+            .then(data=>setComments(data))
+            .catch(err=>console.log(err));
+    }
+
+    function addANewCommentary(routeId:string, user:string, newCommentary:Commentary){
+        axios.post("api/comments/"+ routeId +"?user="+user, newCommentary)
+            .then((response)=>console.log(response))
+            .then(()=>toast.success("Your commentary is added successfully!"))
+            .then(()=>getAllCommentariesOfRoute())
+    }
+
+    function deleteACommentaryOfRoute(routeId:string, commentaryId:string){
+        axios.delete("api/route/comments/"+routeId+"?commentaryId="+commentaryId)
+            .then(()=>toast.success("Your commentary is deleted successfully!"))
+            .then(()=>getAllCommentariesOfRoute())
+    }
+
 
 
     return {foundRoutes, getCurrentLocation,getAllFoundRoutes,getAllRoutes,
-        isClicked, setIsClicked, currentLocation, routes,
-        location, setLocation, filterTag, setFilterTag, allFilter, setAllFilter,
+        isClicked, setIsClicked, currentLocation, routes,addANewCommentary, getAllCommentariesOfRoute,
+        location, setLocation, filterTag, setFilterTag, allFilter, setAllFilter, comments,
         currentAddress, addANewRoute,getAllPhotos, photos,
-        deleteARoute, deleteAPhotoOfRoute}
+        deleteARoute, deleteAPhotoOfRoute, deleteACommentaryOfRoute}
 }

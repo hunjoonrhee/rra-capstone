@@ -3,9 +3,10 @@ import React from "react";
 import "./DropDownMenu.css"
 import CopyToClipboard from "react-copy-to-clipboard";
 import {toast} from "react-toastify";
+import {AppUser} from "../model/AppUser";
 
 type DropDownMenuProps = {
-    me:string
+    me:AppUser | undefined
     handleLogout:()=>void
 }
 
@@ -46,7 +47,7 @@ export default function DropDownMenu(props:DropDownMenuProps){
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item href="#/sign-in">Signed in as {props.me}</Dropdown.Item>
+                            <Dropdown.Item href="#/sign-in">Signed in as {props.me.username}</Dropdown.Item>
                             <Dropdown.Item href="#/" onClick={props.handleLogout}>Sign out</Dropdown.Item>
 
                             <CopyToClipboard text={window.location.href} onCopy={handleOnCopy}>

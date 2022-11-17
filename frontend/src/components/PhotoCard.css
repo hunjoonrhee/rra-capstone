@@ -23,14 +23,14 @@
     position: relative;
     color: white;
     width: 30px;
-    height: 30px;
+    height: 20px;
 }
 .span-btn-trash-photo{
     position: relative;
     width: 100px;
-    height: 30px;
+    height: 20px;
     display:flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin-bottom: -30px;
+    margin-bottom: -20px;
 }

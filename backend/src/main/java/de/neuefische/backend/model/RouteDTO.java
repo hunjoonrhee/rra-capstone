@@ -19,5 +19,4 @@ public class    RouteDTO {
     private List<Position> betweenPositions = new ArrayList<>();
     private EndPosition endPosition;
     private String createdBy;
-
 }

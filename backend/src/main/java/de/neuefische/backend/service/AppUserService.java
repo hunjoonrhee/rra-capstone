@@ -1,6 +1,7 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.AppUser;
+import de.neuefische.backend.model.AppUserDTO;
 import de.neuefische.backend.model.CreateUserDTO;
 import de.neuefische.backend.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class AppUserService {
@@ -37,6 +39,16 @@ public class AppUserService {
 
         AppUser persistedAppUser = appUserRepository.save(newUser);
         return persistedAppUser.getUsername();
+    }
+
+    public AppUserDTO getUserByUsername(String username) {
+        AppUser appUser = appUserRepository.findById(username)
+                .orElseThrow(() -> new NoSuchElementException("No user with the username you typed in was found !"));
+
+        return AppUserDTO.builder()
+                .username(appUser.getUsername())
+                .roles(appUser.getRoles())
+                .build();
     }
 
 }

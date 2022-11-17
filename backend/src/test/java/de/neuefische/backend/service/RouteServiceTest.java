@@ -1,6 +1,7 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.*;
+import de.neuefische.backend.repository.CommentaryRepository;
 import de.neuefische.backend.repository.FoundRouteRepository;
 import de.neuefische.backend.repository.PhotoRepository;
 import de.neuefische.backend.repository.RouteRepository;
@@ -29,8 +30,10 @@ class RouteServiceTest {
 
     private final PhotoRepository photoRepository = mock(PhotoRepository.class);
 
+    private final CommentaryRepository commentaryRepository = mock(CommentaryRepository.class);
+
     private final RouteService routeService = new RouteService(routeRepository,
-            idService, locationService, routesService, foundRouteRepository, photoRepository);
+            idService, locationService, routesService, foundRouteRepository, photoRepository, commentaryRepository);
 
     @Test
     void addNewRoute_ShouldReturn_AddedRoute(){
@@ -52,8 +55,10 @@ class RouteServiceTest {
                         .betweenPositions(routeDTO.getBetweenPositions())
                         .endPosition(routeDTO.getEndPosition())
                         .routes(null)
+                        .photos(new ArrayList<>())
                         .position(new GeoJsonPoint(2.2, 1.1))
                         .createdBy(routeDTO.getCreatedBy())
+                        .commentaries(new ArrayList<>())
                         .build()
         );
         // WHEN
@@ -72,6 +77,7 @@ class RouteServiceTest {
                 .photos(new ArrayList<>())
                 .position(new GeoJsonPoint(2.2, 1.1))
                 .createdBy(routeDTO.getCreatedBy())
+                .commentaries(new ArrayList<>())
                 .build();
         assertEquals(expected, actual);
     }
@@ -85,7 +91,7 @@ class RouteServiceTest {
         EndPosition endPosition = new EndPosition(2.3, 1.12);
 
         Route dummyRoute = new Route("1", "routeName", hashtags, "imageThumbnail", startPosition,
-                new ArrayList<>(),endPosition, null, null, new GeoJsonPoint(2.2, 1.1), "user1");
+                new ArrayList<>(),endPosition, null, null, new GeoJsonPoint(2.2, 1.1), "user1",  new ArrayList<>());
 
         when(routeRepository.findAll()).thenReturn(List.of(dummyRoute));
 

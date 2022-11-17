@@ -5,9 +5,10 @@ import {
     AdvancedImage
 } from "@cloudinary/react";
 import {Route} from "../model/Route";
+import {AppUser} from "../model/AppUser";
 
 type PhotoCardProps = {
-    me:string;
+    me:AppUser | undefined
     route:Route;
     photo:Photo;
     deleteAPhotoOfRoute:(routeId:string, photoName:string)=>void
@@ -28,7 +29,7 @@ export default function PhotoCard (props:PhotoCardProps){
                 props.photo.routeId===props.route.id &&
                 <>
                     {
-                        props.me==="admin" || props.me === props.photo.uploadedBy ?
+                        props.me?.roles[0]==="ADMIN" || props.me?.username === props.photo.uploadedBy ?
                             <div style={{display: "flex", flexDirection:"column"}}>
                                 <div className={"span-btn-trash-photo"}>
                                     <button className={"btn-trash-photo"} onClick={handleOnClick}><i className="bi bi-trash"></i></button>

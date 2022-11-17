@@ -1,6 +1,7 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.model.*;
+import de.neuefische.backend.repository.CommentaryRepository;
 import de.neuefische.backend.repository.FoundRouteRepository;
 import de.neuefische.backend.repository.PhotoRepository;
 import de.neuefische.backend.repository.RouteRepository;
@@ -33,16 +34,19 @@ public class RouteService {
 
     private final PhotoRepository photoRepository;
 
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, RoutesService routesService, FoundRouteRepository foundRouteRepository, PhotoRepository photoRepository) {
+    private final CommentaryRepository commentaryRepository;
+
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, RoutesService routesService, FoundRouteRepository foundRouteRepository, PhotoRepository photoRepository, CommentaryRepository commentaryRepository) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
         this.routesService = routesService;
         this.foundRouteRepository = foundRouteRepository;
         this.photoRepository = photoRepository;
+        this.commentaryRepository = commentaryRepository;
     }
     @Autowired
-    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template, RoutesService routesService, FoundRouteRepository foundRouteRepository, PhotoRepository photoRepository) {
+    public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, MongoTemplate template, RoutesService routesService, FoundRouteRepository foundRouteRepository, PhotoRepository photoRepository, CommentaryRepository commentaryRepository) {
         this.routeRepository = routeRepository;
         this.idService = idService;
         this.locationService = locationService;
@@ -50,6 +54,7 @@ public class RouteService {
         this.routesService = routesService;
         this.foundRouteRepository = foundRouteRepository;
         this.photoRepository = photoRepository;
+        this.commentaryRepository = commentaryRepository;
     }
 
 
@@ -69,6 +74,7 @@ public class RouteService {
                 .position(new GeoJsonPoint(routeDTO.getStartPosition().getLat(),
                         routeDTO.getStartPosition().getLon()))
                 .createdBy(routeDTO.getCreatedBy())
+                .commentaries(new ArrayList<>())
                 .build();
         routeRepository.save(newRoute);
         return newRoute;
@@ -152,5 +158,25 @@ public class RouteService {
             throw new NoSuchElementException("No Route with id " + id + " was found!");
         }
 
+    }
+
+    public List<Commentary> getAllCommentariesOfRoute(String id) {
+        Optional<Route> routeOptional = routeRepository.findById(id);
+        if(routeOptional.isPresent()){
+            return routeOptional.get().getCommentaries();
+        }else{
+            throw new NoSuchElementException("No Route with id " + id + " was found!");
+        }
+    }
+
+    public void deleteCommentaryOfRoute(String id, String commentaryId) {
+        Optional<Route> routeOptional = routeRepository.findById(id);
+        if(routeOptional.isPresent()){
+            List<Commentary> commentaries = routeOptional.get().getCommentaries();
+            commentaries.removeIf(commentary -> commentary.getId().equals(commentaryId));
+            commentaryRepository.deleteById(commentaryId);
+        }else{
+            throw new NoSuchElementException("No Route with id " + id + " was found!");
+        }
     }
 }

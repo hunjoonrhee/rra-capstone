@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -122,6 +123,7 @@ class RouteControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "hrhee", password = "ABC123")
     void addNewRoute_ShouldReturn_AddedRouteInJsonBody() throws Exception {
         // GIVEN
         when(idService.generateId()).thenReturn("1");
@@ -216,7 +218,7 @@ class RouteControllerTest {
         StartPosition startPosition = new StartPosition(2.2, 1.1);
         EndPosition endPosition = new EndPosition(2.3, 1.12);
         Route dummyRoute = new Route("1", "Jogging by Wöhrder See", hashtags, "https://mapio.net/images-p/10982408.jpg", startPosition,
-                new ArrayList<>(), endPosition, null, null, new GeoJsonPoint(2.2, 1.1), "user1");
+                new ArrayList<>(), endPosition, null, null, new GeoJsonPoint(2.2, 1.1), "user1", new ArrayList<>());
         when(routeRepository.findAll()).thenReturn(List.of(dummyRoute));
 
         String expectedJSON = """
@@ -251,7 +253,8 @@ class RouteControllerTest {
                                     1.1
                                 ]
                             },
-                            "createdBy": "user1"
+                            "createdBy": "user1",
+                            "commentaries": []
                         }
                     ]
                 """;

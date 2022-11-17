@@ -10,9 +10,12 @@ import {toast} from "react-toastify";
 import PhotoCard from "./PhotoCard";
 import DropDownMenu from "./DropDownMenu";
 import {Photo} from "../model/Photo";
+import Commentaries from "./Commentaries";
+import {Commentary} from "../model/Commentary";
+import {AppUser} from "../model/AppUser";
 
 type RouteDetailsProps = {
-    me:string
+    me:AppUser | undefined
     routes:Route[];
     handleLogout:()=>void
     location:string
@@ -20,6 +23,9 @@ type RouteDetailsProps = {
     getAllFoundRoutes:()=>void
     getAllPhotos:()=>void
     photos:Photo[];
+    addANewCommentary:(routeId:string, user:string, newCommentary:Commentary)=>void;
+    comments:Commentary[];
+    deleteACommentaryOfRoute:(routeId:string, commentaryId:string)=>void;
 }
 
 export default function RouteDetails(props:RouteDetailsProps){
@@ -70,7 +76,7 @@ export default function RouteDetails(props:RouteDetailsProps){
     })
 
     function uploadImage() {
-        if(props.me !==""){
+        if(props.me !==undefined){
             const formData = new FormData();
             const imgName:string|undefined = imageSelected?.name.split(".")[0]
             formData.append("file", imageSelected!)
@@ -82,7 +88,7 @@ export default function RouteDetails(props:RouteDetailsProps){
             const newPhoto:Photo = {
                 id:"",
                 name:imgName,
-                uploadedBy:props.me,
+                uploadedBy:props.me.username,
                 routeId:route!.id
             }
 
@@ -109,17 +115,15 @@ export default function RouteDetails(props:RouteDetailsProps){
     return(
         <div className={"detailPage"}>
             <div className={"div-dropdown"}>
-                <button className="btn btn-outline-secondary-rd"
+                <button className="btn btn-outline-secondary" style={{fontSize:10}}
                 onClick={()=>navigate(-1)}><i className="bi bi-caret-left-fill"></i> Back</button>
                 <DropDownMenu me={props.me} handleLogout={props.handleLogout}/>
 
             </div>
-            <div className={"title-route-detail"}>
-                <div className={"title-border"}>
-                    <h1 className={"title-routeName"}>{route.routeName}</h1>
-                </div>
+            <div className={"title-border"}>
+                <h1 className={"title-routeName"}>{route.routeName}</h1>
             </div>
-            <section className={"sec-route-detail"}>
+            {/*<section className={"sec-route-detail"}>*/}
                 <div className={"div-map"}>
                     <MapContainer className={"map"} center={locationStart} zoom={13}>
                         <TileLayer
@@ -143,20 +147,18 @@ export default function RouteDetails(props:RouteDetailsProps){
                     </MapContainer>
 
                 </div>
-                <div className={"photos-share"}>
-                    <p className={"text-photos-share"}>Share some photos for this route!</p>
-                </div>
-
-                <div className={"div-images"}>
-                    {
-                        props.photos &&
-                        props.photos.map((photo)=>{
-                            return <PhotoCard key={photo.id} me={props.me} route={route} photo={photo} deleteAPhotoOfRoute={props.deleteAPhotoOfRoute}/>
-                        })
-                    }
-                </div>
-
-            </section>
+            {/*</section>*/}
+            <div className={"photos-share"}>
+                <p className={"text-photos-share"}>Share some photos for this route!</p>
+            </div>
+            <div className={"div-images"}>
+                {
+                    props.photos &&
+                    props.photos.map((photo)=>{
+                        return <PhotoCard key={photo.id} me={props.me} route={route} photo={photo} deleteAPhotoOfRoute={props.deleteAPhotoOfRoute}/>
+                    })
+                }
+            </div>
             <div className="input-group mb-3" id={"input-in-detail"}>
                 <div className="input-group-prepend">
                     <button className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon03"
@@ -172,9 +174,14 @@ export default function RouteDetails(props:RouteDetailsProps){
                     <label className="custom-file-label" htmlFor="inputGroupFile03">Choose file</label>
                 </div>
             </div>
-            <section className={"sec-comments"}>
 
+            <section className={"sec-comments"}>
+                <Commentaries addANewCommentary={props.addANewCommentary}
+                              route={route} me={props.me}
+                              comments={props.comments}
+                              deleteACommentaryOfRoute={props.deleteACommentaryOfRoute}/>
             </section>
+
         </div>
 
     )

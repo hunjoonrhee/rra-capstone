@@ -2,9 +2,11 @@ import RouteDetails from "../components/RouteDetails";
 import "./RouteDetailsPage.css"
 import {Route} from "../model/Route";
 import {Photo} from "../model/Photo";
+import {Commentary} from "../model/Commentary";
+import {AppUser} from "../model/AppUser";
 
 type RouteDetailsPageProps={
-    me:string
+    me:AppUser | undefined
     routes:Route[];
     handleLogout:()=>void
     location:string
@@ -12,7 +14,9 @@ type RouteDetailsPageProps={
     getAllFoundRoutes:()=>void
     getAllPhotos:()=>void
     photos:Photo[];
-
+    addANewCommentary:(routeId: string, user:string,newCommentary:Commentary)=>void;
+    comments:Commentary[];
+    deleteACommentaryOfRoute:(routeId:string, commentaryId:string)=>void;
 }
 
 export default function RouteDetailsPage(props:RouteDetailsPageProps){
@@ -27,7 +31,10 @@ export default function RouteDetailsPage(props:RouteDetailsPageProps){
                           deleteAPhotoOfRoute={props.deleteAPhotoOfRoute}
                           getAllFoundRoutes={props.getAllFoundRoutes}
                           getAllPhotos={props.getAllPhotos}
-                          photos={props.photos}/>
+                          photos={props.photos}
+                          addANewCommentary={props.addANewCommentary}
+                          comments={props.comments}
+                          deleteACommentaryOfRoute={props.deleteACommentaryOfRoute}/>
         </div>
     )
 }

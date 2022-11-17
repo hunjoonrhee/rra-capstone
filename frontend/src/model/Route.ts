@@ -14,5 +14,5 @@ export type Route = {
     endPosition:EndPosition;
     routes:Routes[];
     photos:Photo[];
-    createdBy:string;
+    createdBy:string | undefined;
 }

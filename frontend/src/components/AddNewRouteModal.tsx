@@ -9,9 +9,10 @@ import axios from "axios";
 import {Route} from "../model/Route";
 import useMyRoutes from "../hooks/useMyRoutes";
 import {toast} from "react-toastify";
+import {AppUser} from "../model/AppUser";
 
 type AddNewRouteModalProps = {
-    me:string;
+    me:AppUser | undefined
     show:boolean;
     onHide:()=>void;
     icon:L.Icon<L.IconOptions>
@@ -29,11 +30,6 @@ export default function AddNewRouteModal(props:AddNewRouteModalProps) {
     const [via2Point, setVia2Point] = useState({lat:0, lon:0});
     const [via3Point, setVia3Point] = useState({lat:0, lon:0});
     const [endPoint, setEndPoint] = useState({lat:0, lon:0});
-    const [isClickedStart, setIsClickedStart] = useState(false);
-    const [isClickedVia1, setIsClickedVia1] = useState(false);
-    const [isClickedVia2, setIsClickedVia2] = useState(false);
-    const [isClickedVia3, setIsClickedVia3] = useState(false);
-    const [isClickedEnd, setIsClickedEnd] = useState(false);
     const [selectedPosition, setSelectedPosition] = useState<[number, number]>([0,0]);
 
     const handleSubmit=(event:FormEvent<HTMLFormElement>)=> {
@@ -46,7 +42,7 @@ export default function AddNewRouteModal(props:AddNewRouteModalProps) {
 
     const [imageSelected, setImageSelected] = useState<File>()
     function uploadImage() {
-        if (props.me !== "") {
+        if (props.me !== undefined) {
             const formData = new FormData();
             const imgName: string | undefined = imageSelected?.name.split(".")[0]
             formData.append("file", imageSelected!)
@@ -73,45 +69,29 @@ export default function AddNewRouteModal(props:AddNewRouteModalProps) {
 
 
     function handleOnClickStart() {
-        setIsClickedStart(!isClickedStart)
-        console.log(isClickedStart)
-        if(isClickedStart){
-            selectedPosition ?
-                setStartPoint({lat:selectedPosition[0], lon:selectedPosition[1]})
-                : setStartPoint({lat:0, lon:0})
-        }
+        selectedPosition ?
+            setStartPoint({lat:selectedPosition[0], lon:selectedPosition[1]})
+            : setStartPoint({lat:0, lon:0})
     }
     function handleOnClickEnd() {
-        setIsClickedEnd(!isClickedEnd)
-        if(isClickedEnd){
-            selectedPosition ?
-                setEndPoint({lat:selectedPosition[0], lon:selectedPosition[1]})
-                : setEndPoint({lat:0, lon:0})
-        }
+        selectedPosition ?
+            setEndPoint({lat:selectedPosition[0], lon:selectedPosition[1]})
+            : setEndPoint({lat:0, lon:0})
     }
     function handleOnClickVia1() {
-        setIsClickedVia1(!isClickedVia1)
-        if(isClickedVia1){
-            selectedPosition ?
-                setVia1Point({lat:selectedPosition[0], lon:selectedPosition[1]})
-                : setVia1Point({lat:0, lon:0})
-        }
+        selectedPosition ?
+            setVia1Point({lat:selectedPosition[0], lon:selectedPosition[1]})
+            : setVia1Point({lat:0, lon:0})
     }
     function handleOnClickVia2() {
-        setIsClickedVia2(!isClickedVia2)
-        if(isClickedVia2){
-            selectedPosition ?
-                setVia2Point({lat:selectedPosition[0], lon:selectedPosition[1]})
-                : setVia2Point({lat:0, lon:0})
-        }
+        selectedPosition ?
+            setVia2Point({lat:selectedPosition[0], lon:selectedPosition[1]})
+            : setVia2Point({lat:0, lon:0})
     }
     function handleOnClickVia3() {
-        setIsClickedVia3(!isClickedVia3)
-        if(isClickedVia3){
-            selectedPosition ?
-                setVia3Point({lat:selectedPosition[0], lon:selectedPosition[1]})
-                : setVia3Point({lat:0, lon:0})
-        }
+        selectedPosition ?
+            setVia3Point({lat:selectedPosition[0], lon:selectedPosition[1]})
+            : setVia3Point({lat:0, lon:0})
     }
 
     const icon = L.icon({
@@ -196,7 +176,7 @@ export default function AddNewRouteModal(props:AddNewRouteModalProps) {
             endPosition: endPoint,
             routes:[],
             photos:[],
-            createdBy:props.me
+            createdBy:props.me?.username
         }
 
         addANewRoute(newRoute);
