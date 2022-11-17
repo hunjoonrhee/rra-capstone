@@ -15,10 +15,8 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Predicate;
 
 @Service
 public class RouteService {
@@ -35,7 +33,6 @@ public class RouteService {
     private final PhotoRepository photoRepository;
 
     private final CommentaryRepository commentaryRepository;
-
     public RouteService(RouteRepository routeRepository, IdService idService, LocationService locationService, RoutesService routesService, FoundRouteRepository foundRouteRepository, PhotoRepository photoRepository, CommentaryRepository commentaryRepository) {
         this.routeRepository = routeRepository;
         this.idService = idService;
@@ -102,12 +99,18 @@ public class RouteService {
     }
 
     public void deleteRouteById(String id, String address) {
-        routeRepository.deleteById(id);
+        Optional<Route> optionalRoute = routeRepository.findById(id);
+        if(optionalRoute.isPresent()){
+            routeRepository.deleteById(id);
+        }else{
+            throw new NoSuchElementException("No Routes with address " + address + " was found!");
+        }
         Optional<FoundRoutes> foundRoutesOptional = foundRouteRepository.findById(address);
         if(foundRoutesOptional.isPresent()){
             FoundRoutes foundRoutes = foundRoutesOptional.get();
             List<Route> routes = foundRoutes.getRoutes();
-            routes.removeIf(route -> route.getId().equals(id));
+            Predicate<Route> condition = route -> route.getId().equals(id);
+            routes.removeIf(condition);
             foundRoutes.setRoutes(routes);
             foundRouteRepository.save(foundRoutes);
         } else{
