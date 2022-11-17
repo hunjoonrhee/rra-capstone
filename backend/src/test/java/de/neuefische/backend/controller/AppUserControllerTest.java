@@ -170,13 +170,25 @@ class AppUserControllerTest {
 
     @Test
     void register() throws Exception {
-        CreateUserDTO createUserDTO = new CreateUserDTO("user1", "xxx");
+        CreateUserDTO createUserDTO = new CreateUserDTO("user1", "password");
 
         when(appUserService.register(any())).thenReturn(createUserDTO.getUsername());
 
-        mockMvc.perform(get("/api/user/register"))
+        String requestBody = """
+                        {
+                            "username":"user1",
+                            "password":"password"
+                        }
+                """;
+
+        String expected = "user1";
+
+        mockMvc.perform(
+                        post("/api/user/register")
+                                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                                .content(requestBody))
                 .andExpect(status().isOk())
-                .andExpect(content().string("user1"));
+                .andExpect(content().string(expected));
     }
 
 }

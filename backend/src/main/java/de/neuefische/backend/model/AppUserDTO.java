@@ -11,11 +11,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class AppUserDTO {
 
     private String username;
-
     private List<String> roles;
 
 }
