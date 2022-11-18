@@ -19,13 +19,11 @@ public class LocationService {
                 .polygon_geojson("0")
                 .build();
 
-        List<LocationReturn> locationReturn =
-                client.get()
+        return client.get()
                         .uri(locationDTO.toString())
                         .retrieve()
                         .toEntityList(LocationReturn.class)
                         .block()
                         .getBody();
-        return locationReturn;
     }
 }
