@@ -15,6 +15,7 @@ import {useState} from "react";
 import {Commentary} from "../model/Commentary";
 import {Route} from "../model/Route";
 import {AppUser} from "../model/AppUser";
+import {toast} from "react-toastify";
 
 type CommentariesProps = {
     addANewCommentary:(routeId: string, user:string, newCommentary:Commentary)=>void;
@@ -42,6 +43,17 @@ export default function Commentaries(props:CommentariesProps){
         }
         if(props.me!==undefined){
             props.addANewCommentary(props.route.id!, props.me?.username, newCommentary)
+        }else{
+            toast('🦄 You have to log in for posting comment!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
         setComment("");
 

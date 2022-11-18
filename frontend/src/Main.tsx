@@ -28,6 +28,9 @@ export default function Main() {
     useEffect(()=>{
         getAllCommentariesOfRoute();
     }, [])
+    useEffect(()=>{
+        getAllFoundRoutes()
+    }, [])
 
     return(
         <>
