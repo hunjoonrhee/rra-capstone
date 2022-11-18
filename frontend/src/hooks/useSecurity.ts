@@ -15,8 +15,12 @@ export default function useSecurity(){
 
     function handleLogin() {
         axios.get("api/user/login", {auth: {username, password}})
-            .then((response)=>{return response.data})
-            .then((data)=>setMe(data))
+            .then((response)=>{
+                return response.data
+            })
+            .then((data)=>{
+                setMe(data)
+            })
             .then(()=>toast.success("Hi!👋 You are logged in!"))
             .then(()=>setUsername(""))
             .then(()=>setPassword(""))
@@ -40,8 +44,12 @@ export default function useSecurity(){
 
     function handleMe(){
         axios.get("api/user/me")
-            .then(response => response.data)
-            .then((data) => setMe(data))
+            .then(response => {
+                return response.data
+            })
+            .then((data) => {
+                setMe(data)
+            })
     }
 
     function register(newUser:AppUser){

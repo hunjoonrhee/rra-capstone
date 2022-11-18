@@ -12,12 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -132,13 +130,17 @@ class AppUserControllerTest {
         AppUser dummyUser = new AppUser("user1", "xxx", roles);
         when(appUserRepository.findById(any())).thenReturn(Optional.of(dummyUser));
 
-        when(appUserDetailService.loadUserByUsername(any())).thenReturn(
-                new User(dummyUser.getUsername(), dummyUser.getPasswordHash(), Collections.emptyList())
-        );
+        when(appUserService.getUserByUsername(any())).thenReturn(new AppUserDTO(dummyUser.getUsername(), dummyUser.getRoles()));
 
+        String expectedJson = """
+                    {
+                        "username":"user1",
+                        "roles":["USER"]
+                    }
+                """;
         mockMvc.perform(get("/api/user/login"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("user1"));
+                .andExpect(content().json(expectedJson));
     }
     @Test
     void logout() throws Exception {

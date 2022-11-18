@@ -2,7 +2,6 @@ package de.neuefische.backend.controller;
 
 import de.neuefische.backend.model.AppUserDTO;
 import de.neuefische.backend.model.CreateUserDTO;
-import de.neuefische.backend.service.AppUserDetailService;
 import de.neuefische.backend.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,23 +14,17 @@ import javax.servlet.http.HttpSession;
 public class AppUserController {
 
     private final AppUserService appUserService;
-    private final AppUserDetailService appUserDetailService;
 
     @Autowired
-    public AppUserController(AppUserService appUserService, AppUserDetailService appUserDetailService) {
+    public AppUserController(AppUserService appUserService) {
         this.appUserService = appUserService;
-        this.appUserDetailService = appUserDetailService;
     }
 
 
     @GetMapping("/login")
-    public String login(){
-        return appUserDetailService.loadUserByUsername(
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getName())
-                .getUsername();
+    public AppUserDTO login(){
+        return me();
+
     }
 
     @GetMapping("/logout")
