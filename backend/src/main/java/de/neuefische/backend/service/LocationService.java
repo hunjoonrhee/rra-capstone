@@ -1,5 +1,6 @@
 package de.neuefische.backend.service;
 
+
 import de.neuefische.backend.model.LocationDTO;
 import de.neuefische.backend.model.LocationReturn;
 import org.springframework.http.ResponseEntity;
