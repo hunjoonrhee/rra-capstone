@@ -26,7 +26,7 @@ export default function RouteCard(props:RouteCardProps){
     function handleOnClick() {
         props.deleteARoute(props.route.id!, props.location)
     }
-    console.log(props.me)
+    // console.log(props.me)
 
     return(
         <div className={"route-card"}>
