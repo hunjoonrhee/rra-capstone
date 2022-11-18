@@ -46,9 +46,9 @@ export default function useMyRoutes(){
             .catch((err)=>console.log(err))
     }
 
-    useEffect(()=>{
-        getAllFoundRoutes()
-    }, [])
+    // useEffect(()=>{
+    //     getAllFoundRoutes()
+    // }, [])
 
 
     const [isClicked, setIsClicked] = useState(false);

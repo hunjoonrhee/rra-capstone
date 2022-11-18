@@ -110,7 +110,11 @@
     justify-content: center;
     margin: 5px auto 0;
 }
-
+@media screen and (max-width: 300px){
+    .div-images{
+        display: none;
+    }
+}
 
 
 .custom-file-find{
