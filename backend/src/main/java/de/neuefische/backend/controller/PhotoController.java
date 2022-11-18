@@ -16,7 +16,7 @@ public class PhotoController {
         this.photoService = photoService;
     }
 
-    @GetMapping("")
+    @GetMapping()
     public List<Photo> getAllPhotos(){
         return photoService.getAllPhotos();
     }
