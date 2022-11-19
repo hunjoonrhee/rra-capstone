@@ -100,7 +100,7 @@ export default function useMyRoutes(){
 
     function deleteAPhotoOfRoute(routeId:string, photoId:string){
         axios.delete("/api/route/photos/"+routeId+"?photoId="+photoId)
-            .then(()=>toast.success("The route is deleted successfully!"))
+            .then(()=>toast.success("The photo is deleted successfully!"))
             .then(()=>getAllPhotos())
     }
 
